@@ -33,7 +33,7 @@ class ObservationServiceTest {
         service.publishEvent(event);
 
         var drain = service.drain("hooded-claw", System.currentTimeMillis());
-        assertThat(drain.currentRoom().eventCount()).isEqualTo(1);
+        assertThat(drain.currentPartition().eventCount()).isEqualTo(1);
     }
 
     @Test
@@ -48,7 +48,7 @@ class ObservationServiceTest {
         service.publishEvent(event);
 
         var drain = service.drain("hooded-claw", System.currentTimeMillis());
-        assertThat(drain.currentRoom().eventCount()).isZero();
+        assertThat(drain.currentPartition().eventCount()).isZero();
     }
 
     @Test
@@ -62,7 +62,7 @@ class ObservationServiceTest {
         service.publishEvent(event);
 
         var drain = service.drain("penelope-pitstop", System.currentTimeMillis());
-        assertThat(drain.currentRoom().eventCount()).isZero();
+        assertThat(drain.currentPartition().eventCount()).isZero();
     }
 
     @Test
@@ -76,10 +76,10 @@ class ObservationServiceTest {
         service.publishEvent(event);
 
         var hcDrain = service.drain("hooded-claw", System.currentTimeMillis());
-        assertThat(hcDrain.currentRoom().eventCount()).isEqualTo(1);
+        assertThat(hcDrain.currentPartition().eventCount()).isEqualTo(1);
 
         var penelopeDrain = service.drain("penelope-pitstop", System.currentTimeMillis());
-        assertThat(penelopeDrain.currentRoom().eventCount()).isZero();
+        assertThat(penelopeDrain.currentPartition().eventCount()).isZero();
     }
 
     @Test
@@ -95,9 +95,9 @@ class ObservationServiceTest {
         world.moveCharacter("hooded-claw", "kitchen");
 
         var drain = service.drain("hooded-claw", System.currentTimeMillis());
-        assertThat(drain.currentRoom().eventCount()).isZero();
-        assertThat(drain.rememberedRooms()).containsKey("entrance-hall");
-        assertThat(drain.rememberedRooms().get("entrance-hall").result().eventCount()).isEqualTo(1);
+        assertThat(drain.currentPartition().eventCount()).isZero();
+        assertThat(drain.rememberedPartitions()).containsKey("entrance-hall");
+        assertThat(drain.rememberedPartitions().get("entrance-hall").result().eventCount()).isEqualTo(1);
     }
 
     @Test
@@ -113,8 +113,8 @@ class ObservationServiceTest {
         service.publishEvent(moveEvent);
 
         var drain = service.drain("hooded-claw", System.currentTimeMillis());
-        assertThat(drain.currentRoom().eventCount()).isEqualTo(1);
-        assertThat(drain.currentRoom().renderedText()).contains("walked");
+        assertThat(drain.currentPartition().eventCount()).isEqualTo(1);
+        assertThat(drain.currentPartition().renderedText()).contains("walked");
     }
 
     @Test
@@ -124,7 +124,7 @@ class ObservationServiceTest {
         service.init(world);
 
         var drain = service.drain("nonexistent", System.currentTimeMillis());
-        assertThat(drain.currentRoom().eventCount()).isZero();
-        assertThat(drain.rememberedRooms()).isEmpty();
+        assertThat(drain.currentPartition().eventCount()).isZero();
+        assertThat(drain.rememberedPartitions()).isEmpty();
     }
 }

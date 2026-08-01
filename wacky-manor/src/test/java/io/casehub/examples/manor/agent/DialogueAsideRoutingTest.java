@@ -22,7 +22,7 @@ class DialogueAsideRoutingTest {
 
         for (String charId : List.of("hooded-claw", "ant-hill-mob", "peter-perfect", "dick-dastardly")) {
             var drain = service.drain(charId, System.currentTimeMillis());
-            assertThat(drain.currentRoom().eventCount())
+            assertThat(drain.currentPartition().eventCount())
                     .as("Character %s should see dialogue", charId)
                     .isEqualTo(1);
         }
@@ -38,10 +38,10 @@ class DialogueAsideRoutingTest {
                 "entrance-hall", "Nyah-ha-ha! My fiendish plan!"));
 
         var hcDrain = service.drain("hooded-claw", System.currentTimeMillis());
-        assertThat(hcDrain.currentRoom().eventCount()).isEqualTo(1);
+        assertThat(hcDrain.currentPartition().eventCount()).isEqualTo(1);
 
         var penelopeDrain = service.drain("penelope-pitstop", System.currentTimeMillis());
-        assertThat(penelopeDrain.currentRoom().eventCount()).isZero();
+        assertThat(penelopeDrain.currentPartition().eventCount()).isZero();
     }
 
     @Test
@@ -54,7 +54,7 @@ class DialogueAsideRoutingTest {
                 "entrance-hall", "Penelope: Why, hello!"));
 
         var drain = service.drain("penelope-pitstop", System.currentTimeMillis());
-        assertThat(drain.currentRoom().eventCount()).isEqualTo(1);
+        assertThat(drain.currentPartition().eventCount()).isEqualTo(1);
     }
 
     private ObservationService createService() {

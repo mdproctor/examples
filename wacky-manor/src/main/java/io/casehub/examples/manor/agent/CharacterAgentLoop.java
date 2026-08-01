@@ -61,7 +61,7 @@ public final class CharacterAgentLoop {
                     if (world.isScenarioComplete()) {break;}
                 }
 
-                ObservationDrain drain       = observationService.drain(character.agentId(), System.currentTimeMillis());
+                var drain = observationService.drain(character.agentId(), System.currentTimeMillis());
                 String           observation = ObservationBuilder.buildObservation(character, world, goals, drain);
                 String           userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
 

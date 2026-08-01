@@ -58,7 +58,7 @@ public class AutonomousScenarioRunner {
                 if (character == null || world.isScenarioComplete()) break;
 
                 var goals = goalsByAgent.getOrDefault(agentId, List.of());
-                String observation = ObservationBuilder.buildObservation(character, world, goals, new io.casehub.examples.manor.agent.ObservationDrain(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of()))
+                String observation = ObservationBuilder.buildObservation(character, world, goals, new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of()))
                         + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                 String systemPrompt = promptRenderer.apply(agentId);
 

@@ -142,7 +142,7 @@ class LiveScenarioTest {
     private AgentResponse askCharacter(String agentId) {
         String sysPrompt = renderPrompt(agentId);
         String observation = ObservationBuilder.buildObservation(
-            world.character(agentId), world, java.util.List.of(), new io.casehub.examples.manor.agent.ObservationDrain(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of())) + RESPONSE_FORMAT;
+            world.character(agentId), world, java.util.List.of(), new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of())) + RESPONSE_FORMAT;
         String text = callLlm(sysPrompt, observation);
         return AgentResponse.parse(text);
     }

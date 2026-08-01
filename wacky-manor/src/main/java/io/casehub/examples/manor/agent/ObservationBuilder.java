@@ -14,7 +14,7 @@ public final class ObservationBuilder {
 
     public static String buildObservation(CharacterState character, WorldState world,
                                           java.util.List<io.casehub.eidos.api.AgentGoal> goals,
-                                          ObservationDrain drain) {
+                                          io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain) {
         Room room     = world.room(character.currentRoom());
         var  sections = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>();
 
@@ -25,7 +25,7 @@ public final class ObservationBuilder {
         sections.add(inventorySection(character));
         sections.add(goalsSection(goals));
         sections.add(recentActivitySection(drain));
-        if (!drain.rememberedRooms().isEmpty()) {
+        if (!drain.rememberedPartitions().isEmpty()) {
             sections.add(rememberedSection(drain, world));
         }
         sections.add(lastActionResultSection(character));
@@ -120,8 +120,8 @@ public final class ObservationBuilder {
     }
 
     private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection recentActivitySection(
-            ObservationDrain drain) {
-        String text = drain.currentRoom().renderedText();
+            io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain) {
+        String text = drain.currentPartition().renderedText();
         if (text == null || text.isBlank()) {
             return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
                     "Recent Activity", "The room is quiet.", java.util.List.of());
@@ -131,14 +131,14 @@ public final class ObservationBuilder {
     }
 
     private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection rememberedSection(
-            ObservationDrain drain, WorldState world) {
+            io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain, WorldState world) {
         var items   = new java.util.ArrayList<String>();
-        var entries = new java.util.ArrayList<>(drain.rememberedRooms().entrySet());
+        var entries = new java.util.ArrayList<>(drain.rememberedPartitions().entrySet());
         java.util.Collections.reverse(entries);
         long now = System.currentTimeMillis();
         for (var entry : entries) {
             String         roomId     = entry.getKey();
-            RememberedRoom remembered = entry.getValue();
+            io.casehub.blocks.summarisation.observation.RememberedPartition remembered = entry.getValue();
             Room           room       = world.room(roomId);
             long           elapsed    = now - remembered.cachedAt();
             String         timeAgo    = formatElapsed(elapsed);

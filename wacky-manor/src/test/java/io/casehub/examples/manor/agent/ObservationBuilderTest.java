@@ -12,12 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ObservationBuilderTest {
 
     private WorldState       world;
-    private ObservationDrain emptyDrain;
+    private io.casehub.blocks.summarisation.observation.PartitionedDrain<String> emptyDrain;
 
     @BeforeEach
     void setUp() {
         world      = MansionLoader.loadWorld();
-        emptyDrain = new ObservationDrain(ObservationResult.empty(0), java.util.Map.of());
+        emptyDrain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(ObservationResult.empty(0), java.util.Map.of());
     }
 
     @Test
@@ -90,7 +90,7 @@ class ObservationBuilderTest {
     void observation_renders_recent_activity_from_drain() {
         var currentRoom = new ObservationResult("- [1s ago] Penelope: Hello!\n",
                                                 java.util.List.of(), 1, 1000, ObservationTier.VERBATIM);
-        var drain = new ObservationDrain(currentRoom, java.util.Map.of());
+        var drain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<String>(currentRoom, java.util.Map.of());
         var obs = ObservationBuilder.buildObservation(
                 world.character("penelope-pitstop"), world, java.util.List.of(), drain);
         assertThat(obs).contains("== Recent Activity ==");
@@ -110,9 +110,9 @@ class ObservationBuilderTest {
         var currentRoom = ObservationResult.empty(0);
         var rememberedResult = new ObservationResult("Sneekly examined the cabinet.\n",
                                                      java.util.List.of(), 1, 5000, ObservationTier.GROUPED);
-        var remembered = new java.util.LinkedHashMap<String, RememberedRoom>();
-        remembered.put("kitchen", new RememberedRoom(rememberedResult, System.currentTimeMillis() - 30000));
-        var drain = new ObservationDrain(currentRoom, remembered);
+        var remembered = new java.util.LinkedHashMap<String, io.casehub.blocks.summarisation.observation.RememberedPartition>();
+        remembered.put("kitchen", new io.casehub.blocks.summarisation.observation.RememberedPartition(rememberedResult, System.currentTimeMillis() - 30000));
+        var drain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(currentRoom, remembered);
         var obs = ObservationBuilder.buildObservation(
                 world.character("penelope-pitstop"), world, java.util.List.of(), drain);
         assertThat(obs).contains("== Remembered ==");

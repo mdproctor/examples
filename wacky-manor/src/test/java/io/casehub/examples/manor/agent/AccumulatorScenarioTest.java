@@ -31,11 +31,11 @@ class AccumulatorScenarioTest {
 
         var drain = service.drain("hooded-claw", System.currentTimeMillis());
 
-        assertThat(drain.currentRoom().eventCount()).isGreaterThan(0);
-        assertThat(drain.currentRoom().renderedText()).contains("What have we here");
+        assertThat(drain.currentPartition().eventCount()).isGreaterThan(0);
+        assertThat(drain.currentPartition().renderedText()).contains("What have we here");
 
-        assertThat(drain.rememberedRooms()).containsKey("entrance-hall");
-        assertThat(drain.rememberedRooms().get("entrance-hall").result().renderedText())
+        assertThat(drain.rememberedPartitions()).containsKey("entrance-hall");
+        assertThat(drain.rememberedPartitions().get("entrance-hall").result().renderedText())
                 .contains("lovely foyer");
     }
 
@@ -54,7 +54,7 @@ class AccumulatorScenarioTest {
         world.moveCharacter("hooded-claw", "entrance-hall");
 
         var drain = service.drain("hooded-claw", System.currentTimeMillis());
-        assertThat(drain.currentRoom().eventCount()).isZero();
+        assertThat(drain.currentPartition().eventCount()).isZero();
     }
 
     @Test
@@ -79,7 +79,7 @@ class AccumulatorScenarioTest {
                 ActionType.MOVE, "entrance-hall", null, "ballroom"));
 
         var drain = service.drain("hooded-claw", System.currentTimeMillis());
-        String rendered = drain.currentRoom().renderedText();
+        String rendered = drain.currentPartition().renderedText();
         assertThat(rendered).contains("Entrance Hall");
         assertThat(rendered).doesNotContain("Kitchen");
     }
