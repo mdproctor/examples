@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @QuarkusTest
 @Tag("llm-eval")
@@ -30,6 +31,8 @@ class PromptQualityTest {
 
     private static final Path OUTPUT_DIR = Path.of("target/experiment-results");
     private static final String DESCRIPTOR_PATH = "META-INF/eidos/descriptors-%s.yaml";
+    private static final int MAX_RETRIES = 3;
+    private static final long RETRY_BACKOFF_MS = 5000;
 
     private static final Map<String, String> EXPECTED_MBTI = Map.of(
             "hooded-claw", "ENTJ",
@@ -76,30 +79,30 @@ class PromptQualityTest {
                 if (profile == ProfileMode.JUNGIAN || profile == ProfileMode.COMPOSITE) {
                     String expectedType = EXPECTED_MBTI.get(desc.agentId());
                     if (expectedType != null) {
-                        try {
-                            var mbtiResult = mbtiJudge.evaluate(rendered, expectedType);
+                        var mbtiResult = callWithRetry(
+                                () -> mbtiJudge.evaluate(rendered, expectedType),
+                                profile + "/" + desc.agentId() + "/mbti");
+                        if (mbtiResult != null) {
                             charResult.put("mbtiAlignment", mbtiResult);
                             System.out.printf("[%s/%s] MBTI alignment: %s%n",
                                               profile, desc.agentId(), mbtiResult.overallAligned());
-                        } catch (Exception e) {
-                            charResult.put("mbtiAlignment", Map.of("error", e.toString()));
-                            System.err.printf("[%s/%s] MBTI judge failed: %s%n",
-                                              profile, desc.agentId(), e.toString());
+                        } else {
+                            charResult.put("mbtiAlignment", Map.of("error", "exhausted retries"));
                         }
                     }
                 }
 
                 var scenarios = SCENARIOS.getOrDefault(desc.agentId(), List.of());
                 if (!scenarios.isEmpty()) {
-                    try {
-                        var funcResult = functionJudge.evaluate(rendered, desc.agentId(), scenarios);
+                    var funcResult = callWithRetry(
+                            () -> functionJudge.evaluate(rendered, desc.agentId(), scenarios),
+                            profile + "/" + desc.agentId() + "/function");
+                    if (funcResult != null) {
                         charResult.put("functionActivation", funcResult);
                         System.out.printf("[%s/%s] Function TAA: %.2f%n",
                                           profile, desc.agentId(), funcResult.taa());
-                    } catch (Exception e) {
-                        charResult.put("functionActivation", Map.of("error", e.toString()));
-                        System.err.printf("[%s/%s] Function judge failed: %s%n",
-                                          profile, desc.agentId(), e.toString());
+                    } else {
+                        charResult.put("functionActivation", Map.of("error", "exhausted retries"));
                     }
                 }
 
@@ -115,6 +118,24 @@ class PromptQualityTest {
                           .writeValue(outputFile.toFile(), results);
 
         System.out.println("Prompt quality results written to " + outputFile);}
+
+    private <T> T callWithRetry(Supplier<T> call, String label) {
+        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                return call.get();
+            } catch (Exception e) {
+                System.err.printf("[%s] attempt %d/%d failed: %s%n",
+                                  label, attempt, MAX_RETRIES, e.toString());
+                if (attempt < MAX_RETRIES) {
+                    try { Thread.sleep(RETRY_BACKOFF_MS * attempt); } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        return null;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     private List<AgentDescriptor> loadDescriptors(ProfileMode profile) {
         var resourcePath = String.format(DESCRIPTOR_PATH,
