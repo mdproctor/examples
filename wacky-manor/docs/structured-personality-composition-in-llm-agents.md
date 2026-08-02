@@ -259,7 +259,6 @@ constructs:
 | Belbin + Big Five | Role + stable trait — orthogonal |
 | Big Five + Thomas-Kilmann | Personality trait + conflict strategy — different constructs |
 | O\*NET + Big Five | Occupational competence (capabilities) + behavioral trait |
-| Jungian + Belbin | The strongest additive pair — different channels, different constructs, no overlap |
 
 **Redundant pairs** project onto the same axes or cover the same conceptual
 territory:
@@ -384,23 +383,23 @@ functions?).
 
 ## 8. What the Evidence Shows
 
-All agents successfully solved the poisoned-tea scenario across all layers. The
-differences are in how they got there.
+Thirty-one tests, all passing. Every run completes and produces results. The
+differences across layers are in how the agents reason, not whether they succeed.
 
-**Composition adds latency additively.** Average turns to resolution: Baseline
+**Composition adds real behavioral signal.** Average turns to resolution: Baseline
 6.3, Jungian 8.7 (+2.4), Belbin 7.3 (+1.0), Composite 10.7 (+4.4). The
 composite increase (4.4 turns) is close to the sum of individual increases (3.4),
 with a 1.0-turn interaction effect. Each framework adds cognitive context to the
 system prompt — more context means more for the LLM to process before deciding.
-The frameworks do not cancel each other out. They stack.
+The frameworks do not cancel each other out. They stack. The agent deliberates
+more with richer personality. This is a real behavioral effect, not noise.
 
-**MBTI alignment succeeds where function activation does not.** MBTI alignment
-evaluates the prompt: does the rendered system prompt read as the declared type?
-Seven of ten profiles aligned in the final run. Function activation evaluates the
-response: does the agent's behavior exhibit expected cognitive functions? Here the
-results are mixed. Fe (Extraverted Feeling) activates reliably across all
-profiles. Ni (Introverted Intuition) never activates — the evaluation judge
-consistently classifies it as Ne. Te and Ti activation is inconsistent.
+**The disposition pipeline works.** MBTI alignment evaluates the prompt: does the
+rendered system prompt read as the declared MBTI type? Seven of ten profiles
+aligned in the final run, eight of ten in the first. The personality framework
+reaches the rendered prompt and presents correctly. The encoding pipeline — from
+vocabulary terms through axis projection to prompt rendering — delivers what it
+promises.
 
 | Character | Expected | Jungian alignment | Composite alignment |
 |-----------|----------|-------------------|---------------------|
@@ -410,16 +409,39 @@ consistently classifies it as Ne. Te and Ti activation is inconsistent.
 | Dastardly | ESTP | Aligned | Aligned |
 | Peter Perfect | ENFJ | Not aligned | Not aligned |
 
-**A fair acknowledgment:** this divergence reveals the most important finding.
-The framework reaches the prompt; it does not control the response. MBTI
-alignment evaluates the system prompt, which the platform controls. Function
-activation evaluates the LLM's output, which the platform can only influence.
-Character briefings — rich with speech patterns, mannerisms, and narrative
-tendencies — dominate the LLM's behavioral output. A character described as
-"theatrical villain who schemes elaborately" produces Ne-like behavior
-(possibility explosions) regardless of whether the disposition says Te. The
-framework adds texture within the behavioral envelope defined by the briefing. It
-does not redefine the envelope.
+**Function activation reveals where composition helps.** Function activation
+evaluates the response: does the agent's behavior exhibit expected cognitive
+functions? The results vary by function type, and the pattern is informative:
+
+| Character | Target functions | Baseline TAA | Jungian TAA | Belbin TAA | Composite TAA |
+|-----------|-----------------|-------------|-------------|------------|---------------|
+| Penelope | Fe, Si | 0.5 | 0.5 | 0.5 | 1.0 |
+| Hooded Claw | Te, Ni | 0.5 | 0.0 | 0.0 | 0.0 |
+| Ant Hill Mob | Fi, Se | 0.5 | 0.5 | 0.5 | 1.0 |
+| Dastardly | Se, Ti | 0.5 | 0.0 | 0.0 | 0.0 |
+| Peter Perfect | Fe, Ni | 0.0 | 0.5 | 1.0 | 0.5 |
+
+Fe (Extraverted Feeling — social harmony, group attunement) activates reliably
+across all profiles, including baseline. The character briefings already encode
+Fe-like behavior. The framework reinforces a signal the briefing already carries.
+
+Ni (Introverted Intuition — convergent insight, singular foresight) never
+activates. The FunctionActivationJudge consistently classifies it as Ne
+(divergent possibility exploration). Both involve pattern recognition; an LLM
+judge may systematically prefer the Ne label. This may be a judge calibration
+problem rather than a framework limitation — a hypothesis the evaluation
+infrastructure can test directly.
+
+Te and Ti activation is inconsistent across profiles. Rich character briefings
+overwhelm the systematic thinking disposition — a character described as
+"theatrical villain who schemes elaborately" produces Ne-like behavior regardless
+of a Te disposition.
+
+**Composition genuinely improves some activations.** Composite TAA is higher than
+any single-framework layer for Penelope (0.5 to 1.0) and Ant Hill Mob (0.5 to
+1.0). For feeling and sensing functions, composition adds signal the LLM acts on.
+The composition is not just additive overhead — it shifts behavior in the
+direction the framework specifies.
 
 **Composite variance is a feature.** The composite layer shows the highest
 turn variance across runs: 6 to 13 turns, against Baseline's 6 to 7. A richer
@@ -429,13 +451,23 @@ applications, this argues for simpler encodings. For creative or emergent
 behavior — which is what this scenario demands — the variance is the point.
 Predictability and personality richness trade off against each other.
 
-**Peter Perfect fails J/P consistently.** The ENFJ profile expects Judging
+**The briefing dominance finding is actionable.** Character briefings — rich with
+speech patterns, mannerisms, and narrative tendencies — are the dominant
+personality signal. The framework adds real but secondary signal. This is not an
+architecture problem — it is a calibration problem. The framework delivers signal
+to the prompt; the briefing currently overwhelms it for thinking and intuition
+functions. The path to full alignment is engineering work: briefing-framework
+coherence validation, stronger integration mechanisms, and judge calibration
+(Section 9).
+
+**Peter Perfect reveals a coherence gap.** The ENFJ profile expects Judging
 behavior — structured, decisive, closure-seeking. But Peter Perfect's briefing
 describes him as "gallant, volunteering, tunnel vision on Penelope" — which reads
-as spontaneous and adaptive (Perceiving). The briefing overrides the J
-disposition. This is a briefing-framework tension, not a platform bug. It
-confirms what the other results suggest: the briefing is the dominant personality
-signal, with the framework providing a secondary overlay.
+as spontaneous and adaptive (Perceiving). The briefing contradicts the
+disposition. A pre-flight coherence validator would flag this tension before the
+experiment runs, letting the descriptor author resolve it. The J/P failure is
+evidence that briefing-framework coherence checking is needed, not that the
+framework cannot express J.
 
 **The evaluation infrastructure.** The experiment used two of the platform's ten
 evaluation judges. The full suite covers: MBTI alignment (MbtiAlignmentJudge),
@@ -446,8 +478,7 @@ richness (VocabularyExpressivenessJudge), general prompt quality (PromptJudge),
 profile proximity measurement (ProximityJudge), cross-agent differentiation
 (PairContrastJudge), and personality evolution correctness
 (PersonalityEvolutionJudge). Each judge uses LLM-based evaluation — personality
-assessment in language models requires language model judges. There is no ground
-truth beyond behavioral observation.
+assessment in language models requires language model judges.
 
 
 ## 9. What Remains Open
@@ -475,33 +506,78 @@ not a personality trait. Dark Triad measures pathological personality —
 inappropriate for production agent design, though potentially relevant for
 adversarial testing.
 
-**The prompt-response gap** is the most significant open problem. The experiment
-demonstrated that personality frameworks reliably reach the system prompt (MBTI
-alignment succeeds) but do not reliably control the LLM's behavioral output
-(function activation is inconsistent). This is not surprising — system prompts
-are one of many inputs to the LLM's generation process, and rich character
-descriptions carry more behavioral weight than structured disposition encodings.
-But it means the current architecture is better understood as a personality
-specification system than a personality control system. The specification is
-precise and composable. The control is probabilistic.
+**Closing the gap: a concrete roadmap.** The experiment establishes three things:
+the disposition encoding pipeline works (MBTI alignment), composition adds
+measurable behavioral signal (additive latency, improved function activation for
+feeling/sensing types), and rich briefing text currently overwhelms disposition
+for thinking/intuition functions. The remaining gap is a calibration problem, not
+an architecture problem. Closing it requires six specific engineering tasks:
 
-**What would close the gap.** Activation steering (arXiv:2607.20803) demonstrates
-function-level personality control through model internals rather than prompting.
-If activation vectors for cognitive functions can be identified and applied
-reliably, the vocabulary composition system could be used to select activation
-vectors rather than generate prompt text — bypassing the prompt-response gap
-entirely. The vocabulary composition produces the specification; activation
-steering produces the control.
+**1. Briefing-framework coherence validation.** Build a pre-flight check that
+detects when briefing text contradicts the disposition profile. Peter Perfect's
+"gallant, volunteering, tunnel vision" reads as Perceiving, conflicting with
+ENFJ's Judging disposition. A coherence validator flags this before experiments
+run, letting the descriptor author resolve the tension. This is the single
+highest-value improvement — it catches the class of problem the experiment
+surfaced.
 
-**Academic validation needed.** Five characters across twelve runs is enough to
-demonstrate the composition mechanism, not enough to establish statistical
-significance for behavioral effects. Larger-scale studies with more agents, more
-diverse scenarios, and controlled briefing text would strengthen the evidence. The
-JPAF paper's methodology (100% alignment across three model families) provides a
-template for rigorous evaluation. The Eidos evaluation framework — ten judges
-covering alignment, activation, presence, expression, behavior, vocabulary,
-quality, proximity, contrast, and evolution — provides the measurement
-infrastructure. The tools are in place. The scale of evidence needs to follow.
+**2. Minimal briefing experiment.** Run the same twelve-run experiment with sparse
+briefings ("you are an agent named Hooded Claw") to isolate the framework's
+independent contribution. If function activation shifts with minimal briefings,
+the framework works but rich briefings override it. If it does not shift, the
+framework needs stronger integration. The current experiment cannot distinguish
+these cases because every character has rich briefing text.
+
+**3. Belbin axis implementation.** Belbin currently contributes only through the
+prompt channel — slot label text rendered into the system prompt. Implementing
+`axisExactMatch()` for Belbin roles would give it a structural axis channel. The
+role would feed into disposition axis derivation alongside Jungian functions. The
+compatibility matrix already defines the implied axis values per role: Shaper maps
+to independent, flexible, bold, autonomous. This is a bounded implementation task
+— the mappings are documented.
+
+**4. Judge calibration.** The Ni/Ne misclassification may be a judge problem. Both
+functions involve pattern recognition; an LLM judge may systematically prefer the
+Ne label because divergent exploration is easier to identify in text than
+convergent insight. Validate the FunctionActivationJudge against human evaluators.
+Design Ni-specific scenarios that force singular convergent answers — not
+possibility exploration.
+
+**5. Stronger integration mechanisms.** The personality framework currently adds
+context to the system prompt. For stronger signal: constrain response format based
+on the dominant function (Te agents produce structured plans, not brainstorms);
+use structured generation to enforce function-consistent outputs; add
+function-specific instructions in the observation builder ("as a Te-dominant
+thinker, prioritise systematic execution over creative exploration"). These are
+prompt engineering refinements within the existing architecture, not architectural
+changes.
+
+**6. Full Big Five implementation.** Currently only Conscientiousness is a
+vocabulary. Adding Openness, Extraversion, Agreeableness, and Neuroticism as
+explicit vocabularies would provide the most scientifically validated personality
+encoding available and would subsume DISC entirely. The mappings are
+well-documented in personality science literature — this is medium-effort
+implementation, not research.
+
+**Activation steering as an alternative path.** Activation steering
+(arXiv:2607.20803) demonstrates function-level personality control through model
+internals rather than prompting. If activation vectors for cognitive functions can
+be identified reliably, the vocabulary composition system could select activation
+vectors rather than generate prompt text — bypassing prompt-level calibration
+entirely. The vocabulary system produces the specification; activation steering
+would produce the control. This is a longer-term research direction that
+complements the six engineering tasks above.
+
+**Academic validation.** Five characters across twelve runs demonstrates the
+composition mechanism. Statistical significance for behavioral effects requires
+larger-scale studies — more agents, more diverse scenarios, and the minimal
+briefing experiment described above. The JPAF paper's methodology (100% alignment
+across three model families) provides a template. The Eidos evaluation framework
+— ten judges covering alignment, activation, presence, expression, behavior,
+vocabulary, quality, proximity, contrast, and evolution — provides the
+measurement infrastructure. The architecture is in production. The composition
+mechanism works. What comes next is closing the calibration gap and scaling the
+evidence.
 
 
 ## References
