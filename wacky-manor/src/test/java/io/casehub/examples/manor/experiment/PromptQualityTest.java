@@ -82,9 +82,9 @@ class PromptQualityTest {
                             System.out.printf("[%s/%s] MBTI alignment: %s%n",
                                               profile, desc.agentId(), mbtiResult.overallAligned());
                         } catch (Exception e) {
-                            charResult.put("mbtiAlignment", Map.of("error", e.getMessage()));
+                            charResult.put("mbtiAlignment", Map.of("error", e.toString()));
                             System.err.printf("[%s/%s] MBTI judge failed: %s%n",
-                                              profile, desc.agentId(), e.getMessage());
+                                              profile, desc.agentId(), e.toString());
                         }
                     }
                 }
@@ -97,9 +97,9 @@ class PromptQualityTest {
                         System.out.printf("[%s/%s] Function TAA: %.2f%n",
                                           profile, desc.agentId(), funcResult.taa());
                     } catch (Exception e) {
-                        charResult.put("functionActivation", Map.of("error", e.getMessage()));
+                        charResult.put("functionActivation", Map.of("error", e.toString()));
                         System.err.printf("[%s/%s] Function judge failed: %s%n",
-                                          profile, desc.agentId(), e.getMessage());
+                                          profile, desc.agentId(), e.toString());
                     }
                 }
 
