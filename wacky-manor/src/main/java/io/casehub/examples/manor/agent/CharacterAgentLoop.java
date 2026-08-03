@@ -50,10 +50,8 @@ public final class CharacterAgentLoop {
     public void run(CharacterState character, WorldState world,
                     AgentProvider agentProvider, String systemPrompt,
                     BlockingQueue<PendingAction> actionQueue,
-                    ManorChannels manorChannels,
-                    io.casehub.examples.manor.web.ManorEventBus webEventBus,
-                    java.util.List<io.casehub.eidos.api.AgentGoal> goals,
-                    ObservationService observationService) {
+                    ManorEventDispatcher dispatcher,
+                    java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
         while (!world.isScenarioComplete() && character.isActive()) {
             try {
                 if (character.sceneContext() != null) {
@@ -61,9 +59,9 @@ public final class CharacterAgentLoop {
                     if (world.isScenarioComplete()) {break;}
                 }
 
-                var drain = observationService.drain(character.agentId(), System.currentTimeMillis());
-                String           observation = ObservationBuilder.buildObservation(character, world, goals, drain);
-                String           userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
+                var    drain       = dispatcher.observationService().drain(character.agentId(), System.currentTimeMillis());
+                String observation = ObservationBuilder.buildObservation(character, world, goals, drain);
+                String userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
 
                 AgentResponse response = callAgentWithRetry(
                         agentProvider, systemPrompt, userPrompt, character);
@@ -72,26 +70,13 @@ public final class CharacterAgentLoop {
                     var dialogueEvent = new io.casehub.examples.manor.model.ManorEvent(
                             java.time.Instant.now(), "dialogue", character.agentId(),
                             character.currentRoom(), character.name() + ": " + response.dialogue());
-                    world.addEvent(dialogueEvent);
-                    observationService.publishEvent(dialogueEvent);
-                    manorChannels.dispatchDialogue(
-                            character.agentId(), character.currentRoom(), response.dialogue());
-                    if (webEventBus != null) {
-                        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.dialogue(
-                                character.agentId(), character.currentRoom(), response.dialogue()));
-                    }
+                    dispatcher.publishDialogue(dialogueEvent, response.dialogue());
                 }
                 if (response.aside() != null) {
                     var asideEvent = new io.casehub.examples.manor.model.ManorEvent(
                             java.time.Instant.now(), "aside", character.agentId(),
                             character.currentRoom(), response.aside());
-                    world.addEvent(asideEvent);
-                    observationService.publishEvent(asideEvent);
-                    manorChannels.dispatchAside(character.agentId(), response.aside());
-                    if (webEventBus != null) {
-                        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.aside(
-                                character.agentId(), response.aside()));
-                    }
+                    dispatcher.publishAside(asideEvent, response.aside());
                 }
 
                 if (response.action() != null &&

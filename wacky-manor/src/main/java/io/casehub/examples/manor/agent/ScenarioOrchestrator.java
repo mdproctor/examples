@@ -47,6 +47,12 @@ public class ScenarioOrchestrator {
 
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.observation.grouped-threshold", defaultValue = "15")
     int groupedThreshold;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.narrator.enabled", defaultValue = "true")
+    boolean narratorEnabled;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.narrator.event-threshold", defaultValue = "5")
+    int narratorEventThreshold;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.narrator.timer-seconds", defaultValue = "15")
+    int narratorTimerSeconds;
 
 
     public Thread startScenario(WorldState world, io.casehub.examples.manor.model.ScenarioMode mode) {
@@ -77,6 +83,18 @@ public class ScenarioOrchestrator {
         var observationService = new ObservationService(obsRenderer);
         observationService.init(world);
 
+        NarratorAgent narratorAgent = null;
+        if (narratorEnabled && mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
+            narratorAgent = new NarratorAgent(
+                    compactor, agentProvider, manorChannels, webEventBus,
+                    narratorEventThreshold, narratorTimerSeconds);
+            narratorAgent.start(world);
+        }
+
+        var dispatcher = new ManorEventDispatcher(
+                world, observationService, narratorAgent,
+                manorChannels, webEventBus);
+
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
         int turnCount   = 0;
 
@@ -92,7 +110,7 @@ public class ScenarioOrchestrator {
                                                 String systemPrompt = renderPrompt(c.agentId());
                                                 new CharacterAgentLoop().run(
                                                         c, world, agentProvider, systemPrompt, actionQueue,
-                                                        manorChannels, webEventBus, goals, observationService);
+                                                        dispatcher, goals);
                                             });
                            })
                            .toList();
@@ -116,18 +134,10 @@ public class ScenarioOrchestrator {
                             pending.action().type(), pending.action().target(),
                             pending.action().withItem(),
                             pending.action().type() == io.casehub.examples.manor.model.ActionType.MOVE ? departureRoom : null);
-                    world.addEvent(enrichedEvent);
-                    observationService.publishEvent(enrichedEvent);
+                    dispatcher.publishAction(enrichedEvent, result, pending.character().x());
                 }
 
                 pending.character().setLastActionResult(result.text());
-
-                if (result instanceof ActionResult.MovedToRoom moved) {
-                    manorChannels.dispatchPositionEvent(
-                            pending.character().agentId(), moved.roomId());
-                    webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.position(
-                            pending.character().agentId(), moved.roomId(), pending.character().x()));
-                }
 
                 if (mode == io.casehub.examples.manor.model.ScenarioMode.SCRIPTED) {
                     var triggerResult = triggerEvaluator.evaluate(world);
@@ -186,8 +196,20 @@ public class ScenarioOrchestrator {
             }
         }
 
-        log.info("Scenario complete" + (reason != null ? " — " + reason : ""));
-    }
+        if (narratorAgent != null) {
+            narratorAgent.stop();
+            try {
+                narratorAgent.thread().join(Duration.ofSeconds(120));
+                if (narratorAgent.thread().isAlive()) {
+                    log.warn("Narrator thread did not terminate");
+                    narratorAgent.thread().interrupt();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        log.info("Scenario complete" + (reason != null ? " — " + reason : ""));}
 
     private java.util.List<io.casehub.eidos.api.AgentGoal> resolveGoals(String agentId) {
         return agentRegistry.findById(agentId, ManorConstants.TENANCY_ID)

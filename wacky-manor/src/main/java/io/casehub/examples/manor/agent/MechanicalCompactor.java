@@ -9,14 +9,15 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public final class MechanicalCompactor {
+public final class MechanicalCompactor implements io.casehub.blocks.summarisation.Compactor<ManorEvent> {
 
+    @Override
     public List<LevelEvent<ManorEvent>> compact(List<LevelEvent<ManorEvent>> events) {
-        if (events.isEmpty()) return List.of();
+        if (events.isEmpty()) {return List.of();}
 
-        var latest = new LinkedHashMap<String, LevelEvent<ManorEvent>>();
+        var latest       = new LinkedHashMap<String, LevelEvent<ManorEvent>>();
         var dialogueSeen = new HashSet<String>();
-        var result = new ArrayList<LevelEvent<ManorEvent>>();
+        var result       = new ArrayList<LevelEvent<ManorEvent>>();
 
         for (var event : events) {
             ManorEvent e = event.payload();
@@ -29,7 +30,7 @@ public final class MechanicalCompactor {
             }
             if ("dialogue".equals(e.type())) {
                 String dedupKey = e.characterId() + "::" + e.description();
-                if (!dialogueSeen.add(dedupKey)) continue;
+                if (!dialogueSeen.add(dedupKey)) {continue;}
             }
             result.add(event);
         }

@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 
 public final class ManorObservationRenderer implements ObservationRenderer<ManorEvent> {
 
-    private final MechanicalCompactor compactor;
+    private final io.casehub.blocks.summarisation.Compactor<ManorEvent> compactor;
     private final TieredObservationRenderer<ManorEvent> delegate;
 
-    public ManorObservationRenderer(MechanicalCompactor compactor,
+    public ManorObservationRenderer(io.casehub.blocks.summarisation.Compactor<ManorEvent> compactor,
                                      int verbatimThreshold,
                                      int groupedThreshold,
                                      Summariser<ManorEvent, String> summariser) {
