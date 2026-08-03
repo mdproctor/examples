@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
+import java.util.Set;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -65,13 +66,33 @@ class PromptQualityTest {
 
     @Test
     void evaluate_all_profiles() throws Exception {
-        var results = new LinkedHashMap<String, Object>();
+        var filterChars  = System.getProperty("eval.characters");
+        var filterLayers = System.getProperty("eval.layers");
+        var charFilter = filterChars != null
+                         ? Set.of(filterChars.split(",")) : Set.<String>of();
+        var layerFilter = filterLayers != null
+                          ? Set.of(filterLayers.split(",")) : Set.<String>of();
+
+        var outputFile = OUTPUT_DIR.resolve("prompt-quality.json");
+        var results    = new LinkedHashMap<String, Object>();
+        if (Files.exists(outputFile)) {
+            results = new ObjectMapper().readValue(outputFile.toFile(),
+                                                   new com.fasterxml.jackson.core.type.TypeReference<LinkedHashMap<String, Object>>() {});
+        }
 
         for (ProfileMode profile : ProfileMode.values()) {
-            var descriptors    = loadDescriptors(profile);
-            var profileResults = new LinkedHashMap<String, Object>();
+            String layerKey = profile.name().toLowerCase();
+            if (!layerFilter.isEmpty() && !layerFilter.contains(layerKey)) {continue;}
+
+            var descriptors = loadDescriptors(profile);
+            @SuppressWarnings("unchecked")
+            var profileResults = results.containsKey(layerKey)
+                                 ? new LinkedHashMap<>((Map<String, Object>) results.get(layerKey))
+                                 : new LinkedHashMap<String, Object>();
 
             for (AgentDescriptor desc : descriptors) {
+                if (!charFilter.isEmpty() && !charFilter.contains(desc.agentId())) {continue;}
+
                 String rendered = renderer.render(desc,
                                                   AgentPromptContext.forFormat(RenderFormat.MARKDOWN)).content();
                 var charResult = new LinkedHashMap<String, Object>();
@@ -108,16 +129,16 @@ class PromptQualityTest {
 
                 profileResults.put(desc.agentId(), charResult);
             }
-            results.put(profile.name().toLowerCase(), profileResults);
+            results.put(layerKey, profileResults);
             System.out.printf("--- %s complete ---%n", profile);
         }
 
-        var outputFile = OUTPUT_DIR.resolve("prompt-quality.json");
         Files.createDirectories(outputFile.getParent());
         new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT)
                           .writeValue(outputFile.toFile(), results);
 
-        System.out.println("Prompt quality results written to " + outputFile);}
+        System.out.println("Prompt quality results written to " + outputFile);
+    }
 
     private <T> T callWithRetry(Supplier<T> call, String label) {
         for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
