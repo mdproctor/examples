@@ -54,6 +54,8 @@ public class ScenarioOrchestrator {
     int narratorEventThreshold;
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.narrator.timer-seconds", defaultValue = "15")
     int narratorTimerSeconds;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.active-characters", defaultValue = "")
+    java.util.Optional<String> activeCharactersConfig;
 
 
     public Thread startScenario(WorldState world, io.casehub.examples.manor.model.ScenarioMode mode) {
@@ -105,7 +107,13 @@ public class ScenarioOrchestrator {
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
         int turnCount   = 0;
 
+        var activeSet = activeCharactersConfig
+                .filter(s -> !s.isBlank())
+                .map(s -> java.util.Set.copyOf(java.util.Arrays.asList(s.split(","))))
+                .orElse(null);
+
         var threads = world.characters().values().stream()
+                           .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                            .map(c -> {
                                var goals = resolveGoals(c.agentId());
                                return Thread.ofVirtual().name(c.agentId())
