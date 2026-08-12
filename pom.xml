@@ -50,6 +50,7 @@
 
     <!-- Standalone examples (not synced from source repos) -->
     <module>wacky-manor</module>
+    <module>helpdesk</module>
   </modules>
 
   <repositories>
