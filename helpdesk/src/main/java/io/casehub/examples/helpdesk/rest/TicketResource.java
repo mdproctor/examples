@@ -12,6 +12,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import io.casehub.examples.helpdesk.NotificationService;
 import io.casehub.examples.helpdesk.TicketService;
 import io.casehub.examples.helpdesk.model.Ticket;
 
@@ -21,6 +22,9 @@ public class TicketResource {
 
     @Inject
     TicketService ticketService;
+
+    @Inject
+    NotificationService notificationService;
 
     @GET
     public List<Ticket> list() {
@@ -39,7 +43,12 @@ public class TicketResource {
     @Path("/{id}/resolve")
     public Response resolve(@PathParam("id") UUID id, ResolveRequest request) {
         var ticket = ticketService.resolve(id, request.resolution());
-        return ticket != null ? Response.ok(ticket).build() : Response.status(404).build();
+        if (ticket != null) {
+            notificationService.notify(ticket.customerRef(),
+                    "Your ticket has been resolved: " + request.resolution());
+            return Response.ok(ticket).build();
+        }
+        return Response.status(404).build();
     }
 
     public record ResolveRequest(String resolution) {}
