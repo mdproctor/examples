@@ -29,7 +29,7 @@ public class ChatInjectionResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response inject(ChatInjectionRequest request) {
         var msg = new InboundMessage(
-                "demo", "demo",
+                "ref", "ref",
                 request.from(), request.channelId(),
                 request.text(), List.of(),
                 Instant.now(), Map.of(), null);
