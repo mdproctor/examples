@@ -1,5 +1,24 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+import { EventStreamController } from '@casehubio/pages-component';
+import { fromRows, ColumnType, columnId } from '@casehubio/pages-data';
+import type { TypedDataSet, ColumnId } from '@casehubio/pages-data';
+import type { MetricDefinition } from '@casehubio/blocks-ui-kpi-metric-row';
+import type { TableColumnConfig } from '@casehubio/pages-table';
+import { HelpdeskPipelineStrategy } from './pipeline-strategy.js';
+import type { TicketSnapshot } from './pipeline-strategy.js';
+import { HELPDESK_SCENARIO } from './scenarios/help-desk-basic.js';
+import type { ScenarioStep } from './scenarios/help-desk-basic.js';
+
+// side-effect imports — register custom elements
+import '@casehubio/blocks-ui-kpi-metric-row';
+import '@casehubio/blocks-ui-blocks-timeline';
+import '@casehubio/pages-table';
+
+interface TicketEvent {
+  type: 'CREATED' | 'CLASSIFIED' | 'ASSIGNED' | 'RESOLVED';
+  ticket: Ticket;
+}
 
 interface Ticket {
   id: string;
@@ -14,384 +33,491 @@ interface Ticket {
   resolvedAt: string | null;
 }
 
-interface Notification {
+interface NotificationEvent {
   to: string;
   message: string;
-  sentAt: string;
 }
+
+interface MetricsSnapshot {
+  total: number;
+  open: number;
+  resolved: number;
+  notified: number;
+}
+
+const TICKET_COLUMNS: ColumnId[] = ['subject', 'status', 'category', 'priority', 'customerRef', 'assigneeId'].map(s => columnId(s));
+
+const TICKET_COLUMN_CONFIG: readonly TableColumnConfig[] = [
+  { id: columnId('subject'), name: 'Subject' },
+  { id: columnId('status'), name: 'Status' },
+  { id: columnId('category'), name: 'Category' },
+  { id: columnId('priority'), name: 'Priority' },
+  { id: columnId('customerRef'), name: 'Customer' },
+  { id: columnId('assigneeId'), name: 'Assignee' },
+];
 
 @customElement('helpdesk-app')
 export class HelpdeskApp extends LitElement {
-  @state() private tickets: Ticket[] = [];
-  @state() private notifications: Notification[] = [];
-  @state() private events: string[] = [];
-  @state() private name = '';
-  @state() private issue = '';
-  @state() private bootstrapped = false;
+  // Push controllers — shared pool reuses one WebSocket connection
+  private _ticketPush!: EventStreamController<TicketEvent>;
+  private _notifPush!: EventStreamController<NotificationEvent>;
+  private _metricsPush!: EventStreamController<MetricsSnapshot>;
 
-  private _pollTimer: ReturnType<typeof setInterval> | null = null;
+  private _initPush() {
+    const wsUrl = `${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${location.host}/push`;
+    this._ticketPush = new EventStreamController<TicketEvent>(this, wsUrl, 'helpdesk:tickets');
+    this._notifPush = new EventStreamController<NotificationEvent>(this, wsUrl, 'helpdesk:notifications');
+    this._metricsPush = new EventStreamController<MetricsSnapshot>(this, wsUrl, 'helpdesk:metrics');
+  }
+
+  // Pipeline strategy
+  private _pipelineStrategy = new HelpdeskPipelineStrategy();
+
+  // Scenario state
+  @state() private _scenarioStep = 0;
+  @state() private _scenarioRunning = false;
+  @state() private _scenarioStatus = '';
+  @state() private _standalone = false;
+
+  // Track ticket IDs for resolve action in scenario
+  private _trackedTicketIds: string[] = [];
 
   override connectedCallback() {
+    this._initPush();
     super.connectedCallback();
-    this._poll();
-    this._pollTimer = setInterval(() => this._poll(), 2000);
+    this._standalone = new URLSearchParams(location.search).has('standalone');
   }
 
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    if (this._pollTimer) clearInterval(this._pollTimer);
+  // --- Derived state from push events ---
+
+  private get _metrics(): MetricsSnapshot {
+    return this._metricsPush.latest ?? { total: 0, open: 0, resolved: 0, notified: 0 };
   }
 
-  private async _poll() {
+  private get _metricDefs(): MetricDefinition[] {
+    return [
+      { key: 'total', value: this._metrics.total, label: 'Total' },
+      { key: 'open', value: this._metrics.open, label: 'Open', status: 'warning' },
+      { key: 'resolved', value: this._metrics.resolved, label: 'Resolved', status: 'normal' },
+      { key: 'notified', value: this._metrics.notified, label: 'Notified' },
+    ];
+  }
+
+  private get _tickets(): Ticket[] {
+    const map = new Map<string, Ticket>();
+    for (const event of this._ticketPush.all) {
+      map.set(event.ticket.id, event.ticket);
+    }
+    return [...map.values()];
+  }
+
+  private get _ticketDataSet(): TypedDataSet {
+    return fromRows(this._tickets, [
+      { id: columnId('subject'), name: 'Subject', type: ColumnType.TEXT, getValue: (t: Ticket) => t.subject },
+      { id: columnId('status'), name: 'Status', type: ColumnType.LABEL, getValue: (t: Ticket) => t.status },
+      { id: columnId('category'), name: 'Category', type: ColumnType.TEXT, getValue: (t: Ticket) => t.category },
+      { id: columnId('priority'), name: 'Priority', type: ColumnType.LABEL, getValue: (t: Ticket) => t.priority },
+      { id: columnId('customerRef'), name: 'Customer', type: ColumnType.TEXT, getValue: (t: Ticket) => t.customerRef },
+      { id: columnId('assigneeId'), name: 'Assignee', type: ColumnType.TEXT, getValue: (t: Ticket) => t.assigneeId },
+    ]);
+  }
+
+  private get _ticketSnapshots(): TicketSnapshot[] {
+    return this._tickets.map(t => ({
+      id: t.id,
+      subject: t.subject,
+      status: t.status,
+      createdAt: t.createdAt,
+      resolvedAt: t.resolvedAt,
+      assigneeId: t.assigneeId,
+    }));
+  }
+
+  private get _notifications(): NotificationEvent[] {
+    return [...this._notifPush.all];
+  }
+
+  // --- Scenario controller ---
+
+  private get _currentStep(): ScenarioStep | undefined {
+    return HELPDESK_SCENARIO[this._scenarioStep];
+  }
+
+  private get _scenarioDone(): boolean {
+    return this._scenarioStep >= HELPDESK_SCENARIO.length;
+  }
+
+  private async _executeStep() {
+    const step = this._currentStep;
+    if (!step || this._scenarioRunning) return;
+
+    this._scenarioRunning = true;
+    this._scenarioStatus = 'Executing...';
+
     try {
-      const [tRes, nRes] = await Promise.all([
-        fetch('/scenario/verify/tickets'),
-        fetch('/scenario/verify/notifications'),
-      ]);
-      if (tRes.ok) {
-        const newTickets = await tRes.json() as Ticket[];
-        if (newTickets.length !== this.tickets.length) {
-          this._addEvent(`${newTickets.length} ticket(s) in system`);
+      switch (step.action) {
+        case 'bootstrap': {
+          const res = await fetch('/scenario/bootstrap/helpdesk', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(step.params),
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          this._scenarioStatus = 'Done';
+          break;
         }
-        this.tickets = newTickets;
-      }
-      if (nRes.ok) {
-        const newNotifs = await nRes.json() as Notification[];
-        if (newNotifs.length !== this.notifications.length) {
-          this._addEvent(`Notification sent to ${newNotifs[newNotifs.length - 1]?.to}`);
+        case 'submit': {
+          const beforeLen = this._ticketPush.all.length;
+          const res = await fetch('/scenario/inject/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(step.params),
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          this._scenarioStatus = 'Waiting for ticket...';
+          await this._waitForTicketEvent(beforeLen, 'CREATED');
+          const created = this._ticketPush.all.slice(beforeLen).find(e => e.type === 'CREATED');
+          if (created) {
+            this._trackedTicketIds.push(created.ticket.id);
+            this._scenarioStatus = 'Waiting for classification...';
+            await this._waitForTicketById(created.ticket.id, 'CLASSIFIED');
+            this._scenarioStatus = 'Waiting for assignment...';
+            await this._waitForTicketById(created.ticket.id, 'ASSIGNED');
+          }
+          this._scenarioStatus = 'Done';
+          break;
         }
-        this.notifications = newNotifs;
+        case 'resolve': {
+          const ticketId = this._trackedTicketIds[0];
+          if (!ticketId) {
+            this._scenarioStatus = 'No ticket to resolve';
+            break;
+          }
+          const res = await fetch(`/tickets/${ticketId}/resolve`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ resolution: step.previewText ?? 'Resolved' }),
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          this._trackedTicketIds.shift();
+          await this._waitForTicketById(ticketId, 'RESOLVED');
+          this._scenarioStatus = 'Done';
+          break;
+        }
       }
-    } catch { /* backend not ready yet */ }
+    } catch (e) {
+      this._scenarioStatus = `Error: ${(e as Error).message}`;
+    } finally {
+      this._scenarioRunning = false;
+    }
   }
 
-  private _addEvent(msg: string) {
-    const ts = new Date().toLocaleTimeString();
-    this.events = [...this.events, `[${ts}] ${msg}`];
+  private _nextStep() {
+    if (this._scenarioStep < HELPDESK_SCENARIO.length) {
+      this._scenarioStep++;
+      this._scenarioStatus = '';
+    }
   }
 
-  private async _bootstrap() {
-    const res = await fetch('/scenario/bootstrap/helpdesk', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ticketClassifications: [
-          { match: 'laptop', category: 'HARDWARE', priority: 'HIGH' },
-          { match: 'password', category: 'ACCESS', priority: 'LOW' },
-          { match: 'install', category: 'SOFTWARE', priority: 'MEDIUM' },
-          { match: 'printer', category: 'HARDWARE', priority: 'MEDIUM' },
-          { match: 'email', category: 'SOFTWARE', priority: 'LOW' },
-          { match: 'vpn', category: 'ACCESS', priority: 'HIGH' },
-        ],
-      }),
+  private _waitForTicketEvent(afterIndex: number, type: string): Promise<void> {
+    return new Promise(resolve => {
+      const check = () => {
+        const found = this._ticketPush.all.slice(afterIndex).some(e => e.type === type);
+        if (found) { resolve(); return; }
+        requestAnimationFrame(check);
+      };
+      check();
     });
-    if (res.ok) {
-      this.bootstrapped = true;
-      this._addEvent('Classification data loaded');
-    }
   }
 
-  private async _submitTicket() {
-    if (!this.name || !this.issue) return;
-    const res = await fetch('/scenario/inject/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: this.name, channelId: 'support', text: this.issue }),
+  private _waitForTicketById(id: string, type: string): Promise<void> {
+    return new Promise(resolve => {
+      const check = () => {
+        const found = this._ticketPush.all.some(e => e.ticket.id === id && e.type === type);
+        if (found) { resolve(); return; }
+        requestAnimationFrame(check);
+      };
+      check();
     });
-    if (res.ok) {
-      this._addEvent(`Chat message from ${this.name}: "${this.issue}"`);
-      this.name = '';
-      this.issue = '';
-    }
   }
 
-  private async _resolveTicket(ticket: Ticket) {
-    const resolution = prompt('Resolution:');
-    if (!resolution) return;
-    const res = await fetch(`/tickets/${ticket.id}/resolve`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ resolution }),
-    });
-    if (res.ok) {
-      this._addEvent(`Ticket resolved: ${ticket.subject}`);
-      this._poll();
-    }
-  }
-
-  private _statusColor(status: string): string {
-    switch (status) {
-      case 'OPEN': return 'var(--warning)';
-      case 'TRIAGED': return 'var(--accent)';
-      case 'ASSIGNED': return '#a371f7';
-      case 'RESOLVED': return 'var(--success)';
-      default: return 'var(--text-muted)';
-    }
-  }
-
-  private _priorityColor(priority: string | null): string {
-    switch (priority) {
-      case 'URGENT': return 'var(--danger)';
-      case 'HIGH': return 'var(--warning)';
-      case 'MEDIUM': return 'var(--accent)';
-      case 'LOW': return 'var(--text-muted)';
-      default: return 'var(--text-muted)';
-    }
-  }
+  // --- Render ---
 
   override render() {
-    const open = this.tickets.filter(t => t.status !== 'RESOLVED').length;
-    const resolved = this.tickets.filter(t => t.status === 'RESOLVED').length;
+    if (this._standalone) {
+      return html`
+        <div class="standalone">
+          <header>
+            <h1>Scenario Controller</h1>
+            <span class="subtitle">Standalone Mode</span>
+          </header>
+          ${this._renderScenarioPanel()}
+        </div>
+      `;
+    }
 
     return html`
       <header>
         <h1>IT Help Desk</h1>
         <span class="subtitle">CaseHub Example — Scenario-Driven Demo</span>
+        <span class="connection-status ${this._ticketPush.status}">
+          ${this._ticketPush.status}
+        </span>
       </header>
 
-      <div class="dashboard">
-        <div class="metrics">
-          <div class="metric">
-            <span class="metric-value">${this.tickets.length}</span>
-            <span class="metric-label">Total</span>
-          </div>
-          <div class="metric">
-            <span class="metric-value" style="color: var(--warning)">${open}</span>
-            <span class="metric-label">Open</span>
-          </div>
-          <div class="metric">
-            <span class="metric-value" style="color: var(--success)">${resolved}</span>
-            <span class="metric-label">Resolved</span>
-          </div>
-          <div class="metric">
-            <span class="metric-value" style="color: var(--accent)">${this.notifications.length}</span>
-            <span class="metric-label">Notified</span>
-          </div>
-        </div>
+      <div class="split-layout">
+        <div class="dashboard">
+          <blocks-kpi-metric-row
+            .metrics=${this._metricDefs}
+            columns="4"
+            density="compact"
+          ></blocks-kpi-metric-row>
 
-        <div class="panels">
-          <div class="panel tickets-panel">
+          <div class="panel">
             <h2>Tickets</h2>
-            ${this.tickets.length === 0
-              ? html`<p class="empty">No tickets yet. Bootstrap data and submit a message.</p>`
+            ${this._tickets.length === 0
+              ? html`<p class="empty">No tickets yet. Run the scenario to submit messages.</p>`
               : html`
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Subject</th>
-                      <th>Status</th>
-                      <th>Category</th>
-                      <th>Priority</th>
-                      <th>Customer</th>
-                      <th>Assignee</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${this.tickets.map(t => html`
-                      <tr>
-                        <td>${t.subject}</td>
-                        <td><span class="badge" style="background: ${this._statusColor(t.status)}">${t.status}</span></td>
-                        <td>${t.category ?? '—'}</td>
-                        <td><span class="badge" style="background: ${this._priorityColor(t.priority)}">${t.priority ?? '—'}</span></td>
-                        <td>${t.customerRef}</td>
-                        <td>${t.assigneeId ?? '—'}</td>
-                        <td>${t.status !== 'RESOLVED'
-                          ? html`<button class="resolve-btn" @click=${() => this._resolveTicket(t)}>Resolve</button>`
-                          : html`<span class="resolved-label">✓ ${t.resolution}</span>`
-                        }</td>
-                      </tr>
-                    `)}
-                  </tbody>
-                </table>
+                <pages-data-table
+                  .dataSet=${this._ticketDataSet}
+                  .columnConfig=${TICKET_COLUMN_CONFIG}
+                  sortable
+                  clientSort
+                  clientFilter
+                  embedded
+                  row-height="40"
+                ></pages-data-table>
               `
             }
           </div>
 
-          <div class="sidebar">
+          ${this._tickets.length > 0 ? html`
             <div class="panel">
-              <h2>Submit Ticket</h2>
-              ${!this.bootstrapped ? html`
-                <button class="action-btn bootstrap-btn" @click=${this._bootstrap}>
-                  Load Classification Data
-                </button>
-                <p class="hint">Load demo data before submitting tickets.</p>
-              ` : html`
-                <p class="hint success">✓ Classification data loaded</p>
-              `}
-              <input
-                type="text"
-                placeholder="Your name"
-                .value=${this.name}
-                @input=${(e: Event) => this.name = (e.target as HTMLInputElement).value}
-              />
-              <input
-                type="text"
-                placeholder="Describe your issue"
-                .value=${this.issue}
-                @input=${(e: Event) => this.issue = (e.target as HTMLInputElement).value}
-                @keydown=${(e: KeyboardEvent) => e.key === 'Enter' && this._submitTicket()}
-              />
-              <button class="action-btn" @click=${this._submitTicket} ?disabled=${!this.name || !this.issue}>
-                Send Message
-              </button>
+              <h2>Pipeline</h2>
+              <blocks-timeline
+                .data=${this._ticketSnapshots}
+                .strategy=${this._pipelineStrategy}
+              ></blocks-timeline>
             </div>
+          ` : nothing}
 
-            <div class="panel">
-              <h2>Event Log</h2>
-              <div class="event-log">
-                ${this.events.length === 0
-                  ? html`<p class="empty">Waiting for events...</p>`
-                  : this.events.map(e => html`<div class="event-entry">${e}</div>`)
-                }
-              </div>
-            </div>
-
+          ${this._notifications.length > 0 ? html`
             <div class="panel">
               <h2>Notifications</h2>
-              ${this.notifications.length === 0
-                ? html`<p class="empty">No notifications sent yet.</p>`
-                : this.notifications.map(n => html`
-                  <div class="notification">
-                    <strong>To: ${n.to}</strong>
-                    <p>${n.message}</p>
-                  </div>
-                `)
-              }
+              ${this._notifications.map(n => html`
+                <div class="notification">
+                  <strong>To: ${n.to}</strong>
+                  <p>${n.message}</p>
+                </div>
+              `)}
             </div>
-          </div>
+          ` : nothing}
+        </div>
+
+        <div class="scenario-sidebar">
+          ${this._renderScenarioPanel()}
         </div>
       </div>
     `;
   }
 
+  private _renderScenarioPanel() {
+    const step = this._currentStep;
+    const stepNum = this._scenarioStep + 1;
+    const total = HELPDESK_SCENARIO.length;
+
+    return html`
+      <div class="scenario-panel">
+        <div class="scenario-header">
+          <h2>Scenario</h2>
+          <span class="step-indicator">
+            ${this._scenarioDone ? 'Complete' : `Step ${stepNum}/${total}`}
+          </span>
+        </div>
+
+        ${this._scenarioDone ? html`
+          <div class="scenario-complete">
+            All steps complete. The dashboard shows the final state.
+          </div>
+        ` : step ? html`
+          <div class="step-content">
+            <div class="step-label">${step.label}</div>
+            <p class="step-description">${step.description}</p>
+
+            ${step.previewText ? html`
+              <div class="preview-box">
+                <div class="preview-label">Preview</div>
+                <div class="preview-text">${step.previewText}</div>
+              </div>
+            ` : nothing}
+
+            ${this._scenarioStatus ? html`
+              <div class="scenario-status ${this._scenarioStatus === 'Done' ? 'done' : ''}">${this._scenarioStatus}</div>
+            ` : nothing}
+
+            <div class="step-actions">
+              ${this._scenarioStatus === 'Done' ? html`
+                <button class="action-btn" @click=${this._nextStep}>
+                  ${this._scenarioStep < HELPDESK_SCENARIO.length - 1 ? 'Next' : 'Finish'}
+                </button>
+              ` : html`
+                <button
+                  class="action-btn submit-btn"
+                  @click=${this._executeStep}
+                  ?disabled=${this._scenarioRunning}
+                >
+                  ${step.action === 'bootstrap' ? 'Load Data' : step.action === 'submit' ? 'Submit' : 'Resolve'}
+                </button>
+              `}
+            </div>
+          </div>
+        ` : nothing}
+      </div>
+    `;
+  }
+
   static override styles = css`
-    :host { display: block; min-height: 100vh; }
+    :host {
+      display: block;
+      min-height: 100vh;
+      font-family: var(--pages-font-family, system-ui, sans-serif);
+      color: var(--pages-neutral-12, #e6edf3);
+      background: var(--pages-neutral-1, #0f1117);
+    }
 
     header {
       padding: 16px 24px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+      background: var(--pages-neutral-2, #161b22);
+      border-bottom: 1px solid var(--pages-neutral-6, #30363d);
       display: flex;
       align-items: baseline;
       gap: 16px;
     }
-    h1 { font-size: 20px; font-weight: 600; }
-    .subtitle { font-size: 13px; color: var(--text-muted); }
-
-    .dashboard { padding: 24px; }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
+    h1 { font-size: 20px; font-weight: 600; margin: 0; }
+    .subtitle { font-size: 13px; color: var(--pages-neutral-9, #8b949e); }
+    .connection-status {
+      margin-left: auto;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
-    .metric {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-    }
-    .metric-value { display: block; font-size: 36px; font-weight: 700; }
-    .metric-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .connection-status.connected { color: var(--pages-success-9, #3fb950); background: rgba(63, 185, 80, 0.1); }
+    .connection-status.connecting, .connection-status.reconnecting { color: var(--pages-warning-9, #d29922); background: rgba(210, 153, 34, 0.1); }
+    .connection-status.disconnected { color: var(--pages-danger-9, #f85149); background: rgba(248, 81, 73, 0.1); }
 
-    .panels {
+    .split-layout {
       display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 24px;
+      grid-template-columns: 1fr 340px;
+      gap: 0;
+      min-height: calc(100vh - 53px);
+    }
+
+    .dashboard {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+
+    .scenario-sidebar {
+      border-left: 1px solid var(--pages-neutral-6, #30363d);
+      background: var(--pages-neutral-2, #161b22);
+      overflow-y: auto;
     }
 
     .panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: var(--pages-neutral-2, #161b22);
+      border: 1px solid var(--pages-neutral-6, #30363d);
+      border-radius: var(--pages-radius-md, 6px);
       padding: 20px;
-      margin-bottom: 16px;
     }
-    h2 { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    h2 { font-size: 12px; font-weight: 600; margin: 0 0 12px; color: var(--pages-neutral-9, #8b949e); text-transform: uppercase; letter-spacing: 0.05em; }
 
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: left; padding: 8px; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border); }
-    td { padding: 8px; border-bottom: 1px solid var(--border); }
-    tr:hover { background: rgba(255,255,255,0.02); }
+    .empty { font-size: 13px; color: var(--pages-neutral-9, #8b949e); font-style: italic; }
 
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .resolve-btn {
-      padding: 4px 12px;
-      border-radius: 4px;
-      border: 1px solid var(--accent);
-      background: transparent;
-      color: var(--accent);
-      cursor: pointer;
-      font-size: 12px;
-    }
-    .resolve-btn:hover { background: var(--accent); color: #fff; }
-
-    .resolved-label { font-size: 12px; color: var(--success); }
-
-    input {
-      display: block;
-      width: 100%;
+    .notification {
       padding: 8px 12px;
       margin-bottom: 8px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 13px;
+      background: var(--pages-accent-3, rgba(56, 139, 253, 0.1));
+      border-radius: var(--pages-radius-sm, 4px);
+      border-left: 3px solid var(--pages-accent-9, #58a6ff);
     }
-    input:focus { outline: none; border-color: var(--accent); }
+    .notification strong { font-size: 12px; color: var(--pages-accent-9, #58a6ff); }
+    .notification p { font-size: 13px; margin: 4px 0 0; }
+
+    /* Scenario panel */
+    .scenario-panel { padding: 20px; }
+    .scenario-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+    .step-indicator {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--pages-accent-9, #58a6ff);
+      padding: 2px 8px;
+      background: rgba(56, 139, 253, 0.1);
+      border-radius: 12px;
+    }
+
+    .step-content { display: flex; flex-direction: column; gap: 12px; }
+    .step-label { font-size: 14px; font-weight: 600; color: var(--pages-neutral-12, #e6edf3); }
+    .step-description { font-size: 13px; color: var(--pages-neutral-10, #b1bac4); line-height: 1.5; margin: 0; }
+
+    .preview-box {
+      background: var(--pages-neutral-3, #1c2128);
+      border: 1px solid var(--pages-neutral-6, #30363d);
+      border-radius: var(--pages-radius-sm, 4px);
+      padding: 12px;
+    }
+    .preview-label { font-size: 11px; color: var(--pages-neutral-9, #8b949e); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .preview-text { font-size: 13px; font-style: italic; color: var(--pages-neutral-11, #c9d1d9); }
+
+    .scenario-status {
+      font-size: 12px;
+      color: var(--pages-warning-9, #d29922);
+      padding: 6px 10px;
+      background: rgba(210, 153, 34, 0.1);
+      border-radius: var(--pages-radius-sm, 4px);
+    }
+    .scenario-status.done {
+      color: var(--pages-success-9, #3fb950);
+      background: rgba(63, 185, 80, 0.1);
+    }
+
+    .step-actions { margin-top: 4px; }
 
     .action-btn {
       display: block;
       width: 100%;
       padding: 10px;
       border: none;
-      border-radius: 6px;
-      background: var(--accent);
+      border-radius: var(--pages-radius-sm, 4px);
+      background: var(--pages-accent-9, #58a6ff);
       color: #fff;
       font-weight: 600;
       cursor: pointer;
       font-size: 13px;
-      margin-bottom: 8px;
+      transition: transform var(--pages-duration-fast, 120ms) ease, opacity var(--pages-duration-fast, 120ms) ease;
     }
     .action-btn:hover { opacity: 0.9; }
-    .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .bootstrap-btn { background: #238636; }
+    .action-btn:active { transform: scale(0.98); }
+    .action-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .submit-btn { background: var(--pages-success-9, #238636); }
 
-    .hint { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
-    .hint.success { color: var(--success); }
-    .empty { font-size: 13px; color: var(--text-muted); font-style: italic; }
-
-    .event-log { max-height: 200px; overflow-y: auto; }
-    .event-entry {
-      font-size: 12px;
-      font-family: 'SF Mono', Menlo, monospace;
-      padding: 4px 0;
-      color: var(--text-muted);
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+    .scenario-complete {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--pages-success-9, #3fb950);
+      font-size: 14px;
     }
 
-    .notification {
-      padding: 8px;
-      margin-bottom: 8px;
-      background: rgba(56, 139, 253, 0.1);
-      border-radius: 6px;
-      border-left: 3px solid var(--accent);
-    }
-    .notification strong { font-size: 12px; color: var(--accent); }
-    .notification p { font-size: 13px; margin-top: 4px; }
+    .standalone { min-height: 100vh; background: var(--pages-neutral-1, #0f1117); }
+    .standalone .scenario-panel { max-width: 480px; margin: 0 auto; }
 
-    .sidebar { display: flex; flex-direction: column; }
+    @media (max-width: 900px) {
+      .split-layout { grid-template-columns: 1fr; }
+      .scenario-sidebar { border-left: none; border-top: 1px solid var(--pages-neutral-6, #30363d); }
+    }
   `;
 }

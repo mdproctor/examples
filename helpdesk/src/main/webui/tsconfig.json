@@ -8,7 +8,23 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@casehubio/blocks-ui-kpi-metric-row": ["../../../../../blocks-ui/components/kpi-metric-row/src"],
+      "@casehubio/blocks-ui-blocks-timeline": ["../../../../../blocks-ui/components/blocks-timeline/src"],
+      "@casehubio/blocks-ui-blocks-timeline/*": ["../../../../../blocks-ui/components/blocks-timeline/src/*"],
+      "@casehubio/blocks-ui-core": ["../../../../../blocks-ui/packages/blocks-ui-core/src"],
+      "@casehubio/pages-component": ["../../../../../pages/packages/pages-component/src"],
+      "@casehubio/pages-component/*": ["../../../../../pages/packages/pages-component/src/*"],
+      "@casehubio/pages-data": ["../../../../../pages/packages/pages-data/src"],
+      "@casehubio/pages-data/*": ["../../../../../pages/packages/pages-data/src/*"],
+      "@casehubio/pages-table": ["../../../../../pages/packages/pages-table/src"],
+      "@casehubio/pages-primitives": ["../../../../../pages/packages/pages-primitives/src"],
+      "@casehubio/pages-primitives/*": ["../../../../../pages/packages/pages-primitives/src/*"],
+      "@casehubio/pages-ui-tokens": ["../../../../../pages/packages/pages-ui-tokens/src"],
+      "@casehubio/pages-ui-tokens/*": ["../../../../../pages/packages/pages-ui-tokens/src/*"],
+      "@casehubio/pages-ui-components": ["../../../../../pages/packages/pages-ui-components/src"]
+    }
   },
   "include": ["src"]
 }
