@@ -390,66 +390,81 @@ export class HelpdeskApp extends LitElement {
           </div>
 
           <div class="info-body">
-            <p class="info-intro">This helpdesk dashboard is built entirely from CaseHub platform components.
-            Every update you see arrives via WebSocket push — there is zero polling.</p>
+            <p class="info-intro">This helpdesk is a working application built on the CaseHub platform.
+            It shows how the platform's strategic capabilities compose to solve a real problem —
+            every update arrives via push, every integration point is swappable, and the same
+            scenario that drives this demo also runs as an automated test.</p>
 
             <div class="info-section">
-              <h3>Architecture</h3>
+              <h3>What happens when you submit a message</h3>
               <div class="info-flow">
-                <span class="flow-step">Scenario action</span>
+                <span class="flow-step">Chat message</span>
                 <span class="flow-arrow">&rarr;</span>
-                <span class="flow-step">REST API</span>
+                <span class="flow-step">Qhorus channel</span>
                 <span class="flow-arrow">&rarr;</span>
-                <span class="flow-step">CDI events</span>
+                <span class="flow-step">Work item created</span>
                 <span class="flow-arrow">&rarr;</span>
-                <span class="flow-step">EventBroadcaster</span>
+                <span class="flow-step">Classified</span>
                 <span class="flow-arrow">&rarr;</span>
-                <span class="flow-step">WebSocket</span>
+                <span class="flow-step">Assigned</span>
                 <span class="flow-arrow">&rarr;</span>
-                <span class="flow-step">Dashboard</span>
+                <span class="flow-step">Dashboard updates</span>
               </div>
+              <p style="margin-top: 10px;">The entire chain completes in milliseconds. Each stage transition fires
+              an event that the push layer broadcasts to all connected browsers in real time.</p>
             </div>
 
             <div class="info-section">
-              <h3>Component Map</h3>
+              <h3>Platform capabilities</h3>
               <div class="info-grid">
                 <div class="info-card">
-                  <div class="info-card-label">KPI Metrics</div>
-                  <div class="info-card-component">blocks-kpi-metric-row</div>
-                  <div class="info-card-detail">Push topic: <code>helpdesk:metrics</code></div>
+                  <div class="info-card-label">Blocks</div>
+                  <div class="info-card-component">Composable case management</div>
+                  <div class="info-card-detail">This helpdesk is assembled from platform blocks —
+                  ticket creation, classification, assignment, notification. Each block
+                  encapsulates one capability with an SPI boundary. Compose different
+                  blocks for different domains: insurance claims, patient intake, incident response.</div>
                 </div>
                 <div class="info-card">
-                  <div class="info-card-label">Ticket Table</div>
-                  <div class="info-card-component">pages-data-table</div>
-                  <div class="info-card-detail">Push topic: <code>helpdesk:tickets</code></div>
+                  <div class="info-card-label">Work</div>
+                  <div class="info-card-component">Work item lifecycle</div>
+                  <div class="info-card-detail">Each ticket follows a managed lifecycle: created &rarr; classified &rarr;
+                  assigned &rarr; resolved. Status transitions, assignment rules, and resolution
+                  tracking — the same patterns that power queues, SLAs, and routing at scale.</div>
                 </div>
                 <div class="info-card">
-                  <div class="info-card-label">Pipeline</div>
-                  <div class="info-card-component">blocks-timeline</div>
-                  <div class="info-card-detail">Strategy: <code>HelpdeskPipelineStrategy</code></div>
+                  <div class="info-card-label">Qhorus</div>
+                  <div class="info-card-component">Agent channels &amp; message routing</div>
+                  <div class="info-card-detail">Chat messages arrive through a Qhorus channel connector.
+                  The platform routes them to the ticket handler — the same channel abstraction
+                  that supports Slack, Teams, email, or multi-agent collaboration.</div>
                 </div>
                 <div class="info-card">
-                  <div class="info-card-label">Notifications</div>
-                  <div class="info-card-component">EventStreamController</div>
-                  <div class="info-card-detail">Push topic: <code>helpdesk:notifications</code></div>
+                  <div class="info-card-label">Engine</div>
+                  <div class="info-card-component">Scenario-driven orchestration</div>
+                  <div class="info-card-detail">The scenario engine bootstraps SPIs, injects events, and verifies
+                  outcomes. The same scenario file drives this interactive demo and runs
+                  as an automated test in CI — one format, two purposes.</div>
                 </div>
               </div>
             </div>
 
             <div class="info-section">
-              <h3>Push Connection</h3>
-              <p>Three <code>EventStreamController</code> instances share a single WebSocket via <code>EventStreamPool</code>.
-              Each controller subscribes to one topic. The pool multiplexes all subscriptions over one connection
-              using the <strong>pages-push</strong> wire protocol (<code>listen</code>/<code>unlisten</code> with
-              sequence-numbered replay on reconnect).</p>
+              <h3>SPIs — everything is swappable</h3>
+              <p>The ticket classifier, notification sender, and chat connector are all
+              <strong>Service Provider Interfaces</strong>. This demo loads lightweight demo
+              implementations at bootstrap. In production, swap them for ML classifiers,
+              real notification channels, and production chat platforms — the application
+              code doesn't change. The platform provides the integration surface;
+              you provide the implementation.</p>
             </div>
 
             <div class="info-section">
-              <h3>Scenario Engine</h3>
-              <p>The scenario controller drives the demo step-by-step via REST, then <em>observes</em>
-              push events to track automated stages (classify, assign). It uses temporal
-              correlation — recording event history length before each action and watching for
-              new events beyond that index.</p>
+              <h3>Real-time push — no polling</h3>
+              <p>A single WebSocket connection carries all event topics (tickets, metrics,
+              notifications). The dashboard subscribes to the topics it cares about and
+              reacts to events as they arrive. Disconnect your network and reconnect —
+              missed events replay automatically via sequence-numbered cursors.</p>
             </div>
           </div>
         </div>
