@@ -78,6 +78,7 @@ export class HelpdeskApp extends LitElement {
   @state() private _scenarioRunning = false;
   @state() private _scenarioStatus = '';
   @state() private _standalone = false;
+  @state() private _showInfo = false;
 
   // Track ticket IDs for resolve action in scenario
   private _trackedTicketIds: string[] = [];
@@ -260,10 +261,13 @@ export class HelpdeskApp extends LitElement {
       <header>
         <h1>IT Help Desk</h1>
         <span class="subtitle">CaseHub Example — Scenario-Driven Demo</span>
+        <button class="info-btn" @click=${() => { this._showInfo = true; }} title="How this works">?</button>
         <span class="connection-status ${this._ticketPush.status}">
           ${this._ticketPush.status}
         </span>
       </header>
+
+      ${this._showInfo ? this._renderInfoOverlay() : nothing}
 
       <div class="split-layout">
         <div class="dashboard">
@@ -372,6 +376,83 @@ export class HelpdeskApp extends LitElement {
             </div>
           </div>
         ` : nothing}
+      </div>
+    `;
+  }
+
+  private _renderInfoOverlay() {
+    return html`
+      <div class="info-overlay" @click=${() => { this._showInfo = false; }}>
+        <div class="info-content" @click=${(e: Event) => e.stopPropagation()}>
+          <div class="info-header">
+            <h2 style="color: var(--pages-neutral-12); font-size: 16px; text-transform: none; letter-spacing: normal;">How This Demo Works</h2>
+            <button class="info-close" @click=${() => { this._showInfo = false; }}>&times;</button>
+          </div>
+
+          <div class="info-body">
+            <p class="info-intro">This helpdesk dashboard is built entirely from CaseHub platform components.
+            Every update you see arrives via WebSocket push — there is zero polling.</p>
+
+            <div class="info-section">
+              <h3>Architecture</h3>
+              <div class="info-flow">
+                <span class="flow-step">Scenario action</span>
+                <span class="flow-arrow">&rarr;</span>
+                <span class="flow-step">REST API</span>
+                <span class="flow-arrow">&rarr;</span>
+                <span class="flow-step">CDI events</span>
+                <span class="flow-arrow">&rarr;</span>
+                <span class="flow-step">EventBroadcaster</span>
+                <span class="flow-arrow">&rarr;</span>
+                <span class="flow-step">WebSocket</span>
+                <span class="flow-arrow">&rarr;</span>
+                <span class="flow-step">Dashboard</span>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3>Component Map</h3>
+              <div class="info-grid">
+                <div class="info-card">
+                  <div class="info-card-label">KPI Metrics</div>
+                  <div class="info-card-component">blocks-kpi-metric-row</div>
+                  <div class="info-card-detail">Push topic: <code>helpdesk:metrics</code></div>
+                </div>
+                <div class="info-card">
+                  <div class="info-card-label">Ticket Table</div>
+                  <div class="info-card-component">pages-data-table</div>
+                  <div class="info-card-detail">Push topic: <code>helpdesk:tickets</code></div>
+                </div>
+                <div class="info-card">
+                  <div class="info-card-label">Pipeline</div>
+                  <div class="info-card-component">blocks-timeline</div>
+                  <div class="info-card-detail">Strategy: <code>HelpdeskPipelineStrategy</code></div>
+                </div>
+                <div class="info-card">
+                  <div class="info-card-label">Notifications</div>
+                  <div class="info-card-component">EventStreamController</div>
+                  <div class="info-card-detail">Push topic: <code>helpdesk:notifications</code></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3>Push Connection</h3>
+              <p>Three <code>EventStreamController</code> instances share a single WebSocket via <code>EventStreamPool</code>.
+              Each controller subscribes to one topic. The pool multiplexes all subscriptions over one connection
+              using the <strong>pages-push</strong> wire protocol (<code>listen</code>/<code>unlisten</code> with
+              sequence-numbered replay on reconnect).</p>
+            </div>
+
+            <div class="info-section">
+              <h3>Scenario Engine</h3>
+              <p>The scenario controller drives the demo step-by-step via REST, then <em>observes</em>
+              push events to track automated stages (classify, assign). It uses temporal
+              correlation — recording event history length before each action and watching for
+              new events beyond that index.</p>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   }
@@ -515,9 +596,88 @@ export class HelpdeskApp extends LitElement {
     .standalone { min-height: 100vh; background: var(--pages-neutral-1, #0f1117); }
     .standalone .scenario-panel { max-width: 480px; margin: 0 auto; }
 
+    /* Info button */
+    .info-btn {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--pages-neutral-6, #30363d);
+      background: transparent;
+      color: var(--pages-neutral-9, #8b949e);
+      font-size: 14px; font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--pages-duration-fast, 120ms) ease;
+    }
+    .info-btn:hover { border-color: var(--pages-accent-9, #58a6ff); color: var(--pages-accent-9, #58a6ff); }
+
+    /* Info overlay */
+    .info-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      animation: fade-in var(--pages-duration-fast, 120ms) ease;
+    }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+    .info-content {
+      background: var(--pages-neutral-2, #161b22);
+      border: 1px solid var(--pages-neutral-6, #30363d);
+      border-radius: var(--pages-radius-md, 6px);
+      max-width: 640px; width: 100%;
+      max-height: 80vh; overflow-y: auto;
+    }
+    .info-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--pages-neutral-6, #30363d);
+    }
+    .info-close {
+      background: none; border: none; color: var(--pages-neutral-9, #8b949e);
+      font-size: 24px; cursor: pointer; padding: 0 4px;
+    }
+    .info-close:hover { color: var(--pages-neutral-12, #e6edf3); }
+    .info-body { padding: 20px; }
+    .info-intro { font-size: 14px; color: var(--pages-neutral-11, #c9d1d9); line-height: 1.6; margin: 0 0 20px; }
+    .info-section { margin-bottom: 20px; }
+    .info-section h3 {
+      font-size: 13px; font-weight: 600; color: var(--pages-accent-9, #58a6ff);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin: 0 0 10px; padding-bottom: 6px;
+      border-bottom: 1px solid var(--pages-neutral-6, #30363d);
+    }
+    .info-section p { font-size: 13px; color: var(--pages-neutral-10, #b1bac4); line-height: 1.6; margin: 0; }
+    .info-section code {
+      font-family: 'SF Mono', Menlo, monospace; font-size: 12px;
+      background: var(--pages-neutral-3, #1c2128); padding: 1px 5px;
+      border-radius: 3px; color: var(--pages-accent-9, #58a6ff);
+    }
+
+    .info-flow {
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+      padding: 12px; background: var(--pages-neutral-3, #1c2128);
+      border-radius: var(--pages-radius-sm, 4px);
+    }
+    .flow-step {
+      font-size: 12px; font-weight: 500; padding: 4px 10px;
+      background: var(--pages-neutral-4, #21262d); border-radius: 4px;
+      color: var(--pages-neutral-12, #e6edf3);
+    }
+    .flow-arrow { color: var(--pages-neutral-8, #6e7681); font-size: 14px; }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .info-card {
+      background: var(--pages-neutral-3, #1c2128); border-radius: var(--pages-radius-sm, 4px);
+      padding: 12px; border-left: 3px solid var(--pages-accent-9, #58a6ff);
+    }
+    .info-card-label { font-size: 12px; font-weight: 600; color: var(--pages-neutral-12, #e6edf3); margin-bottom: 4px; }
+    .info-card-component { font-size: 12px; font-family: 'SF Mono', Menlo, monospace; color: var(--pages-accent-9, #58a6ff); margin-bottom: 4px; }
+    .info-card-detail { font-size: 11px; color: var(--pages-neutral-9, #8b949e); }
+
     @media (max-width: 900px) {
       .split-layout { grid-template-columns: 1fr; }
       .scenario-sidebar { border-left: none; border-top: 1px solid var(--pages-neutral-6, #30363d); }
+      .info-grid { grid-template-columns: 1fr; }
     }
   `;
 }
