@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CaseHub — Learn the Platform</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1117; color: #e6edf3;
+      line-height: 1.6;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+
+    header { text-align: center; margin-bottom: 48px; }
+    header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    header p { font-size: 15px; color: #8b949e; max-width: 600px; margin: 0 auto; }
+
+    .nav-tabs {
+      display: flex; gap: 0; border-bottom: 1px solid #30363d; margin-bottom: 32px;
+    }
+    .nav-tab {
+      padding: 10px 20px; cursor: pointer; font-size: 13px; font-weight: 600;
+      color: #8b949e; border-bottom: 2px solid transparent;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nav-tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+    .nav-tab:hover { color: #c9d1d9; }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .group { margin-bottom: 36px; }
+    .group-header {
+      font-size: 12px; font-weight: 600; color: #58a6ff;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      padding-bottom: 8px; border-bottom: 1px solid #21262d;
+      margin-bottom: 16px;
+    }
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .card {
+      background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+      padding: 16px; border-left: 3px solid #58a6ff;
+      transition: border-color 0.15s ease;
+    }
+    .card:hover { border-left-color: #79c0ff; }
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .card-domain {
+      font-size: 11px; color: #8b949e; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 8px;
+    }
+    .card-desc { font-size: 13px; color: #b1bac4; }
+    .card-tags { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; padding: 2px 8px; border-radius: 12px;
+      background: #21262d; color: #8b949e;
+    }
+    .tag.pattern { background: rgba(88, 166, 255, 0.1); color: #58a6ff; }
+    .tag.capability { background: rgba(63, 185, 80, 0.1); color: #3fb950; }
+
+    .status {
+      display: inline-block; font-size: 11px; padding: 2px 8px;
+      border-radius: 12px; margin-left: 8px; vertical-align: middle;
+    }
+    .status.live { background: rgba(63, 185, 80, 0.15); color: #3fb950; }
+    .status.planned { background: rgba(210, 153, 34, 0.15); color: #d29922; }
+    .status.future { background: rgba(139, 148, 158, 0.15); color: #8b949e; }
+
+    .stats {
+      display: flex; gap: 24px; justify-content: center;
+      margin-bottom: 40px; padding: 20px;
+      background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+    }
+    .stat { text-align: center; }
+    .stat-value { font-size: 28px; font-weight: 700; }
+    .stat-label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    footer {
+      text-align: center; margin-top: 48px; padding-top: 24px;
+      border-top: 1px solid #21262d; font-size: 13px; color: #8b949e;
+    }
+    footer a { color: #58a6ff; text-decoration: none; }
+
+    @media (max-width: 640px) {
+      .cards { grid-template-columns: 1fr; }
+      .stats { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>CaseHub — Learn the Platform</h1>
+      <p>Progressive teaching slices. Each slice demonstrates one agentic-AI pattern
+        in a different domain. Thin enough to understand in isolation, composable
+        enough to see the full picture.</p>
+    </header>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">88</div>
+        <div class="stat-label">Patterns</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">13</div>
+        <div class="stat-label">Slices</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">13</div>
+        <div class="stat-label">Domains</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Composable SPIs</div>
+      </div>
+    </div>
+
+    <div class="nav-tabs">
+      <div class="nav-tab active" onclick="switchTab('patterns')">By Pattern</div>
+      <div class="nav-tab" onclick="switchTab('capabilities')">By Capability</div>
+    </div>
+
+    <!-- BY PATTERN -->
+    <div id="tab-patterns" class="tab-content active">
+
+      <div class="group">
+        <div class="group-header">Orchestration Patterns</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">SEQUENCE + CONDITIONAL <span class="status live">Live</span></div>
+            <div class="card-domain">IT Helpdesk</div>
+            <div class="card-desc">Linear case flow with conditional routing. AI classifies, engine routes to auto-resolve or human queue.</div>
+            <div class="card-tags">
+              <span class="tag pattern">SEQUENCE</span>
+              <span class="tag pattern">CONDITIONAL</span>
+              <span class="tag capability">Cases</span>
+              <span class="tag capability">Workers</span>
+              <span class="tag capability">Work Items</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">SUPERVISOR + Oversight <span class="status planned">Planned</span></div>
+            <div class="card-domain">Incident Response (Security)</div>
+            <div class="card-desc">LLM-selected routing with trust scoring and human approval gates for high-risk actions.</div>
+            <div class="card-tags">
+              <span class="tag pattern">SUPERVISOR</span>
+              <span class="tag pattern">Oversight Gate</span>
+              <span class="tag capability">Trust</span>
+              <span class="tag capability">Routing</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">HTN + GOAP Decomposition <span class="status planned">Planned</span></div>
+            <div class="card-domain">Construction Planning (Engineering)</div>
+            <div class="card-desc">Hierarchical task decomposition with goal-oriented planning. Complex projects broken into dependent sub-tasks.</div>
+            <div class="card-tags">
+              <span class="tag pattern">HTN</span>
+              <span class="tag pattern">GOAP</span>
+              <span class="tag capability">Decomposition</span>
+              <span class="tag capability">Compound Plans</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Pipeline + M-of-N Gates <span class="status planned">Planned</span></div>
+            <div class="card-domain">Loan Application (Financial)</div>
+            <div class="card-desc">Regulated stage pipeline with multi-approver sign-off. Each stage requires M-of-N approval before proceeding.</div>
+            <div class="card-tags">
+              <span class="tag pattern">Pipeline</span>
+              <span class="tag pattern">M-of-N</span>
+              <span class="tag capability">Oversight</span>
+              <span class="tag capability">Compliance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">Conversation &amp; Deliberation Patterns</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">DEBATE + Convergence <span class="status planned">Planned</span></div>
+            <div class="card-domain">Code Review (Software)</div>
+            <div class="card-desc">Multi-agent debate with epistemic common ground tracking and convergence detection.</div>
+            <div class="card-tags">
+              <span class="tag pattern">DEBATE</span>
+              <span class="tag pattern">VOTING</span>
+              <span class="tag capability">Speech Acts</span>
+              <span class="tag capability">Convergence</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Negotiation + Contract Net <span class="status future">Future</span></div>
+            <div class="card-domain">Procurement (Supply Chain)</div>
+            <div class="card-desc">Agents exchange proposals and counter-proposals. Commitment lifecycle tracks agreement.</div>
+            <div class="card-tags">
+              <span class="tag pattern">Contract Net</span>
+              <span class="tag pattern">Negotiation</span>
+              <span class="tag capability">Commitments</span>
+              <span class="tag capability">Obligations</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">Coordination Patterns</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Agent Mesh + Channels <span class="status planned">Planned</span></div>
+            <div class="card-domain">Factory Floor (Manufacturing)</div>
+            <div class="card-desc">Work/observe/oversight channel layout with active, reactive, and silent agent participation.</div>
+            <div class="card-tags">
+              <span class="tag pattern">Agent Mesh</span>
+              <span class="tag pattern">Affordances</span>
+              <span class="tag capability">Channels</span>
+              <span class="tag capability">Disposition</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Peer Review + Maker-Checker <span class="status planned">Planned</span></div>
+            <div class="card-domain">Recruitment Pipeline (HR)</div>
+            <div class="card-desc">Multiple independent assessors evaluate candidates. Two-stage validation with competitive selection.</div>
+            <div class="card-tags">
+              <span class="tag pattern">Peer Review</span>
+              <span class="tag pattern">Maker-Checker</span>
+              <span class="tag capability">Parallel Eval</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">Operational Patterns</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Tiered Summarisation <span class="status planned">Planned</span></div>
+            <div class="card-domain">Shipment Tracking (Logistics)</div>
+            <div class="card-desc">Per-shipment → per-route → fleet-wide summarisation. Volume-adaptive rendering across operational tiers.</div>
+            <div class="card-tags">
+              <span class="tag pattern">Summarisation</span>
+              <span class="tag pattern">Observation</span>
+              <span class="tag capability">LLM Context</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Resilient Execution <span class="status planned">Planned</span></div>
+            <div class="card-domain">Patient Referral (Healthcare)</div>
+            <div class="card-desc">Fault tolerance with DLQ, retry, and escalation chains. Can't drop patients — progressive recovery.</div>
+            <div class="card-tags">
+              <span class="tag pattern">DLQ</span>
+              <span class="tag pattern">Escalation</span>
+              <span class="tag capability">Resilience</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Accountability Chain <span class="status planned">Planned</span></div>
+            <div class="card-domain">Insurance Claim (Regulatory)</div>
+            <div class="card-desc">EU AI Act Art.12 tamper-evident audit. Every decision traceable through EventLog + Ledger + Metrics.</div>
+            <div class="card-tags">
+              <span class="tag pattern">Art.12 Ledger</span>
+              <span class="tag pattern">Audit</span>
+              <span class="tag capability">Compliance</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Watchdog Monitoring <span class="status planned">Planned</span></div>
+            <div class="card-domain">Ops Monitoring (Platform)</div>
+            <div class="card-desc">11 watchdog conditions monitoring the platform itself. System-wide summarisation and queue health.</div>
+            <div class="card-tags">
+              <span class="tag pattern">Watchdog</span>
+              <span class="tag capability">Queue Health</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Desired State Reconciliation <span class="status planned">Planned</span></div>
+            <div class="card-domain">Kubernetes Deployment (Infrastructure)</div>
+            <div class="card-desc">Declare desired state, detect drift, reconcile, report. Ops coordination for distributed deployments.</div>
+            <div class="card-tags">
+              <span class="tag pattern">Desired State</span>
+              <span class="tag pattern">Drift Detection</span>
+              <span class="tag capability">Reconciliation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BY CAPABILITY -->
+    <div id="tab-capabilities" class="tab-content">
+
+      <div class="group">
+        <div class="group-header">Cases &amp; Engine</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">CaseDefinition YAML</div>
+            <div class="card-desc">Declarative case definitions — capabilities, bindings, workers, goals, milestones, completion conditions.</div>
+            <div class="card-tags"><span class="tag">Helpdesk</span> <span class="tag">All slices</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Bindings &amp; Triggers</div>
+            <div class="card-desc">contextChange triggers with JQ filter guards. Declarative wiring from events to capabilities.</div>
+            <div class="card-tags"><span class="tag">Helpdesk</span> <span class="tag">Incident Response</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">Workers &amp; Routing</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">AI Workers</div>
+            <div class="card-desc">Function, Agent (LLM), and Workflow (Serverless) workers — all dispatched through the same mechanism.</div>
+            <div class="card-tags"><span class="tag">Helpdesk</span> <span class="tag">Code Review</span> <span class="tag">Incident Response</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Trust &amp; Routing</div>
+            <div class="card-desc">Composable routing signals — trust, workload, experience, personality, semantic, CBR. Bayesian trust scoring.</div>
+            <div class="card-tags"><span class="tag">Incident Response</span> <span class="tag">Factory Floor</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">Work Items &amp; Queues</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Work Item Lifecycle</div>
+            <div class="card-desc">12 states, 26 event types. Claim, delegate, escalate, suspend, resume. SLA deadlines and breach policies.</div>
+            <div class="card-tags"><span class="tag">Helpdesk</span> <span class="tag">Loan Application</span> <span class="tag">Recruitment</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Queues &amp; Assignment</div>
+            <div class="card-desc">Label-based queue views, capability matching, candidate pools. Three inbox perspectives: my-work, claimable, all.</div>
+            <div class="card-tags"><span class="tag">Helpdesk</span> <span class="tag">Ops Monitoring</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">Channels &amp; Speech Acts</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Speech Acts &amp; Commitments</div>
+            <div class="card-desc">9 message types, 7-state commitment lifecycle. Obligation tracking with temporal enforcement.</div>
+            <div class="card-tags"><span class="tag">Code Review</span> <span class="tag">Procurement</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Channel Semantics</div>
+            <div class="card-desc">APPEND, COLLECT, BARRIER, EPHEMERAL, LAST_WRITE. Five semantic modes for different coordination needs.</div>
+            <div class="card-tags"><span class="tag">Factory Floor</span> <span class="tag">Code Review</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">Oversight &amp; Compliance</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Oversight Gates</div>
+            <div class="card-desc">ActionRiskClassifier, M-of-N quorum approval. Graduated autonomy via trust maturity phases.</div>
+            <div class="card-tags"><span class="tag">Incident Response</span> <span class="tag">Loan Application</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Accountability &amp; Audit</div>
+            <div class="card-desc">EventLog, Ledger (EU AI Act Art.12), OpenTelemetry metrics. Full traceability of every AI decision.</div>
+            <div class="card-tags"><span class="tag">Insurance Claim</span> <span class="tag">Incident Response</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <p>Pattern catalog: <a href="https://github.com/casehubio/blocks/blob/main/docs/pattern-catalog.md">blocks/docs/pattern-catalog.md</a></p>
+      <p style="margin-top: 8px;">88 patterns (38 explicit + 38 compositional + 6 partial + 6 gaps) across FIPA, BDI, argumentation, deontic logic, CSCW, game theory, and LLM multi-agent frameworks.</p>
+    </footer>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+      document.getElementById(`tab-${tab}`).classList.add('active');
+    }
+  </script>
+</body>
+</html>
