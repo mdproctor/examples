@@ -24,21 +24,10 @@ spec:
     - name: keyword-classifier
       description: "Classifies tickets by keyword matching against bootstrapped data"
       capabilities: [ classify-ticket ]
-      do:
-        - classify:
-            call: classify-ticket
-            with:
-              text: "${ .text }"
 
     - name: notification-sender
       description: "Sends customer notification via chat platform"
       capabilities: [ notify-customer ]
-      do:
-        - send:
-            call: notify-customer
-            with:
-              customerRef: "${ .customerRef }"
-              message: "${ .message }"
 
   bindings:
     - name: triage

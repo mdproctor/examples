@@ -1,12 +1,14 @@
 package io.casehub.examples.helpdesk.engine;
 
 import io.casehub.engine.flow.CallableDispatcher;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@ApplicationScoped
 public class KeywordClassifierDispatcher implements CallableDispatcher {
 
     private final List<ClassificationEntry> entries = new CopyOnWriteArrayList<>();
