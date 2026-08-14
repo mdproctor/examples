@@ -1,32 +1,20 @@
 package io.casehub.examples.helpdesk.push;
 
+import io.casehub.engine.common.spi.cache.CaseInstanceCache;
 import io.casehub.examples.helpdesk.NotificationService;
-import io.casehub.examples.helpdesk.TicketService;
 import io.casehub.examples.helpdesk.event.NotificationEvent;
-import io.casehub.examples.helpdesk.event.TicketEvent;
-import io.casehub.examples.helpdesk.model.TicketStatus;
 import io.casehub.pages.push.EventBroadcaster;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-
 import java.util.Map;
-import java.util.Set;
 
 @ApplicationScoped
 public class TicketPushObserver {
 
-    private static final Set<TicketStatus> OPEN_STATUSES =
-            Set.of(TicketStatus.OPEN, TicketStatus.TRIAGED, TicketStatus.ASSIGNED);
-
     @Inject EventBroadcaster broadcaster;
-    @Inject TicketService ticketService;
+    @Inject CaseInstanceCache caseInstanceCache;
     @Inject NotificationService notificationService;
-
-    void onTicketEvent(@Observes TicketEvent event) {
-        broadcaster.broadcast("helpdesk:tickets", event);
-        broadcastMetrics();
-    }
 
     void onNotification(@Observes NotificationEvent event) {
         broadcaster.broadcast("helpdesk:notifications", event);
@@ -34,14 +22,20 @@ public class TicketPushObserver {
     }
 
     private void broadcastMetrics() {
-        var all = ticketService.findAll();
-        long open = all.stream().filter(t -> OPEN_STATUSES.contains(t.status())).count();
-        long resolved = all.stream().filter(t -> t.status() == TicketStatus.RESOLVED
-                || t.status() == TicketStatus.CLOSED).count();
+        var cases = caseInstanceCache.getAll().stream()
+                .filter(i -> i.getCaseMetaModel() != null
+                        && "helpdesk-ticket".equals(i.getCaseMetaModel().getName()))
+                .toList();
+        long total = cases.size();
+        long resolved = cases.stream()
+                .filter(i -> {
+                    var ctx = i.getCaseContext();
+                    return ctx != null && "RESOLVED".equals(ctx.get("status"));
+                }).count();
         long notified = notificationService.getSentNotifications().size();
         broadcaster.broadcast("helpdesk:metrics", Map.of(
-                "total", all.size(),
-                "open", open,
+                "total", total,
+                "open", total - resolved,
                 "resolved", resolved,
                 "notified", notified
         ));
