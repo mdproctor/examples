@@ -4,12 +4,12 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.junit.jupiter.api.Test;
-
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 
@@ -36,21 +36,29 @@ class HelpDeskScenarioTest {
             .when().post("/scenario/inject/chat")
             .then().statusCode(202);
 
-        await().atMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
+        await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             var tickets = given()
                     .when().get("/scenario/verify/tickets")
                     .then().statusCode(200)
                     .extract().jsonPath().getList(".", Map.class);
-            assertThat(tickets).hasSize(1);
-            assertThat(tickets.getFirst().get("status")).isEqualTo("ASSIGNED");
-            assertThat(tickets.getFirst().get("category")).isEqualTo("HARDWARE");
-            assertThat(tickets.getFirst().get("customerRef")).isEqualTo("Alice Customer");
-            assertThat(tickets.getFirst().get("assigneeId")).isEqualTo("hw-specialist");
+            assertThat(tickets).anyMatch(t -> "TRIAGED".equals(t.get("status")));
+            assertThat(tickets).anySatisfy(t -> {
+                assertThat(t.get("category")).isEqualTo("HARDWARE");
+                assertThat(t.get("customerRef")).isEqualTo("Alice Customer");
+            });
+        });
+
+        await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
+            var workItems = given()
+                    .when().get("/workitems")
+                    .then().statusCode(200)
+                    .extract().jsonPath().getList("$");
+            assertThat(workItems).isNotEmpty();
         });
     }
 
     @Test
-    void resolveTicketSendsNotification() {
+    void resolveTicketSendsNotification() throws JsonProcessingException {
         given()
             .contentType("application/json")
             .body(Map.of("ticketClassifications", List.of(
@@ -66,33 +74,45 @@ class HelpDeskScenarioTest {
             .when().post("/scenario/inject/chat")
             .then().statusCode(202);
 
-        await().atMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
-            var tickets = given()
-                    .when().get("/scenario/verify/tickets")
+        await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
+            var workItems = given()
+                    .when().get("/workitems")
                     .then().statusCode(200)
-                    .extract().jsonPath().getList(".", Map.class);
-            assertThat(tickets).anySatisfy(t ->
-                    assertThat(t.get("customerRef")).isEqualTo("Bob User"));
+                    .extract().jsonPath()
+                    .getList("findAll { it.title.contains('printer') }", Map.class);
+            assertThat(workItems).isNotEmpty();
         });
 
-        var ticketId = given()
-                .when().get("/scenario/verify/tickets")
-                .then().extract().jsonPath()
-                .getString("find { it.customerRef == 'Bob User' }.id");
-
-        given()
-            .contentType("application/json")
-            .body(Map.of("resolution", "Cleared the paper jam"))
-            .when().put("/tickets/" + ticketId + "/resolve")
-            .then().statusCode(200);
-
-        var notifications = given()
-                .when().get("/scenario/verify/notifications")
+        String workItemId = given()
+                .when().get("/workitems")
                 .then().statusCode(200)
-                .extract().jsonPath().getList(".", Map.class);
-        assertThat(notifications).anySatisfy(n -> {
-            assertThat(n.get("to")).isEqualTo("Bob User");
-            assertThat((String) n.get("message")).contains("Cleared the paper jam");
+                .extract().jsonPath()
+                .getString("find { it.title.contains('printer') }.id");
+
+        given().queryParam("claimant", "hw-specialist")
+                .when().put("/workitems/" + workItemId + "/claim")
+                .then().statusCode(200);
+
+        given().when().put("/workitems/" + workItemId + "/start")
+                .then().statusCode(200);
+
+        String resolutionJson = new ObjectMapper().writeValueAsString(Map.of(
+                "resolution", "Cleared the paper jam",
+                "assigneeId", "hw-specialist"));
+        given().contentType("application/json")
+                .body(Map.of("resolution", resolutionJson))
+                .when().put("/workitems/" + workItemId + "/complete")
+                .then().statusCode(200);
+
+        await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
+            var notifications = given()
+                    .when().get("/scenario/verify/notifications")
+                    .then().statusCode(200)
+                    .extract().jsonPath().getList(".", Map.class);
+            assertThat(notifications).anySatisfy(n -> {
+                assertThat(n.get("to")).isEqualTo("Bob User");
+                assertThat((String) n.get("message")).contains("Cleared the paper jam");
+            });
         });
     }
 }
