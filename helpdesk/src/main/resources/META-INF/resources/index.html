@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT Help Desk — CaseHub Example</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+
+    .header { background: #1e293b; padding: 0.75rem 2rem; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 1.1rem; color: #38bdf8; }
+    .header nav { display: flex; gap: 0.25rem; }
+    .header nav a { padding: 0.4rem 1rem; border-radius: 0.375rem; color: #94a3b8; text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: all 0.15s; }
+    .header nav a:hover { color: #e2e8f0; background: #334155; }
+    .header nav a.active { color: #38bdf8; background: #0f172a; }
+    .badge { background: #334155; padding: 0.2rem 0.6rem; border-radius: 1rem; font-size: 0.7rem; color: #94a3b8; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem; }
+
+    /* ── Submit page ── */
+    .submit-layout { max-width: 560px; margin: 2rem auto; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; padding: 1.5rem; }
+    .card h2 { color: #38bdf8; font-size: 1rem; margin-bottom: 1rem; }
+    label { display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.25rem; }
+    input, textarea { width: 100%; padding: 0.5rem 0.625rem; background: #0f172a; border: 1px solid #334155; border-radius: 0.375rem; color: #e2e8f0; margin-bottom: 0.75rem; font-family: inherit; font-size: 0.875rem; }
+    textarea { height: 80px; resize: vertical; }
+    input:focus, textarea:focus { outline: none; border-color: #38bdf8; }
+    .form-actions { display: flex; gap: 0.5rem; margin-top: 0.25rem; }
+
+    /* ── Buttons ── */
+    button { padding: 0.5rem 1.25rem; border-radius: 0.375rem; border: none; font-weight: 600; cursor: pointer; font-size: 0.8rem; transition: all 0.15s; position: relative; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    button[aria-busy="true"] { color: transparent; }
+    button[aria-busy="true"]::after { content: ''; position: absolute; inset: 0; margin: auto; width: 1rem; height: 1rem; border: 2px solid transparent; border-top-color: currentColor; border-radius: 50%; animation: spin 0.6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+    .btn-primary[aria-busy="true"]::after { border-top-color: white; }
+    .btn-secondary { background: #334155; color: #e2e8f0; }
+    .btn-secondary:hover:not(:disabled) { background: #475569; }
+    .btn-sm { padding: 0.25rem 0.75rem; font-size: 0.75rem; }
+    .btn-success { background: #16a34a; color: white; }
+    .btn-success:hover:not(:disabled) { background: #15803d; }
+
+    /* ── Ops page ── */
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+    .metric { background: #1e293b; border: 1px solid #334155; border-radius: 0.375rem; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .metric .label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+    .metric .value { font-size: 1.5rem; font-weight: 700; color: #38bdf8; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } .metrics { grid-template-columns: repeat(2, 1fr); } }
+
+    .section { background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; padding: 1rem 1.25rem; }
+    .section h3 { color: #38bdf8; font-size: 0.85rem; margin-bottom: 0.75rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 0.4rem 0.5rem; color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #334155; }
+    td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #1e293b; font-size: 0.8rem; }
+    .status { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 0.2rem; font-size: 0.7rem; font-weight: 600; }
+    .s-RUNNING, .s-PENDING, .s-OPEN { background: #1e3a5f; color: #38bdf8; }
+    .s-COMPLETED, .s-RESOLVED { background: #14532d; color: #4ade80; }
+    .s-TRIAGED, .s-ASSIGNED, .s-IN_PROGRESS { background: #713f12; color: #fbbf24; }
+    .s-FAULTED { background: #7f1d1d; color: #fca5a5; }
+    .empty { color: #475569; text-align: center; padding: 1.5rem; font-size: 0.8rem; font-style: italic; }
+
+    .ack-detail { background: #0f172a; border-radius: 0.375rem; padding: 0.75rem 1rem; margin-top: 0.75rem; }
+    .ack-row { display: flex; gap: 1rem; padding: 0.35rem 0; }
+    .ack-row + .ack-row { border-top: 1px solid #1e293b; }
+    .ack-label { color: #64748b; font-size: 0.75rem; text-transform: uppercase; min-width: 3.5rem; padding-top: 0.1rem; }
+    .ack-row span:last-child { color: #e2e8f0; font-size: 0.875rem; }
+
+    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #16a34a; color: white; padding: 0.6rem 1.25rem; border-radius: 0.5rem; font-size: 0.8rem; transform: translateY(4rem); opacity: 0; transition: all 0.3s; z-index: 100; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>IT Help Desk</h1>
+    <nav role="navigation" aria-label="Main">
+      <a href="#submit" class="active" role="link" aria-current="page" data-page="submit">Submit Ticket</a>
+      <a href="#ops" role="link" data-page="ops">Operations</a>
+    </nav>
+    <span class="badge">CaseHub Engine + Work</span>
+  </div>
+
+  <!-- ════ Page 1: Submit Ticket ════ -->
+  <div id="submit" class="page active">
+    <div class="container">
+      <div class="submit-layout">
+        <div class="card" id="submit-form">
+          <h2>New Support Ticket</h2>
+          <label for="field-name">Your Name</label>
+          <input id="field-name" aria-label="Your name" placeholder="Alice">
+          <label for="field-issue">Describe your issue</label>
+          <textarea id="field-issue" aria-label="Issue description" placeholder="My laptop won't boot after the update"></textarea>
+          <div class="form-actions">
+            <button class="btn-primary" aria-label="Submit ticket" onclick="submitTicket(this)">Submit Ticket</button>
+            <button class="btn-secondary" aria-label="Load demo classification data" onclick="bootstrap(this)">Load Demo Data</button>
+          </div>
+        </div>
+        <div class="card" id="submit-ack" style="display:none;">
+          <h2 style="color:#4ade80;">Ticket Submitted</h2>
+          <div class="ack-detail">
+            <div class="ack-row"><span class="ack-label">From</span><span id="ack-name"></span></div>
+            <div class="ack-row"><span class="ack-label">Issue</span><span id="ack-issue"></span></div>
+          </div>
+          <p style="color:#94a3b8; font-size:0.8rem; margin:1rem 0 0.75rem;">The engine is classifying your ticket and routing it to a specialist.</p>
+          <div class="form-actions">
+            <button class="btn-primary" aria-label="View operations" onclick="document.querySelector('[data-page=ops]').click()">View Operations</button>
+            <button class="btn-secondary" aria-label="Submit another ticket" onclick="resetForm()">Submit Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ Page 2: Operations ════ -->
+  <div id="ops" class="page">
+    <div class="container">
+      <div class="metrics" role="status" aria-label="Case metrics">
+        <div class="metric"><span class="label">Total Cases</span><span class="value" id="m-total">0</span></div>
+        <div class="metric"><span class="label">Running</span><span class="value" id="m-running">0</span></div>
+        <div class="metric"><span class="label">Completed</span><span class="value" id="m-completed">0</span></div>
+        <div class="metric"><span class="label">Work Items</span><span class="value" id="m-workitems">0</span></div>
+      </div>
+
+      <div class="two-col">
+        <div class="section">
+          <h3>Work Items</h3>
+          <table aria-label="Work item queue">
+            <thead><tr><th>Title</th><th>Status</th><th>Assignee</th><th></th></tr></thead>
+            <tbody id="wi-table"></tbody>
+          </table>
+          <div class="empty" id="wi-empty">No work items yet</div>
+        </div>
+
+        <div class="section">
+          <h3>Notifications</h3>
+          <table aria-label="Customer notifications">
+            <thead><tr><th>To</th><th>Message</th><th>Sent</th></tr></thead>
+            <tbody id="notif-table"></tbody>
+          </table>
+          <div class="empty" id="notif-empty">No notifications yet</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <script>
+    const API = '';
+
+    // ── Navigation ──
+    document.querySelectorAll('[data-page]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelectorAll('[data-page]').forEach(l => { l.classList.remove('active'); l.removeAttribute('aria-current'); });
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
+        document.getElementById(link.dataset.page).classList.add('active');
+      });
+    });
+
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    async function busy(btn, fn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-busy', 'true');
+      try { await fn(); }
+      finally { btn.disabled = false; btn.removeAttribute('aria-busy'); }
+    }
+
+    async function submitTicket(btn) {
+      const name = document.getElementById('field-name').value || 'Anonymous';
+      const text = document.getElementById('field-issue').value;
+      if (!text) return toast('Please describe your issue');
+      await busy(btn, async () => {
+        await fetch(API + '/scenario/inject/chat', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ from: name, channelId: 'support', text })
+        });
+        document.getElementById('ack-name').textContent = name;
+        document.getElementById('ack-issue').textContent = text;
+        document.getElementById('submit-form').style.display = 'none';
+        document.getElementById('submit-ack').style.display = 'block';
+      });
+    }
+
+    function resetForm() {
+      document.getElementById('field-issue').value = '';
+      document.getElementById('submit-form').style.display = 'block';
+      document.getElementById('submit-ack').style.display = 'none';
+    }
+
+    async function bootstrap(btn) {
+      await busy(btn, async () => {
+        await fetch(API + '/scenario/bootstrap/helpdesk', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ticketClassifications: [
+            { match: 'laptop', category: 'HARDWARE', priority: 'HIGH' },
+            { match: 'password', category: 'ACCESS', priority: 'LOW' },
+            { match: 'install', category: 'SOFTWARE', priority: 'MEDIUM' },
+            { match: 'printer', category: 'HARDWARE', priority: 'MEDIUM' }
+          ]})
+        });
+        toast('Classification data loaded');
+      });
+    }
+
+    async function claimAndStart(id, btn) {
+      await busy(btn, async () => {
+        await fetch(API + '/workitems/' + id + '/claim?claimant=specialist', { method: 'PUT' });
+        await fetch(API + '/workitems/' + id + '/start', { method: 'PUT' });
+        toast('Claimed and started');
+        refresh();
+      });
+    }
+
+    async function complete(id, btn) {
+      const resolution = prompt('Enter resolution:');
+      if (!resolution) return;
+      await busy(btn, async () => {
+        await fetch(API + '/workitems/' + id + '/complete', {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ resolution: JSON.stringify({ resolution, assigneeId: 'specialist' }) })
+        });
+        toast('Resolved — notification sent');
+        refresh();
+      });
+    }
+
+    async function refresh() {
+      try {
+        const cases = await fetch(API + '/api/v1/cases').then(r => r.json());
+        const items = cases.items || [];
+        document.getElementById('m-total').textContent = items.length;
+        document.getElementById('m-running').textContent = items.filter(c => c.status === 'RUNNING').length;
+        document.getElementById('m-completed').textContent = items.filter(c => c.status === 'COMPLETED').length;
+
+        const wi = await fetch(API + '/workitems').then(r => r.json());
+        document.getElementById('m-workitems').textContent = wi.filter(w => w.status !== 'COMPLETED').length;
+
+        const wt = document.getElementById('wi-table');
+        const active = wi.filter(w => w.status !== 'COMPLETED');
+        wt.innerHTML = active.map(w => `<tr>
+          <td>${w.title || '-'}</td>
+          <td><span class="status s-${w.status}">${w.status}</span></td>
+          <td>${w.assigneeId || '-'}</td>
+          <td>${w.status === 'PENDING'
+            ? `<button class="btn-sm btn-primary" aria-label="Claim work item" onclick="claimAndStart('${w.id}', this)">Claim</button>`
+            : w.status === 'IN_PROGRESS'
+            ? `<button class="btn-sm btn-success" aria-label="Complete work item" onclick="complete('${w.id}', this)">Resolve</button>`
+            : ''}</td>
+        </tr>`).join('');
+        document.getElementById('wi-empty').style.display = active.length ? 'none' : 'block';
+
+        const notifs = await fetch(API + '/scenario/verify/notifications').then(r => r.json());
+        const nt = document.getElementById('notif-table');
+        nt.innerHTML = notifs.map(n => `<tr>
+          <td>${n.to}</td>
+          <td style="font-size:0.75rem">${n.message}</td>
+          <td>${new Date(n.sentAt).toLocaleTimeString()}</td>
+        </tr>`).join('');
+        document.getElementById('notif-empty').style.display = notifs.length ? 'none' : 'block';
+      } catch (e) { /* backend not ready yet */ }
+    }
+
+    refresh();
+    setInterval(refresh, 2000);
+  </script>
+</body>
+</html>
