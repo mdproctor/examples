@@ -1,0 +1,81 @@
+dsl: "1.0.0"
+namespace: casehub-examples
+name: helpdesk-ticket
+version: "1.0.0"
+title: IT Help Desk — Ticket Lifecycle
+types:
+  - support/helpdesk
+labels:
+  - example/slice-1
+
+spec:
+  capabilities:
+    - name: classify-ticket
+      description: "Classifies a ticket by category and priority using keyword matching"
+      inputProjection: "{ text: .subject }"
+      outputProjection: '{ category: .category, priority: .priority, status: "TRIAGED" }'
+
+    - name: notify-customer
+      description: "Sends a resolution notification to the customer"
+      inputProjection: '{ customerRef: .customerRef, message: ("Your ticket has been resolved: " + .resolution) }'
+      outputProjection: '{ notified: true }'
+
+  workers:
+    - name: keyword-classifier
+      description: "Classifies tickets by keyword matching against bootstrapped data"
+      capabilities: [ classify-ticket ]
+      do:
+        - classify:
+            call: classify-ticket
+            with:
+              text: "${ .text }"
+
+    - name: notification-sender
+      description: "Sends customer notification via chat platform"
+      capabilities: [ notify-customer ]
+      do:
+        - send:
+            call: notify-customer
+            with:
+              customerRef: "${ .customerRef }"
+              message: "${ .message }"
+
+  bindings:
+    - name: triage
+      capability: classify-ticket
+      on:
+        contextChange:
+          filter: '.status == "OPEN" and .category == null'
+
+    - name: assign-specialist
+      humanTask:
+        titleExpression: '"Resolve ticket: " + .subject'
+        candidateGroups: >-
+          if .category == "HARDWARE" then ["hw-specialist"]
+          elif .category == "SOFTWARE" then ["sw-specialist"]
+          elif .category == "ACCESS" then ["access-specialist"]
+          else ["general-specialist"]
+          end
+        scope: casehub-examples/helpdesk
+        inputMapping: '{ subject: .subject, category: .category, priority: .priority, customerRef: .customerRef }'
+        outputMapping: '{ status: "RESOLVED", resolution: .resolution, assigneeId: .assigneeId }'
+      on:
+        contextChange:
+          filter: '.status == "TRIAGED" and .resolution == null'
+
+    - name: notify-resolution
+      capability: notify-customer
+      on:
+        contextChange:
+          filter: '.status == "RESOLVED" and .notified == null'
+
+  goals:
+    - name: ticket-resolved
+      description: "Ticket has been resolved and customer notified"
+      condition: '.status == "RESOLVED" and .notified == true'
+      kind: success
+
+  completion:
+    success:
+      allOf:
+        - ticket-resolved

@@ -57,6 +57,60 @@
       <version>${casehub.version}</version>
     </dependency>
 
+    <!-- Engine -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-engine</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-engine-schema</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-engine-rest</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-engine-flow</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-engine-persistence-memory</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-engine-scheduler-quartz</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
+    <!-- Work -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-work</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-work-rest</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-work-persistence-memory</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-work-engine-adapter</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>io.casehub</groupId>
       <artifactId>casehub-pages-push</artifactId>
@@ -87,6 +141,17 @@
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-engine-testing</artifactId>
+      <version>${casehub.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
