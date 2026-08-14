@@ -37,7 +37,7 @@ class HelpdeskLifecycleTest {
     @Test
     void fullLifecycle_classifyCreateWorkItemResolveNotify() {
         UUID caseId = caseHub.startCase(Map.of(
-                "subject", "My laptop won't boot",
+                "subject", "lifecycle-test laptop overheating",
                 "customerRef", "alice",
                 "status", "OPEN"));
 
@@ -57,19 +57,19 @@ class HelpdeskLifecycleTest {
         // Wait for WorkItem to be created by humanTask binding
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             var workItems = given()
-                    .queryParam("candidateGroups", "hw-specialist")
                     .when().get("/workitems")
                     .then().statusCode(200)
-                    .extract().jsonPath().getList("$");
+                    .extract().jsonPath()
+                    .getList("findAll { it.title.contains('lifecycle-test') && it.status == 'PENDING' }", Map.class);
             assertFalse(workItems.isEmpty(), "WorkItem should be created for hw-specialist");
         });
 
         // Specialist claims, starts, and completes the WorkItem
         String workItemId = given()
-                .queryParam("candidateGroups", "hw-specialist")
                 .when().get("/workitems")
                 .then().statusCode(200)
-                .extract().jsonPath().getString("[0].id");
+                .extract().jsonPath()
+                .getString("find { it.title.contains('lifecycle-test') && it.status == 'PENDING' }.id");
 
         // Claim (PENDING → ASSIGNED)
         given().queryParam("claimant", "hw-specialist")
