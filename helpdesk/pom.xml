@@ -56,6 +56,11 @@
       <artifactId>casehub-platform-api</artifactId>
       <version>${casehub.version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform-mcp</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
 
     <!-- Engine -->
     <dependency>
