@@ -5,6 +5,7 @@ import io.casehub.pages.push.PushMessage;
 import io.casehub.pages.push.PushRequest;
 import io.casehub.pages.push.StoredEvent;
 import io.casehub.pages.push.TopicRegistry;
+import io.casehub.pages.scenario.runtime.ScenarioOrchestrator;
 import io.quarkus.websockets.next.OnClose;
 import io.quarkus.websockets.next.OnOpen;
 import io.quarkus.websockets.next.OnTextMessage;
@@ -26,6 +27,7 @@ public class HelpdeskPushEndpoint {
     @Inject ConnectionRegistry connectionRegistry;
     @Inject TopicRegistry topicRegistry;
     @Inject EventStore eventStore;
+    @Inject ScenarioOrchestrator orchestrator;
 
     @OnOpen
     void onOpen(WebSocketConnection connection) {
@@ -62,6 +64,14 @@ public class HelpdeskPushEndpoint {
                 topicRegistry.unlisten(connId, unlisten.topics());
                 connection.sendTextAndAwait(
                         PushMessage.ack(unlisten.id(), unlisten.topics(), List.of()));
+            }
+            case PushRequest.ExecutorRegister reg -> {
+                orchestrator.onExecutorRegister(connId, reg);
+                connection.sendTextAndAwait(PushMessage.ack(reg.id()));
+            }
+            case PushRequest.StepResult result -> {
+                orchestrator.onStepResult(result);
+                connection.sendTextAndAwait(PushMessage.ack(result.id()));
             }
             default -> connection.sendTextAndAwait(
                     PushMessage.error(request.id(), "Unsupported op: " + request.op()));
