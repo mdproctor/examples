@@ -1,61 +1,39 @@
 scenario: help-desk-basic
-description: "Customer reports a hardware issue, specialist resolves it"
+description: "Customer reports issue, specialist resolves"
 speed: 1
 on-error: stop
 
-data:
-  ticket-classifications:
-    - match: "laptop won't boot"
-      category: HARDWARE
-      priority: HIGH
-    - match: "password reset"
-      category: ACCESS
-      priority: LOW
-    - match: "install software"
-      category: SOFTWARE
-      priority: MEDIUM
+sections:
+  - label: "Customer submits"
+    steps:
+      - label: "Create support ticket"
+        name: create-ticket
+        target: helpdesk
+        commands:
+          - action: create-ticket
+            data:
+              subject: "Laptop won't boot after update"
+              category: HARDWARE
+              priority: HIGH
 
-steps:
-  - name: bootstrap
-    action: load-demo-data
-    delivery: rest
-    endpoint: POST /scenario/bootstrap/helpdesk
-    data:
-      ticket-classifications: { source: "data.ticket-classifications" }
+      - label: "Verify ticket classified"
+        name: verify-classification
+        target: helpdesk
+        trigger: {after: create-ticket}
+        commands:
+          - action: verify-ticket-exists
+            await:
+              match: {status: TRIAGED, category: HARDWARE}
+              timeout: 5000
 
-  - name: customer-message
-    action: customer-sends-message
-    delivery: simulated
-    target: chat
-    trigger: { after: bootstrap }
-    data:
-      from: "Alice Customer"
-      channelId: "support"
-      text: "My laptop won't boot after the update last night"
-
-  - name: verify-case-created
-    action: verify-ticket-exists
-    delivery: rest
-    endpoint: GET /scenario/verify/tickets
-    trigger: { after: customer-message, delay: 2000 }
-    await:
-      endpoint: GET /scenario/verify/tickets
-      match: { status: "ASSIGNED", category: "HARDWARE" }
-
-  - name: specialist-resolves
-    action: specialist-resolves-ticket
-    delivery: rest
-    endpoint: PUT /tickets/{id}/resolve
-    trigger: { after: verify-case-created }
-    actor: hw-specialist
-    data:
-      resolution: "BIOS reset resolved the boot issue. No hardware damage."
-
-  - name: verify-notification
-    action: verify-customer-notified
-    delivery: rest
-    endpoint: GET /scenario/verify/notifications
-    trigger: { after: specialist-resolves, delay: 1000 }
-    await:
-      endpoint: GET /scenario/verify/notifications
-      match: { to: "Alice Customer" }
+  - label: "Specialist resolves"
+    steps:
+      - label: "Resolve ticket"
+        name: resolve-ticket
+        target: helpdesk
+        trigger: {after: verify-classification}
+        actor: hw-specialist
+        commands:
+          - action: resolve-ticket
+            data:
+              resolution: "BIOS reset resolved the boot issue"

@@ -126,6 +126,11 @@
       <artifactId>casehub-pages-push-runtime</artifactId>
       <version>${casehub.version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-pages-scenario-client</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>io.quarkus</groupId>
