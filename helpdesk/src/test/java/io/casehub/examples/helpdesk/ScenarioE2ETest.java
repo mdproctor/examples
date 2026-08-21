@@ -43,18 +43,21 @@ class ScenarioE2ETest {
     void fullScenarioFlowOverWebSocket() throws Exception {
         var received = new CopyOnWriteArrayList<String>();
         var connectedLatch = new CountDownLatch(1);
+        var wsRef = new java.util.concurrent.atomic.AtomicReference<WebSocket>();
 
         var wsUri = URI.create(pushUri.toString().replace("http://", "ws://"));
-
-        var executorClient = ScenarioExecutorClient.create(
-            "helpdesk", List.of(scenarioActions), msg -> {});
 
         var ws = HttpClient.newHttpClient().newWebSocketBuilder()
             .buildAsync(wsUri, new WebSocket.Listener() {
                 final StringBuilder buffer = new StringBuilder();
+                volatile ScenarioExecutorClient executorClient;
 
                 @Override
                 public void onOpen(WebSocket webSocket) {
+                    wsRef.set(webSocket);
+                    executorClient = ScenarioExecutorClient.create(
+                        "helpdesk", List.of(scenarioActions),
+                        msg -> webSocket.sendText(msg, true));
                     connectedLatch.countDown();
                     webSocket.request(1);
                 }
@@ -71,18 +74,8 @@ class ScenarioE2ETest {
                         try {
                             JsonNode node = JSON.readTree(msg);
                             String op = node.path("op").asText("");
-                            if ("dispatch-sequence".equals(op)) {
+                            if ("dispatch-sequence".equals(op) || "executor-control".equals(op)) {
                                 executorClient.onMessage(msg);
-                                var stepResults = new CopyOnWriteArrayList<String>();
-                                var tempClient = ScenarioExecutorClient.create(
-                                    "helpdesk-temp", List.of(scenarioActions),
-                                    stepResults::add);
-                                tempClient.onMessage(msg);
-                                for (String result : stepResults) {
-                                    if (result.contains("step-result")) {
-                                        webSocket.sendText(result, true);
-                                    }
-                                }
                             }
                         } catch (Exception e) {
                             // ignore parse errors
@@ -94,16 +87,7 @@ class ScenarioE2ETest {
             }).join();
 
         assertThat(connectedLatch.await(5, TimeUnit.SECONDS)).isTrue();
-
-        String registerMsg = JSON.writeValueAsString(Map.of(
-            "op", "executor-register",
-            "id", "reg-1",
-            "name", "helpdesk",
-            "actions", List.of("create-ticket", "verify-ticket-exists",
-                "resolve-ticket", "verify-notification", "bootstrap-classifications")
-        ));
-        ws.sendText(registerMsg, true);
-        Thread.sleep(500);
+        Thread.sleep(200);
 
         var scenarioYaml = """
             scenario: e2e-test

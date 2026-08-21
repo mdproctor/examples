@@ -9,11 +9,12 @@ import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 @QuarkusTest
 @TestProfile(DemoTestProfile.class)
@@ -26,7 +27,7 @@ class ScenarioExecutorIntegrationTest {
 
     @Test
     void executorClientDispatchesCreateTicketAction() throws Exception {
-        var sent = new ArrayList<String>();
+        var sent = new CopyOnWriteArrayList<String>();
         var client = ScenarioExecutorClient.create(
             "helpdesk", List.of(scenarioActions), sent::add);
 
@@ -45,24 +46,22 @@ class ScenarioExecutorIntegrationTest {
                         "priority", "HIGH"))))
         ));
 
-        String dispatch = PushMessage.dispatchSequence(
-            "s-integration", "helpdesk", stepsJson, 1000.0, false);
+        client.onMessage(PushMessage.dispatchSequence(
+            "s-integration", "helpdesk", stepsJson, 1000.0, false));
 
-        client.onMessage(dispatch);
-
-        var stepResults = sent.stream()
-            .filter(s -> s.contains("step-result"))
-            .toList();
-        assertThat(stepResults).hasSize(1);
-        assertThat(stepResults.getFirst())
-            .contains("\"ok\":true")
-            .contains("\"stepName\":\"create-ticket\"")
-            .contains("\"ok\"");
+        await().atMost(5, java.util.concurrent.TimeUnit.SECONDS).untilAsserted(() -> {
+            var stepResults = sent.stream()
+                .filter(s -> s.contains("step-result")).toList();
+            assertThat(stepResults).hasSize(1);
+            assertThat(stepResults.getFirst())
+                .contains("\"ok\":true")
+                .contains("\"stepName\":\"create-ticket\"");
+        });
     }
 
     @Test
     void executorClientHandlesResolveTicketAction() throws Exception {
-        var sent = new ArrayList<String>();
+        var sent = new CopyOnWriteArrayList<String>();
         var client = ScenarioExecutorClient.create(
             "helpdesk", List.of(scenarioActions), sent::add);
         sent.clear();
@@ -78,19 +77,20 @@ class ScenarioExecutorIntegrationTest {
         client.onMessage(PushMessage.dispatchSequence(
             "s-resolve", "helpdesk", stepsJson, 1000.0, false));
 
-        var stepResults = sent.stream()
-            .filter(s -> s.contains("step-result"))
-            .toList();
-        assertThat(stepResults).hasSize(1);
-        assertThat(stepResults.getFirst())
-            .contains("\"ok\":true")
-            .contains("RESOLVED")
-            .contains("BIOS reset fixed it");
+        await().atMost(5, java.util.concurrent.TimeUnit.SECONDS).untilAsserted(() -> {
+            var stepResults = sent.stream()
+                .filter(s -> s.contains("step-result")).toList();
+            assertThat(stepResults).hasSize(1);
+            assertThat(stepResults.getFirst())
+                .contains("\"ok\":true")
+                .contains("RESOLVED")
+                .contains("BIOS reset fixed it");
+        });
     }
 
     @Test
     void executorClientRegistersAllActions() {
-        var sent = new ArrayList<String>();
+        var sent = new CopyOnWriteArrayList<String>();
         ScenarioExecutorClient.create(
             "helpdesk", List.of(scenarioActions), sent::add);
 
