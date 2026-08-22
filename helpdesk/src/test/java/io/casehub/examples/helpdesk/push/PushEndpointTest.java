@@ -23,6 +23,36 @@ class PushEndpointTest {
     @TestHTTPResource("/push")
     URI pushUri;
 
+
+    @Test
+    void executor_register_dispatched_via_handler_chain() throws Exception {
+        var messages = new CopyOnWriteArrayList<String>();
+        var latch    = new CountDownLatch(1);
+
+        var wsUri = URI.create(pushUri.toString().replace("http://", "ws://"));
+        var ws = HttpClient.newHttpClient().newWebSocketBuilder()
+                           .buildAsync(wsUri, new WebSocket.Listener() {
+                               @Override
+                               public CompletionStage<?> onText(WebSocket webSocket,
+                                                                CharSequence data, boolean last) {
+                                   messages.add(data.toString());
+                                   latch.countDown();
+                                   webSocket.request(1);
+                                   return null;
+                               }
+                           }).join();
+
+        ws.sendText("{\"op\":\"executor-register\",\"id\":\"req-2\"," +
+                    "\"name\":\"test-exec\",\"actions\":[\"do-thing\"]}", true);
+
+        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
+        assertThat(messages).hasSize(1);
+        assertThat(messages.get(0)).contains("\"op\":\"ack\"");
+        assertThat(messages.get(0)).contains("\"id\":\"req-2\"");
+
+        ws.sendClose(WebSocket.NORMAL_CLOSURE, "done").join();
+    }
+
     @Test
     void client_connects_and_receives_ack_on_listen() throws Exception {
         var messages = new CopyOnWriteArrayList<String>();
