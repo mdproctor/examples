@@ -279,5 +279,10 @@
     refresh();
     setInterval(refresh, 2000);
   </script>
+  <pages-scenario-controller mode="compact"></pages-scenario-controller>
+  <script>
+    document.querySelector('pages-scenario-controller').setAttribute('baseurl', window.location.origin);
+  </script>
+  <script type="module">import '/scenario/controller.js';</script>
 </body>
 </html>
