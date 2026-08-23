@@ -186,10 +186,11 @@
       const text = document.getElementById('field-issue').value;
       if (!text) return toast('Please describe your issue');
       await busy(btn, async () => {
-        await fetch(API + '/scenario/inject/chat', {
+        const res = await fetch(API + '/scenario/inject/chat', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ from: name, channelId: 'support', text })
         });
+        if (!res.ok) return toast('Failed to submit ticket (' + res.status + ')');
         document.getElementById('ack-name').textContent = name;
         document.getElementById('ack-issue').textContent = text;
         document.getElementById('submit-form').style.display = 'none';
@@ -287,10 +288,14 @@
     import { createScenarioHandler, createEventConnection } from '/scenario/controller.js';
     const wsUrl = window.location.origin.replace(/^http/, 'ws') + '/push';
     const eventTarget = new EventTarget();
+    let handler = null;
     const conn = createEventConnection(wsUrl, {
       config: { eventTarget },
       onStatusChange: (status) => {
-        if (status === 'connected') createScenarioHandler(conn, eventTarget);
+        if (status === 'connected') {
+          if (handler) handler.dispose();
+          handler = createScenarioHandler(conn, eventTarget);
+        }
       },
     });
   </script>
