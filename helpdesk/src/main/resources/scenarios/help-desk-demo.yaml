@@ -1,0 +1,62 @@
+scenario: help-desk-demo
+description: "Full helpdesk demo — browser automation + backend processing"
+speed: 0.5
+on-error: pause
+
+sections:
+  - label: "Customer submits ticket"
+    steps:
+      - label: "Load demo classifications"
+        name: load-demo-data
+        target: browser
+        commands:
+          - action: click
+            target: {role: button, name: Load demo classification data}
+
+      - label: "Fill in customer name"
+        name: fill-name
+        target: browser
+        trigger: {after: load-demo-data, delay: 500}
+        commands:
+          - action: fill
+            target: {role: textbox, name: Your name}
+            value: "Alice"
+
+      - label: "Describe the issue"
+        name: fill-issue
+        target: browser
+        trigger: {after: fill-name, delay: 300}
+        commands:
+          - action: fill
+            target: {role: textbox, name: Issue description}
+            value: "My laptop won't boot after the update"
+
+      - label: "Submit the ticket"
+        name: submit-ticket
+        target: browser
+        trigger: {after: fill-issue, delay: 500}
+        commands:
+          - action: click
+            target: {role: button, name: Submit ticket}
+
+  - label: "Backend processes ticket"
+    steps:
+      - label: "System creates and classifies ticket"
+        name: verify-ticket
+        target: helpdesk
+        trigger: {after: submit-ticket, delay: 1000}
+        commands:
+          - action: verify-ticket-exists
+            await:
+              match: {status: TRIAGED, category: HARDWARE}
+              timeout: 5000
+
+  - label: "View results"
+    steps:
+      - label: "Navigate to operations"
+        name: view-ops
+        target: browser
+        trigger: {after: verify-ticket, delay: 500}
+        commands:
+          - action: click
+            target: {role: button, name: View operations}

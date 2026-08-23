@@ -283,6 +283,16 @@
   <script>
     document.querySelector('pages-scenario-controller').setAttribute('baseurl', window.location.origin);
   </script>
-  <script type="module">import '/scenario/controller.js';</script>
+  <script type="module">
+    import { createScenarioHandler, createEventConnection } from '/scenario/controller.js';
+    const wsUrl = window.location.origin.replace(/^http/, 'ws') + '/push';
+    const eventTarget = new EventTarget();
+    const conn = createEventConnection(wsUrl, {
+      config: { eventTarget },
+      onStatusChange: (status) => {
+        if (status === 'connected') createScenarioHandler(conn, eventTarget);
+      },
+    });
+  </script>
 </body>
 </html>
