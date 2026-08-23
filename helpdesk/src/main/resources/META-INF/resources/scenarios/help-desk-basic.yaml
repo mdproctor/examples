@@ -1,0 +1,39 @@
+scenario: help-desk-basic
+description: "Customer reports issue, specialist resolves"
+speed: 1
+on-error: stop
+
+sections:
+  - label: "Customer submits"
+    steps:
+      - label: "Create support ticket"
+        name: create-ticket
+        target: helpdesk
+        commands:
+          - action: create-ticket
+            data:
+              subject: "Laptop won't boot after update"
+              category: HARDWARE
+              priority: HIGH
+
+      - label: "Verify ticket classified"
+        name: verify-classification
+        target: helpdesk
+        trigger: {after: create-ticket}
+        commands:
+          - action: verify-ticket-exists
+            await:
+              match: {status: TRIAGED, category: HARDWARE}
+              timeout: 5000
+
+  - label: "Specialist resolves"
+    steps:
+      - label: "Resolve ticket"
+        name: resolve-ticket
+        target: helpdesk
+        trigger: {after: verify-classification}
+        actor: hw-specialist
+        commands:
+          - action: resolve-ticket
+            data:
+              resolution: "BIOS reset resolved the boot issue"
