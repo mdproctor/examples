@@ -96,7 +96,7 @@ sections:
         trigger: { after: verify-ticket, delay: 500 }
         commands:
           - action: click
-            target: { role: link, name: "Operations" }
+            target: { role: button, name: "View operations" }
 
       - label: "Spotlight the dashboard"
         name: spotlight-ops
