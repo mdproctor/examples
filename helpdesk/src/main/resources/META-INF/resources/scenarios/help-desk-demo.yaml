@@ -154,10 +154,10 @@ sections:
         trigger: { after: spotlight-live, delay: 1000 }
         commands:
           - action: wait
-            target: { role: button, name: "Claim work item" }
+            target: { role: button, name: "Claim work item", within: { role: row, name: "Alice" } }
             data: { timeout: 5000 }
           - action: click
-            target: { role: button, name: "Claim work item" }
+            target: { role: button, name: "Claim work item", within: { role: row, name: "Alice" } }
 
       - label: "Spotlight the claimed item"
         name: spotlight-claimed
@@ -165,28 +165,42 @@ sections:
         trigger: { after: claim-ticket, delay: 2500 }
         commands:
           - action: wait
-            target: { role: button, name: "Complete work item" }
+            target: { role: button, name: "Complete work item", within: { role: row, name: "Alice" } }
             data: { timeout: 5000 }
           - action: spotlight
-            target: { role: table, name: "Work item queue" }
+            target: { role: row, name: "Alice" }
             data:
               content: >
                 The hardware specialist claimed Alice's ticket.
                 Status changed from PENDING to IN_PROGRESS.
-                The specialist will now resolve it — triggering a
-                customer notification via the engine's notify-customer binding.
+                Now clicking Resolve to enter the resolution.
               position: right
               duration: 0
 
-      - label: "Resolve the ticket"
-        name: resolve-ticket
-        target: helpdesk
+      - label: "Click resolve"
+        name: click-resolve
+        target: browser
         trigger: { after: spotlight-claimed, delay: 1000 }
-        actor: hw-specialist
         commands:
-          - action: complete-work-item
-            data:
-              resolution: "BIOS reset resolved the boot loop. Firmware rollback applied."
+          - action: click
+            target: { role: button, name: "Complete work item", within: { role: row, name: "Alice" } }
+
+      - label: "Enter resolution"
+        name: enter-resolution
+        target: browser
+        trigger: { after: click-resolve, delay: 800 }
+        commands:
+          - action: fill
+            target: { role: textbox, name: "Resolution" }
+            value: "BIOS reset resolved the boot loop. Firmware rollback applied."
+
+      - label: "Confirm resolution"
+        name: confirm-resolution
+        target: browser
+        trigger: { after: enter-resolution, delay: 500 }
+        commands:
+          - action: click
+            target: { role: button, name: "Confirm resolution" }
 
       - label: "Verify notification sent"
         name: verify-notif
