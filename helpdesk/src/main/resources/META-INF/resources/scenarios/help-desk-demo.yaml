@@ -145,13 +145,11 @@ sections:
     steps:
       - label: "Claim Alice's work item"
         name: claim-ticket
-        target: helpdesk
+        target: browser
         trigger: { after: spotlight-live, delay: 1000 }
-        actor: hw-specialist
         commands:
-          - action: claim-work-item
-            data:
-              category: HARDWARE
+          - action: click
+            target: { role: button, name: "Claim work item" }
 
       - label: "Spotlight the claimed item"
         name: spotlight-claimed
