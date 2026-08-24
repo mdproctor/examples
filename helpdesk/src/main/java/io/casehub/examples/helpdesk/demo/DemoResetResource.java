@@ -1,5 +1,7 @@
 package io.casehub.examples.helpdesk.demo;
 
+import io.casehub.engine.common.spi.cache.CaseInstanceCache;
+import io.casehub.examples.helpdesk.NotificationService;
 import io.casehub.pages.scenario.runtime.ScenarioOrchestrator;
 import io.quarkus.arc.profile.IfBuildProfile;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -16,10 +18,14 @@ public class DemoResetResource {
 
     @Inject ScenarioOrchestrator orchestrator;
     @Inject Flyway flyway;
+    @Inject CaseInstanceCache caseInstanceCache;
+    @Inject NotificationService notificationService;
 
     @POST
     public Response reset() {
         orchestrator.stop();
+        caseInstanceCache.clear();
+        notificationService.reset();
         flyway.clean();
         flyway.migrate();
         return Response.ok().build();
