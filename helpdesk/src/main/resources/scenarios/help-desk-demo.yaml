@@ -69,13 +69,13 @@ sections:
         trigger: { after: submit-ticket, delay: 1500 }
         commands:
           - action: spotlight
-            target: { role: button, name: "View operations" }
+            target: { role: status, name: "Ticket confirmation" }
             data:
               content: >
                 The platform created a case, ran the keyword classifier,
                 and matched "laptop" to HARDWARE with HIGH priority.
                 A work item is now assigned to the hardware specialist group.
-              position: left
+              position: right
               duration: 0
 
       - label: "Verify ticket classified"
