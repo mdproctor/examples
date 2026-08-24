@@ -36,5 +36,9 @@ public class NotificationService {
         return List.copyOf(sent);
     }
 
+    public void reset() {
+        sent.clear();
+    }
+
     public record SentNotification(String to, String message, Instant sentAt) {}
 }
