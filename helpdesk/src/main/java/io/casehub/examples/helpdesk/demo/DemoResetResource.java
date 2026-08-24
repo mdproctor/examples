@@ -41,15 +41,25 @@ public class DemoResetResource {
         return Response.ok().build();
     }
 
-    private void clearCaseRepository() {
+    private String clearCaseRepository() {
         try {
             var unwrapped = io.quarkus.arc.ClientProxy.unwrap(caseInstanceRepository);
-            var field = unwrapped.getClass().getDeclaredField("store");
-            field.setAccessible(true);
-            ((java.util.Map<?, ?>) field.get(unwrapped)).clear();
-            LOG.info("Case repository store cleared");
+            Class<?> cls = unwrapped.getClass();
+            while (cls != null) {
+                try {
+                    var field = cls.getDeclaredField("store");
+                    field.setAccessible(true);
+                    var map = (java.util.Map<?, ?>) field.get(unwrapped);
+                    int before = map.size();
+                    map.clear();
+                    return cls.getSimpleName() + ".store: " + before + " → " + map.size();
+                } catch (NoSuchFieldException e) {
+                    cls = cls.getSuperclass();
+                }
+            }
+            return "FAILED: store field not found in hierarchy";
         } catch (Exception e) {
-            LOG.warn("Could not clear case repository: " + e.getMessage());
+            return "FAILED: " + e.getClass().getSimpleName() + ": " + e.getMessage();
         }
     }
 }
