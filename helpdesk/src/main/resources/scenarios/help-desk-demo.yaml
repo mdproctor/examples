@@ -29,9 +29,9 @@ sections:
             target: { role: textbox, name: "Your name" }
             data:
               content: >
-                The intake form captures customer details.
-                The scenario will fill in a hardware issue and submit it —
-                just like a real user.
+                The intake form captures customer details and routes
+                to the right specialist team. The scenario fills in a
+                hardware issue and submits it — just like a real user.
               position: right
               duration: 0
 
@@ -51,7 +51,7 @@ sections:
         commands:
           - action: fill
             target: { role: textbox, name: "Issue description" }
-            value: "My laptop won't boot after the update"
+            value: "My laptop won't boot after yesterday's firmware update. It shows a blue screen with error code 0xDEAD001 for about two seconds, then powers off. I've tried holding the power button for 30 seconds but it keeps cycling. This is blocking all my work — I can't access any of my files or attend meetings."
 
       - label: "Submit the ticket"
         name: submit-ticket
@@ -61,38 +61,25 @@ sections:
           - action: click
             target: { role: button, name: "Submit ticket" }
 
-  - label: "REST injection"
-    steps:
-      - label: "Inject a second ticket via REST"
-        name: rest-inject
-        target: helpdesk
-        trigger: { after: submit-ticket, delay: 1500 }
-        commands:
-          - action: rest-inject-chat
-            data:
-              from: "Bob"
-              channelId: "slack"
-              text: "Need to install VS Code on my locked-down machine"
-
-  - label: "Backend processes tickets"
+  - label: "Backend processes ticket"
     steps:
       - label: "Spotlight the confirmation"
         name: spotlight-ack
         target: browser
-        trigger: { after: rest-inject, delay: 500 }
+        trigger: { after: submit-ticket, delay: 1500 }
         commands:
           - action: spotlight
             target: { role: button, name: "View operations" }
             data:
               content: >
-                Two cases are now in the engine.
-                Alice's ticket was submitted via the form.
-                Bob's arrived via REST — the same chat injection
-                endpoint, called directly by the scenario.
+                The platform created a case, ran the keyword classifier,
+                and matched "laptop" to HARDWARE with HIGH priority.
+                A work item is now assigned to the hardware specialist group.
+                The SLA countdown has started — 4 hours to first response.
               position: left
               duration: 0
 
-      - label: "Verify Alice's ticket classified"
+      - label: "Verify ticket classified"
         name: verify-ticket
         target: helpdesk
         trigger: { after: spotlight-ack, delay: 500 }
@@ -121,9 +108,39 @@ sections:
             target: { role: status, name: "Case metrics" }
             data:
               content: >
-                The operations dashboard shows both cases.
-                Alice's laptop issue was classified as HARDWARE with HIGH priority.
-                Bob's install request is SOFTWARE / MEDIUM.
-                Work items are assigned to the matching specialist groups.
+                Alice's case is running — classified as HARDWARE, HIGH
+                priority. A work item is waiting for a specialist to claim it.
+                Next, a second ticket arrives via the REST API to show
+                multi-channel intake.
+              position: bottom
+              duration: 0
+
+  - label: "REST injection"
+    steps:
+      - label: "Inject a second ticket via REST"
+        name: rest-inject
+        target: helpdesk
+        trigger: { after: spotlight-ops, delay: 1000 }
+        commands:
+          - action: rest-inject-chat
+            data:
+              from: "Bob"
+              channelId: "slack"
+              text: "Need to install VS Code on my locked-down machine"
+
+      - label: "Spotlight the live update"
+        name: spotlight-live
+        target: browser
+        trigger: { after: rest-inject, delay: 2000 }
+        commands:
+          - action: spotlight
+            target: { role: status, name: "Case metrics" }
+            data:
+              content: >
+                Bob's ticket just arrived via REST — the same chat injection
+                endpoint, called directly by the scenario instead of through
+                the web form. The dashboard now shows two cases: Alice's
+                HARDWARE issue and Bob's SOFTWARE request. Both were
+                classified and routed automatically.
               position: bottom
               duration: 0
