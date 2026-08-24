@@ -255,9 +255,21 @@
       });
     }
 
-    async function complete(id, btn) {
-      const resolution = prompt('Enter resolution:');
-      if (!resolution) return;
+    function showResolveInput(id, btn) {
+      const row = btn.closest('tr');
+      const cell = btn.parentElement;
+      cell.innerHTML = `<div style="display:flex;gap:4px;align-items:center">
+        <input type="text" aria-label="Resolution" placeholder="Enter resolution..."
+               style="flex:1;padding:4px 6px;background:#0f172a;border:1px solid #334155;border-radius:4px;color:#e2e8f0;font-size:0.75rem;min-width:120px"
+               onkeydown="if(event.key==='Enter')this.nextElementSibling.click()">
+        <button class="btn-sm btn-success" aria-label="Confirm resolution"
+                onclick="submitResolution('${id}',this.previousElementSibling.value,this)">✓</button>
+      </div>`;
+      cell.querySelector('input').focus();
+    }
+
+    async function submitResolution(id, resolution, btn) {
+      if (!resolution) return toast('Enter a resolution');
       await busy(btn, async () => {
         await fetch(API + '/workitems/' + id + '/complete', {
           method: 'PUT', headers: { 'Content-Type': 'application/json' },
@@ -296,7 +308,7 @@
           <td>${w.status === 'PENDING'
             ? `<button class="btn-sm btn-primary" aria-label="Claim work item" onclick="claimAndStart('${w.id}', this)">Claim</button>`
             : w.status === 'IN_PROGRESS'
-            ? `<button class="btn-sm btn-success" aria-label="Complete work item" onclick="complete('${w.id}', this)">Resolve</button>`
+            ? `<button class="btn-sm btn-success" aria-label="Complete work item" onclick="showResolveInput('${w.id}', this)">Resolve</button>`
             : ''}</td>
         </tr>`;}).join('');
         document.getElementById('wi-empty').style.display = active.length ? 'none' : 'block';
