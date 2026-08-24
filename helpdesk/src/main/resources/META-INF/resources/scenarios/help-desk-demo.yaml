@@ -205,20 +205,10 @@ sections:
           - action: click
             target: { role: button, name: "Confirm resolution", within: { role: dialog, name: "Resolve ticket" } }
 
-      - label: "Verify notification sent"
-        name: verify-notif
-        target: helpdesk
-        trigger: { after: resolve-ticket, delay: 2000 }
-        commands:
-          - action: verify-notification
-            await:
-              match: { verified: "true" }
-              timeout: 5000
-
       - label: "Spotlight the resolution"
         name: spotlight-resolved
         target: browser
-        trigger: { after: verify-notif, delay: 1000 }
+        trigger: { after: confirm-resolution, delay: 3000 }
         commands:
           - action: spotlight
             target: { role: table, name: "Customer notifications" }
