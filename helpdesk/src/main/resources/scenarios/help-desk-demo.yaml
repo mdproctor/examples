@@ -190,8 +190,11 @@ sections:
         target: browser
         trigger: { after: click-resolve, delay: 800 }
         commands:
+          - action: wait
+            target: { role: textbox, name: "Resolution", within: { role: dialog, name: "Resolve ticket" } }
+            data: { timeout: 3000 }
           - action: fill
-            target: { role: textbox, name: "Resolution" }
+            target: { role: textbox, name: "Resolution", within: { role: dialog, name: "Resolve ticket" } }
             value: "BIOS reset resolved the boot loop. Firmware rollback applied."
 
       - label: "Confirm resolution"
@@ -200,7 +203,7 @@ sections:
         trigger: { after: enter-resolution, delay: 500 }
         commands:
           - action: click
-            target: { role: button, name: "Confirm resolution" }
+            target: { role: button, name: "Confirm resolution", within: { role: dialog, name: "Resolve ticket" } }
 
       - label: "Verify notification sent"
         name: verify-notif

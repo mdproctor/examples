@@ -75,6 +75,14 @@
 
     .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #16a34a; color: white; padding: 0.6rem 1.25rem; border-radius: 0.5rem; font-size: 0.8rem; transform: translateY(4rem); opacity: 0; transition: all 0.3s; z-index: 100; }
     .toast.show { transform: translateY(0); opacity: 1; }
+
+    .resolve-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; }
+    .resolve-dialog { background: #1e293b; border: 1px solid #334155; border-radius: 0.5rem; padding: 1.5rem; width: 420px; max-width: 90vw; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    .resolve-dialog h3 { color: #38bdf8; font-size: 1rem; margin: 0 0 0.75rem; }
+    .resolve-dialog .resolve-meta { color: #94a3b8; font-size: 0.8rem; margin-bottom: 0.75rem; }
+    .resolve-dialog textarea { width: 100%; height: 80px; padding: 0.5rem 0.625rem; background: #0f172a; border: 1px solid #334155; border-radius: 0.375rem; color: #e2e8f0; font-family: inherit; font-size: 0.875rem; resize: vertical; }
+    .resolve-dialog textarea:focus { outline: none; border-color: #38bdf8; }
+    .resolve-dialog .resolve-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; justify-content: flex-end; }
   </style>
 </head>
 <body>
@@ -255,26 +263,44 @@
       });
     }
 
-    function showResolveInput(id, btn) {
-      const row = btn.closest('tr');
-      const cell = btn.parentElement;
-      cell.innerHTML = `<div style="display:flex;gap:4px;align-items:center">
-        <input type="text" aria-label="Resolution" placeholder="Enter resolution..."
-               style="flex:1;padding:4px 6px;background:#0f172a;border:1px solid #334155;border-radius:4px;color:#e2e8f0;font-size:0.75rem;min-width:120px"
-               onkeydown="if(event.key==='Enter')this.nextElementSibling.click()">
-        <button class="btn-sm btn-success" aria-label="Confirm resolution"
-                onclick="submitResolution('${id}',this.previousElementSibling.value,this)">✓</button>
-      </div>`;
-      cell.querySelector('input').focus();
+    function showResolveDialog(id, btn) {
+      let customer = '-', subject = '-';
+      try {
+        const row = btn.closest('tr');
+        customer = row?.querySelector('td')?.textContent || '-';
+        subject = row?.querySelectorAll('td')[1]?.textContent || '-';
+      } catch(e) {}
+      const overlay = document.createElement('div');
+      overlay.className = 'resolve-overlay';
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-label', 'Resolve ticket');
+      overlay.innerHTML = `
+        <div class="resolve-dialog">
+          <h3>Resolve Ticket</h3>
+          <div class="resolve-meta">${customer} — ${subject}</div>
+          <label style="display:block;font-size:0.8rem;color:#94a3b8;margin-bottom:0.25rem;">Resolution</label>
+          <textarea aria-label="Resolution" placeholder="Describe how the issue was resolved..."></textarea>
+          <div class="resolve-actions">
+            <button class="btn-secondary" aria-label="Cancel resolution" onclick="this.closest('.resolve-overlay').remove()">Cancel</button>
+            <button class="btn-success" aria-label="Confirm resolution">Resolve</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      const textarea = overlay.querySelector('textarea');
+      const confirmBtn = overlay.querySelector('[aria-label="Confirm resolution"]');
+      textarea.focus();
+      textarea.addEventListener('keydown', e => { if (e.key === 'Enter' && e.metaKey) confirmBtn.click(); });
+      confirmBtn.addEventListener('click', () => submitResolution(id, textarea.value, confirmBtn, overlay));
     }
 
-    async function submitResolution(id, resolution, btn) {
+    async function submitResolution(id, resolution, btn, overlay) {
       if (!resolution) return toast('Enter a resolution');
       await busy(btn, async () => {
         await fetch(API + '/workitems/' + id + '/complete', {
           method: 'PUT', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ resolution: JSON.stringify({ resolution, assigneeId: 'specialist' }) })
         });
+        overlay.remove();
         toast('Resolved — notification sent');
         refresh();
       });
@@ -308,7 +334,7 @@
           <td>${w.status === 'PENDING'
             ? `<button class="btn-sm btn-primary" aria-label="Claim work item" onclick="claimAndStart('${w.id}', this)">Claim</button>`
             : w.status === 'IN_PROGRESS'
-            ? `<button class="btn-sm btn-success" aria-label="Complete work item" onclick="showResolveInput('${w.id}', this)">Resolve</button>`
+            ? `<button class="btn-sm btn-success" aria-label="Complete work item" onclick="showResolveDialog('${w.id}', this)">Resolve</button>`
             : ''}</td>
         </tr>`;}).join('');
         document.getElementById('wi-empty').style.display = active.length ? 'none' : 'block';
