@@ -140,6 +140,8 @@ sections:
                 shows two cases with work items for each specialist group.
               position: bottom
               duration: 0
+              also:
+                - { role: table, name: "Work item queue" }
 
   - label: "Specialist resolves ticket"
     steps:
