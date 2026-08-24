@@ -8,3 +8,7 @@ wksp
 .mvn/maven.config
 .env
 .mvn/slot-settings.xml
+.worktrees
+.worktrees/
+.claude
+.claude/
