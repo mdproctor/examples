@@ -156,16 +156,43 @@
     const API = '';
 
     // ── Navigation ──
+    function showPage(pageId) {
+      document.querySelectorAll('[data-page]').forEach(l => { l.classList.remove('active'); l.removeAttribute('aria-current'); });
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const link = document.querySelector('[data-page="' + pageId + '"]');
+      if (link) { link.classList.add('active'); link.setAttribute('aria-current', 'page'); }
+      const page = document.getElementById(pageId);
+      if (page) page.classList.add('active');
+      sessionStorage.setItem('helpdesk-page', pageId);
+    }
     document.querySelectorAll('[data-page]').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
-        document.querySelectorAll('[data-page]').forEach(l => { l.classList.remove('active'); l.removeAttribute('aria-current'); });
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        link.classList.add('active');
-        link.setAttribute('aria-current', 'page');
-        document.getElementById(link.dataset.page).classList.add('active');
+        showPage(link.dataset.page);
       });
     });
+    async function restoreFromScenarioState() {
+      try {
+        const resp = await fetch(API + '/scenario/state');
+        if (!resp.ok) return;
+        const state = await resp.json();
+        if (!state.scenario) return;
+        const opsSteps = ['Navigate to operations', 'Spotlight the dashboard',
+          'Inject a second ticket via REST', 'Spotlight the live update',
+          'Claim Alice\'s work item', 'Spotlight the claimed item',
+          'Resolve the ticket', 'Verify notification sent', 'Spotlight the resolution'];
+        const ackSteps = ['Spotlight the confirmation', 'Verify ticket classified'];
+        if (opsSteps.includes(state.step) || state.section === 'Operations dashboard'
+            || state.section === 'REST injection' || state.section === 'Specialist resolves ticket') {
+          showPage('ops');
+        } else if (ackSteps.includes(state.step) || state.section === 'Backend processes ticket') {
+          showPage('submit');
+          document.getElementById('submit-form').style.display = 'none';
+          document.getElementById('submit-ack').style.display = 'block';
+        }
+      } catch { /* server not ready */ }
+    }
+    restoreFromScenarioState();
 
     function toast(msg) {
       const el = document.getElementById('toast');
