@@ -132,7 +132,7 @@
         <div class="section">
           <h3>Work Items</h3>
           <table aria-label="Work item queue">
-            <thead><tr><th>Title</th><th>Status</th><th>Assignee</th><th></th></tr></thead>
+            <thead><tr><th>Customer</th><th>Subject</th><th>Status</th><th>Assignee</th><th></th></tr></thead>
             <tbody id="wi-table"></tbody>
           </table>
           <div class="empty" id="wi-empty">No work items yet</div>
@@ -254,8 +254,16 @@
 
         const wt = document.getElementById('wi-table');
         const active = wi.filter(w => w.status !== 'COMPLETED');
-        wt.innerHTML = active.map(w => `<tr>
-          <td>${w.title || '-'}</td>
+        wt.innerHTML = active.map(w => {
+          let customer = '-', subject = w.title || '-';
+          try {
+            const p = JSON.parse(w.payload || '{}');
+            if (p.customerRef) customer = p.customerRef;
+            if (p.subject) subject = p.subject.length > 50 ? p.subject.substring(0, 50) + '…' : p.subject;
+          } catch(e) {}
+          return `<tr>
+          <td>${customer}</td>
+          <td style="font-size:0.75rem">${subject}</td>
           <td><span class="status s-${w.status}">${w.status}</span></td>
           <td>${w.assigneeId || '-'}</td>
           <td>${w.status === 'PENDING'
@@ -263,7 +271,7 @@
             : w.status === 'IN_PROGRESS'
             ? `<button class="btn-sm btn-success" aria-label="Complete work item" onclick="complete('${w.id}', this)">Resolve</button>`
             : ''}</td>
-        </tr>`).join('');
+        </tr>`;}).join('');
         document.getElementById('wi-empty').style.display = active.length ? 'none' : 'block';
 
         const notifs = await fetch(API + '/scenario/verify/notifications').then(r => r.json());

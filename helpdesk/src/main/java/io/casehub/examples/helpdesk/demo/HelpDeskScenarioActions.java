@@ -67,9 +67,90 @@ public class HelpDeskScenarioActions {
 
     @ScenarioAction("resolve-ticket")
     Map<String, Object> resolveTicket(ActionContext ctx) {
-        // Resolution in the demo flow is handled by the engine's work item completion.
-        // This action serves as a placeholder that verifies the domain is reachable.
         return Map.of("status", "RESOLVED", "resolution", ctx.data("resolution"));
+    }
+
+    @ScenarioAction("claim-work-item")
+    Map<String, Object> claimWorkItem(ActionContext ctx) {
+        String port = org.eclipse.microprofile.config.ConfigProvider.getConfig()
+                .getOptionalValue("quarkus.http.port", String.class).orElse("8090");
+        String baseUrl = "http://localhost:" + port;
+        String claimant = ctx.actor() != null ? ctx.actor() : "specialist";
+        String category = ctx.data("category");
+
+        var client = java.net.http.HttpClient.newHttpClient();
+        try {
+            var wiResp = client.send(java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(baseUrl + "/workitems"))
+                    .GET().build(), java.net.http.HttpResponse.BodyHandlers.ofString());
+
+            var items = new com.fasterxml.jackson.databind.ObjectMapper()
+                    .readTree(wiResp.body());
+            String workItemId = null;
+            for (var item : items) {
+                if (!"PENDING".equals(item.path("status").asText())) continue;
+                if (category != null) {
+                    String payload = item.path("payload").asText("");
+                    if (!payload.contains("\"category\":\"" + category + "\"")) continue;
+                }
+                workItemId = item.path("id").asText();
+                break;
+            }
+            if (workItemId == null) throw new IllegalStateException("No pending work item found");
+
+            client.send(java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(baseUrl + "/workitems/" + workItemId + "/claim?claimant=" + claimant))
+                    .PUT(java.net.http.HttpRequest.BodyPublishers.noBody()).build(),
+                    java.net.http.HttpResponse.BodyHandlers.ofString());
+            client.send(java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(baseUrl + "/workitems/" + workItemId + "/start"))
+                    .PUT(java.net.http.HttpRequest.BodyPublishers.noBody()).build(),
+                    java.net.http.HttpResponse.BodyHandlers.ofString());
+
+            return Map.of("workItemId", workItemId, "claimant", claimant, "status", "IN_PROGRESS");
+        } catch (Exception e) {
+            throw new IllegalStateException("Claim failed: " + e.getMessage(), e);
+        }
+    }
+
+    @ScenarioAction("complete-work-item")
+    Map<String, Object> completeWorkItem(ActionContext ctx) {
+        String port = org.eclipse.microprofile.config.ConfigProvider.getConfig()
+                .getOptionalValue("quarkus.http.port", String.class).orElse("8090");
+        String baseUrl = "http://localhost:" + port;
+        String resolution = ctx.data("resolution") != null ? ctx.data("resolution") : "Resolved";
+        String assigneeId = ctx.actor() != null ? ctx.actor() : "specialist";
+
+        var client = java.net.http.HttpClient.newHttpClient();
+        try {
+            var wiResp = client.send(java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(baseUrl + "/workitems"))
+                    .GET().build(), java.net.http.HttpResponse.BodyHandlers.ofString());
+
+            var items = new com.fasterxml.jackson.databind.ObjectMapper()
+                    .readTree(wiResp.body());
+            String workItemId = null;
+            for (var item : items) {
+                if ("IN_PROGRESS".equals(item.path("status").asText())) {
+                    workItemId = item.path("id").asText();
+                    break;
+                }
+            }
+            if (workItemId == null) throw new IllegalStateException("No in-progress work item found");
+
+            String body = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(
+                    Map.of("resolution", new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(
+                            Map.of("resolution", resolution, "assigneeId", assigneeId))));
+            client.send(java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(baseUrl + "/workitems/" + workItemId + "/complete"))
+                    .header("Content-Type", "application/json")
+                    .PUT(java.net.http.HttpRequest.BodyPublishers.ofString(body)).build(),
+                    java.net.http.HttpResponse.BodyHandlers.ofString());
+
+            return Map.of("workItemId", workItemId, "status", "COMPLETED", "resolution", resolution);
+        } catch (Exception e) {
+            throw new IllegalStateException("Complete failed: " + e.getMessage(), e);
+        }
     }
 
     @ScenarioAction("verify-notification")

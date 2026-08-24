@@ -75,7 +75,6 @@ sections:
                 The platform created a case, ran the keyword classifier,
                 and matched "laptop" to HARDWARE with HIGH priority.
                 A work item is now assigned to the hardware specialist group.
-                The SLA countdown has started — 4 hours to first response.
               position: left
               duration: 0
 
@@ -89,7 +88,7 @@ sections:
               match: { status: TRIAGED, category: HARDWARE }
               timeout: 5000
 
-  - label: "View results"
+  - label: "Operations dashboard"
     steps:
       - label: "Navigate to operations"
         name: view-ops
@@ -110,8 +109,7 @@ sections:
               content: >
                 Alice's case is running — classified as HARDWARE, HIGH
                 priority. A work item is waiting for a specialist to claim it.
-                Next, a second ticket arrives via the REST API to show
-                multi-channel intake.
+                Next, a second ticket arrives via the REST API.
               position: bottom
               duration: 0
 
@@ -138,9 +136,71 @@ sections:
             data:
               content: >
                 Bob's ticket just arrived via REST — the same chat injection
-                endpoint, called directly by the scenario instead of through
-                the web form. The dashboard now shows two cases: Alice's
-                HARDWARE issue and Bob's SOFTWARE request. Both were
-                classified and routed automatically.
+                endpoint, called directly by the scenario. The dashboard now
+                shows two cases with work items for each specialist group.
               position: bottom
+              duration: 0
+
+  - label: "Specialist resolves ticket"
+    steps:
+      - label: "Claim Alice's work item"
+        name: claim-ticket
+        target: helpdesk
+        trigger: { after: spotlight-live, delay: 1000 }
+        actor: hw-specialist
+        commands:
+          - action: claim-work-item
+            data:
+              category: HARDWARE
+
+      - label: "Spotlight the claimed item"
+        name: spotlight-claimed
+        target: browser
+        trigger: { after: claim-ticket, delay: 1500 }
+        commands:
+          - action: spotlight
+            target: { role: table, name: "Work item queue" }
+            data:
+              content: >
+                The hardware specialist claimed Alice's ticket.
+                Status changed from PENDING to IN_PROGRESS.
+                The specialist will now resolve it — triggering a
+                customer notification via the engine's notify-customer binding.
+              position: right
+              duration: 0
+
+      - label: "Resolve the ticket"
+        name: resolve-ticket
+        target: helpdesk
+        trigger: { after: spotlight-claimed, delay: 1000 }
+        actor: hw-specialist
+        commands:
+          - action: complete-work-item
+            data:
+              resolution: "BIOS reset resolved the boot loop. Firmware rollback applied."
+
+      - label: "Verify notification sent"
+        name: verify-notif
+        target: helpdesk
+        trigger: { after: resolve-ticket, delay: 2000 }
+        commands:
+          - action: verify-notification
+            await:
+              match: { verified: "true" }
+              timeout: 5000
+
+      - label: "Spotlight the resolution"
+        name: spotlight-resolved
+        target: browser
+        trigger: { after: verify-notif, delay: 1000 }
+        commands:
+          - action: spotlight
+            target: { role: table, name: "Customer notifications" }
+            data:
+              content: >
+                Case resolved. The engine fired the notify-customer binding,
+                sending Alice a resolution message. The full lifecycle —
+                intake, classification, routing, specialist resolution,
+                and customer notification — all driven by the case definition YAML.
+              position: left
               duration: 0
