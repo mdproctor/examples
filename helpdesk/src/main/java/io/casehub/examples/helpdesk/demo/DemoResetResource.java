@@ -3,6 +3,7 @@ package io.casehub.examples.helpdesk.demo;
 import io.casehub.engine.common.spi.cache.CaseInstanceCache;
 import io.casehub.examples.helpdesk.NotificationService;
 import io.casehub.pages.scenario.runtime.ScenarioOrchestrator;
+import io.casehub.persistence.memory.InMemoryCaseInstanceRepository;
 import io.casehub.work.memory.InMemoryWorkItemStore;
 import io.quarkus.arc.profile.IfBuildProfile;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -25,7 +26,7 @@ public class DemoResetResource {
     @Inject CaseInstanceCache caseInstanceCache;
     @Inject NotificationService notificationService;
     @Inject InMemoryWorkItemStore workItemStore;
-    @Inject io.casehub.engine.common.spi.CaseInstanceRepository caseInstanceRepository;
+    @Inject InMemoryCaseInstanceRepository caseInstanceRepository;
 
     @POST
     public Response reset() {
@@ -43,14 +44,12 @@ public class DemoResetResource {
     private void clearCaseRepository() {
         try {
             var unwrapped = io.quarkus.arc.ClientProxy.unwrap(caseInstanceRepository);
-            for (var field : unwrapped.getClass().getDeclaredFields()) {
-                if (java.util.Map.class.isAssignableFrom(field.getType())) {
-                    field.setAccessible(true);
-                    ((java.util.Map<?, ?>) field.get(unwrapped)).clear();
-                }
-            }
+            var field = unwrapped.getClass().getDeclaredField("store");
+            field.setAccessible(true);
+            ((java.util.Map<?, ?>) field.get(unwrapped)).clear();
+            LOG.info("Case repository store cleared");
         } catch (Exception e) {
-            LOG.warn("Could not clear case repository via reflection: " + e.getMessage());
+            LOG.warn("Could not clear case repository: " + e.getMessage());
         }
     }
 }
