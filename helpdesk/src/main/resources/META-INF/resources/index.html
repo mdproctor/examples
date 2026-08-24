@@ -288,7 +288,7 @@
             if (p.customerRef) customer = p.customerRef;
             if (p.subject) subject = p.subject.length > 50 ? p.subject.substring(0, 50) + '…' : p.subject;
           } catch(e) {}
-          return `<tr>
+          return `<tr role="row" aria-label="${customer}">
           <td>${customer}</td>
           <td style="font-size:0.75rem">${subject}</td>
           <td><span class="status s-${w.status}">${w.status}</span></td>
