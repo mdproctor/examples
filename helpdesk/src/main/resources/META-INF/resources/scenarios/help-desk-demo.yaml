@@ -153,14 +153,22 @@ sections:
         target: browser
         trigger: { after: spotlight-live, delay: 1000 }
         commands:
+          - action: wait
+            target: { role: button, name: "Claim work item" }
+            state: { aria-disabled: false }
+            timeout: 5000
           - action: click
             target: { role: button, name: "Claim work item" }
 
       - label: "Spotlight the claimed item"
         name: spotlight-claimed
         target: browser
-        trigger: { after: claim-ticket, delay: 1500 }
+        trigger: { after: claim-ticket, delay: 2500 }
         commands:
+          - action: wait
+            target: { role: button, name: "Complete work item" }
+            state: { aria-disabled: false }
+            timeout: 5000
           - action: spotlight
             target: { role: table, name: "Work item queue" }
             data:
