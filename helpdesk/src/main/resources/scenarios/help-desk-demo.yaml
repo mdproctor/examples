@@ -1,54 +1,105 @@
 scenario: help-desk-demo
-description: "Full helpdesk demo — browser automation + backend processing"
+description: "Helpdesk case lifecycle — REST injection, AI classification, and spotlight narration"
 speed: 0.5
 on-error: pause
 
 sections:
+  - label: "Bootstrap"
+    steps:
+      - label: "Load classification rules"
+        name: bootstrap
+        target: helpdesk
+        commands:
+          - action: bootstrap-classifications
+            data:
+              entries:
+                - { match: laptop, category: HARDWARE, priority: HIGH }
+                - { match: password, category: ACCESS, priority: LOW }
+                - { match: install, category: SOFTWARE, priority: MEDIUM }
+                - { match: printer, category: HARDWARE, priority: MEDIUM }
+
   - label: "Customer submits ticket"
     steps:
-      - label: "Load demo classifications"
-        name: load-demo-data
+      - label: "Spotlight the intake form"
+        name: spotlight-form
         target: browser
+        trigger: { after: bootstrap, delay: 500 }
         commands:
-          - action: click
-            target: {role: button, name: Load demo classification data}
+          - action: spotlight
+            target: { role: textbox, name: "Your name" }
+            data:
+              content: >
+                The intake form captures customer details.
+                The scenario will fill in a hardware issue and submit it —
+                just like a real user.
+              position: right
+              duration: 0
 
       - label: "Fill in customer name"
         name: fill-name
         target: browser
-        trigger: {after: load-demo-data, delay: 500}
+        trigger: { after: spotlight-form, delay: 500 }
         commands:
           - action: fill
-            target: {role: textbox, name: Your name}
+            target: { role: textbox, name: "Your name" }
             value: "Alice"
 
       - label: "Describe the issue"
         name: fill-issue
         target: browser
-        trigger: {after: fill-name, delay: 300}
+        trigger: { after: fill-name, delay: 300 }
         commands:
           - action: fill
-            target: {role: textbox, name: Issue description}
+            target: { role: textbox, name: "Issue description" }
             value: "My laptop won't boot after the update"
 
       - label: "Submit the ticket"
         name: submit-ticket
         target: browser
-        trigger: {after: fill-issue, delay: 500}
+        trigger: { after: fill-issue, delay: 500 }
         commands:
           - action: click
-            target: {role: button, name: Submit ticket}
+            target: { role: button, name: "Submit ticket" }
 
-  - label: "Backend processes ticket"
+  - label: "REST injection"
     steps:
-      - label: "System creates and classifies ticket"
+      - label: "Inject a second ticket via REST"
+        name: rest-inject
+        target: helpdesk
+        trigger: { after: submit-ticket, delay: 1500 }
+        commands:
+          - action: rest-inject-chat
+            data:
+              from: "Bob"
+              channelId: "slack"
+              text: "Need to install VS Code on my locked-down machine"
+
+  - label: "Backend processes tickets"
+    steps:
+      - label: "Spotlight the confirmation"
+        name: spotlight-ack
+        target: browser
+        trigger: { after: rest-inject, delay: 500 }
+        commands:
+          - action: spotlight
+            target: { role: button, name: "View operations" }
+            data:
+              content: >
+                Two cases are now in the engine.
+                Alice's ticket was submitted via the form.
+                Bob's arrived via REST — the same chat injection
+                endpoint, called directly by the scenario.
+              position: left
+              duration: 0
+
+      - label: "Verify Alice's ticket classified"
         name: verify-ticket
         target: helpdesk
-        trigger: {after: submit-ticket, delay: 1000}
+        trigger: { after: spotlight-ack, delay: 500 }
         commands:
           - action: verify-ticket-exists
             await:
-              match: {status: TRIAGED, category: HARDWARE}
+              match: { status: TRIAGED, category: HARDWARE }
               timeout: 5000
 
   - label: "View results"
@@ -56,7 +107,23 @@ sections:
       - label: "Navigate to operations"
         name: view-ops
         target: browser
-        trigger: {after: verify-ticket, delay: 500}
+        trigger: { after: verify-ticket, delay: 500 }
         commands:
           - action: click
-            target: {role: button, name: View operations}
+            target: { role: link, name: "Operations" }
+
+      - label: "Spotlight the dashboard"
+        name: spotlight-ops
+        target: browser
+        trigger: { after: view-ops, delay: 1000 }
+        commands:
+          - action: spotlight
+            target: { role: status, name: "Case metrics" }
+            data:
+              content: >
+                The operations dashboard shows both cases.
+                Alice's laptop issue was classified as HARDWARE with HIGH priority.
+                Bob's install request is SOFTWARE / MEDIUM.
+                Work items are assigned to the matching specialist groups.
+              position: bottom
+              duration: 0

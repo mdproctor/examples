@@ -94,4 +94,30 @@ public class HelpDeskScenarioActions {
         }
         return Map.of("loaded", 0);
     }
+
+    @ScenarioAction("rest-inject-chat")
+    Map<String, Object> restInjectChat(ActionContext ctx) {
+        String from = ctx.data("from") != null ? ctx.data("from") : "demo-customer";
+        String channelId = ctx.data("channelId") != null ? ctx.data("channelId") : "support";
+        String text = ctx.data("text");
+
+        String port = org.eclipse.microprofile.config.ConfigProvider.getConfig()
+                .getOptionalValue("quarkus.http.port", String.class).orElse("8090");
+        String baseUrl = "http://localhost:" + port;
+        String body = "{\"from\":\"%s\",\"channelId\":\"%s\",\"text\":\"%s\"}"
+                .formatted(from, channelId, text);
+
+        try {
+            var client = java.net.http.HttpClient.newHttpClient();
+            var request = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(baseUrl + "/scenario/inject/chat"))
+                    .header("Content-Type", "application/json")
+                    .POST(java.net.http.HttpRequest.BodyPublishers.ofString(body))
+                    .build();
+            var response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
+            return Map.of("status", response.statusCode(), "from", from, "text", text);
+        } catch (Exception e) {
+            throw new IllegalStateException("REST inject failed: " + e.getMessage(), e);
+        }
+    }
 }
