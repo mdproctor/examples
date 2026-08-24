@@ -141,7 +141,10 @@ sections:
               position: bottom
               duration: 0
               also:
-                - { role: table, name: "Work item queue" }
+                - role: row
+                  name: Bob
+                  content: "Bob's ticket — injected via REST, classified as SOFTWARE"
+                  position: right
 
   - label: "Specialist resolves ticket"
     steps:
