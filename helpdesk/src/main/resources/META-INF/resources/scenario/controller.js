@@ -12407,6 +12407,13 @@ var ScenarioConnectionController = class {
 };
 
 // src/controller/scenario-controller.ts
+var ACTION_ICONS = {
+  "show-markdown": "\u{1F4DD}",
+  "spotlight": "\u{1F506}",
+  "click": "\u{1F446}",
+  "fill": "\u270D",
+  "navigate": "\u279C"
+};
 var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
   constructor() {
     super(...arguments);
@@ -12488,6 +12495,7 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
     }
     .outline-step.completed { color: var(--pages-neutral-8, #999); }
     .step-icon { width: 14px; text-align: center; flex-shrink: 0; }
+    .step-type-icon { font-size: 12px; flex-shrink: 0; width: 16px; text-align: center; }
     .run-to { margin-left: auto; opacity: 0; font-size: 10px; color: var(--pages-accent-9, #2563eb); flex-shrink: 0; transition: opacity 0.15s; }
     .outline-step:hover .run-to, .outline-heading:hover .run-to { opacity: 1; }
     .outline-step.completed .run-to { display: none; }
@@ -12690,12 +12698,14 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
     const isCurrent = isLeaf && node.label === this._conn?.state.step;
     const isCompleted = isLeaf && this._isBeforeCurrent(node.label);
     if (isLeaf) {
+      const icon = node.action ? ACTION_ICONS[node.action] : void 0;
       return b2`
         <div class="outline-step ${isCurrent ? "current" : ""} ${isCompleted ? "completed" : ""}"
              role="treeitem" tabindex="-1"
              style="padding-left: ${depth * 16 + 8}px"
              @click=${() => void this._conn.sendCommand("/run-to", { label: node.label })}>
           <span class="step-icon">${isCurrent ? "\u25CF" : isCompleted ? "\u2713" : "\u25CB"}</span>
+          ${icon ? b2`<span class="step-type-icon">${icon}</span>` : ""}
           ${node.label}
           <span class="run-to" aria-label="Run to ${node.label}">▶</span>
         </div>
@@ -19554,8 +19564,14 @@ var PagesScenarioYamlViewer = class extends i4 {
     this.mode = "floating";
     this._yamlSource = "";
     this._activeStep = null;
+    this._activeTab = "source";
+    this._guideContent = null;
     this._stepMap = /* @__PURE__ */ new Map();
     this._dragOffset = { x: 0, y: 0 };
+    this._boundTarget = null;
+    this._onNarrative = (e5) => {
+      this._guideContent = e5.detail;
+    };
     this._onDragStart = (e5) => {
       if (e5.target.tagName === "BUTTON") return;
       const host = this.getBoundingClientRect();
@@ -19674,6 +19690,55 @@ var PagesScenarioYamlViewer = class extends i4 {
     .yaml-punct { color: #94a3b8; }
     .yaml-plain { color: #e2e8f0; }
 
+    .tab-bar {
+      display: flex;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 6px 12px;
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tab-btn:hover { color: #e2e8f0; }
+    .tab-btn.active { color: #38bdf8; border-bottom-color: #38bdf8; }
+    .guide-empty {
+      padding: 16px;
+      color: #64748b;
+      font-style: italic;
+      text-align: center;
+    }
+    .guide-content {
+      padding: 12px 16px;
+      max-width: 100%;
+      line-height: 1.6;
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+    .guide-content h1 { font-size: 1.4em; margin: 0.5em 0; font-weight: 600; }
+    .guide-content h2 { font-size: 1.2em; margin: 0.5em 0; font-weight: 600; }
+    .guide-content h3 { font-size: 1.05em; margin: 0.5em 0; font-weight: 600; }
+    .guide-content p { margin: 0.5em 0; }
+    .guide-content strong { font-weight: 600; }
+    .guide-content em { font-style: italic; }
+    .guide-content code {
+      background: rgba(255,255,255,0.08);
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: 'SF Mono', monospace;
+      font-size: 0.9em;
+    }
+    .guide-content ul { margin: 0.5em 0; padding-left: 1.5em; }
+    .guide-content li { margin: 0.25em 0; }
+
     :host([mode="standalone"]) {
       position: static;
       width: 100%;
@@ -19697,9 +19762,27 @@ var PagesScenarioYamlViewer = class extends i4 {
       onState: (s4) => this._onStateChange(s4)
     });
     if (this.scenario) void this._fetchYaml();
+    this._bindGuideEvents(this.eventTarget);
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._bindGuideEvents(null);
   }
   updated(changed) {
     if (changed.has("scenario") && this.scenario) void this._fetchYaml();
+    if (changed.has("eventTarget")) this._bindGuideEvents(this.eventTarget);
+  }
+  _bindGuideEvents(target) {
+    if (this._boundTarget) {
+      this._boundTarget.removeEventListener("scenario-narrative", this._onNarrative);
+      this._boundTarget = null;
+    }
+    if (target) {
+      target.addEventListener("scenario-narrative", this._onNarrative);
+      this._boundTarget = target;
+      const last = target.__lastNarrativeContent;
+      if (last && !this._guideContent) this._guideContent = last;
+    }
   }
   _onStateChange(s4) {
     this._activeStep = s4.step;
@@ -19738,8 +19821,18 @@ var PagesScenarioYamlViewer = class extends i4 {
     return b2`
       <div class="viewer-card">
         ${this._renderHeader()}
+        <div class="tab-bar">
+          <button class="tab-btn ${this._activeTab === "source" ? "active" : ""}"
+                  @click=${() => {
+      this._activeTab = "source";
+    }}>Source</button>
+          <button class="tab-btn ${this._activeTab === "guide" ? "active" : ""}"
+                  @click=${() => {
+      this._activeTab = "guide";
+    }}>Guide</button>
+        </div>
         <div class="viewer-body">
-          ${this._yamlSource ? this._renderYaml() : b2`<div class="yaml-empty">No scenario source loaded</div>`}
+          ${this._activeTab === "source" ? this._yamlSource ? this._renderYaml() : b2`<div class="yaml-empty">No scenario source loaded</div>` : this._renderGuide()}
         </div>
       </div>
     `;
@@ -19770,6 +19863,43 @@ var PagesScenarioYamlViewer = class extends i4 {
       `;
     })}`;
   }
+  _renderGuide() {
+    if (!this._guideContent) {
+      return b2`<div class="guide-empty">No guide content</div>`;
+    }
+    const md = this._guideContent.markdown ?? "";
+    const rendered = this._guideContent.section ? this._extractSection(md, this._guideContent.section) : md;
+    return this._renderGuideMarkdown(rendered);
+  }
+  _extractSection(markdown, section) {
+    const lines = markdown.split("\n");
+    let capturing = false;
+    let level = 0;
+    const result = [];
+    for (const line of lines) {
+      const headingMatch = line.match(/^(#{1,6})\s+(.+)/);
+      if (headingMatch) {
+        const headingLevel = headingMatch[1].length;
+        const headingText = headingMatch[2].trim();
+        if (capturing && headingLevel <= level) break;
+        if (headingText.toLowerCase() === section.toLowerCase()) {
+          capturing = true;
+          level = headingLevel;
+          continue;
+        }
+      }
+      if (capturing) result.push(line);
+    }
+    return result.join("\n").trim();
+  }
+  _renderGuideMarkdown(md) {
+    const escaped = md.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const rendered = escaped.replace(/^### (.+)$/gm, "<h3>$1</h3>").replace(/^## (.+)$/gm, "<h2>$1</h2>").replace(/^# (.+)$/gm, "<h1>$1</h1>").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>").replace(/`(.+?)`/g, "<code>$1</code>").replace(/^- (.+)$/gm, "<li>$1</li>").replace(/\n\n/g, "</p><p>").replace(/^(?!<[hulo])(.+)$/gm, "<p>$1</p>");
+    const container = document.createElement("div");
+    container.className = "guide-content";
+    container.innerHTML = rendered;
+    return b2`${container}`;
+  }
   setPosition(left, top) {
     this.style.left = `${left}px`;
     this.style.top = `${top}px`;
@@ -19798,6 +19928,12 @@ __decorateClass([
 __decorateClass([
   r5()
 ], PagesScenarioYamlViewer.prototype, "_activeStep", 2);
+__decorateClass([
+  r5()
+], PagesScenarioYamlViewer.prototype, "_activeTab", 2);
+__decorateClass([
+  r5()
+], PagesScenarioYamlViewer.prototype, "_guideContent", 2);
 if (!customElements.get("pages-scenario-yaml-viewer")) {
   customElements.define("pages-scenario-yaml-viewer", PagesScenarioYamlViewer);
 }
@@ -20158,6 +20294,152 @@ function toAriaState(state) {
   if ("aria-hidden" in state) result.hidden = state["aria-hidden"];
   return result;
 }
+function injectModalStyles() {
+  if (document.getElementById("scenario-modal-styles")) return;
+  const style = document.createElement("style");
+  style.id = "scenario-modal-styles";
+  style.textContent = `
+    .scenario-modal-overlay {
+      position: fixed; inset: 0; z-index: 10000;
+      background: rgba(15, 23, 42, 0.98);
+      display: flex; flex-direction: column;
+      font-family: system-ui, sans-serif;
+      color: #e2e8f0;
+      animation: scenario-modal-fade 0.2s ease;
+    }
+    @keyframes scenario-modal-fade { from { opacity: 0; } to { opacity: 1; } }
+    .scenario-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .scenario-modal-back {
+      background: none; border: none; color: #94a3b8;
+      cursor: pointer; font-size: 14px; padding: 4px 8px;
+    }
+    .scenario-modal-back:hover { color: #e2e8f0; }
+    .scenario-modal-position { color: #64748b; font-size: 13px; }
+    .scenario-modal-body {
+      flex: 1; overflow-y: auto; padding: 32px;
+      display: flex; justify-content: center;
+    }
+    .scenario-modal-content {
+      max-width: 680px; width: 100%; line-height: 1.7; font-size: 16px;
+    }
+    .scenario-modal-content h1 { font-size: 1.6em; margin: 0.5em 0; font-weight: 600; }
+    .scenario-modal-content h2 { font-size: 1.3em; margin: 0.5em 0; font-weight: 600; }
+    .scenario-modal-content h3 { font-size: 1.1em; margin: 0.5em 0; font-weight: 600; }
+    .scenario-modal-content p { margin: 0.6em 0; }
+    .scenario-modal-content strong { font-weight: 600; }
+    .scenario-modal-content em { font-style: italic; }
+    .scenario-modal-content code {
+      background: rgba(255,255,255,0.08); padding: 2px 5px;
+      border-radius: 3px; font-family: monospace; font-size: 0.9em;
+    }
+    .scenario-modal-content ul { margin: 0.5em 0; padding-left: 1.5em; }
+    .scenario-modal-content li { margin: 0.3em 0; }
+    .scenario-modal-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .scenario-modal-dots { display: flex; gap: 8px; align-items: center; }
+    .scenario-modal-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #334155; transition: background 0.15s;
+    }
+    .scenario-modal-dot.active { background: #38bdf8; }
+    .scenario-modal-next {
+      background: #2563eb; color: white; border: none;
+      padding: 8px 20px; border-radius: 6px; font-weight: 600;
+      cursor: pointer; font-size: 14px;
+    }
+    .scenario-modal-next:hover { background: #1d4ed8; }
+    @media (prefers-reduced-motion: reduce) {
+      .scenario-modal-overlay { animation: none; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+function renderModalMarkdown(md) {
+  const escaped = md.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const rendered = escaped.replace(/^### (.+)$/gm, "<h3>$1</h3>").replace(/^## (.+)$/gm, "<h2>$1</h2>").replace(/^# (.+)$/gm, "<h1>$1</h1>").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>").replace(/`(.+?)`/g, "<code>$1</code>").replace(/^- (.+)$/gm, "<li>$1</li>").replace(/\n\n/g, "</p><p>").replace(/^(?!<[hulo])(.+)$/gm, "<p>$1</p>");
+  const el = document.createElement("div");
+  el.className = "scenario-modal-content";
+  el.innerHTML = rendered;
+  return el;
+}
+function showModalDeck(slides, narrativeTarget) {
+  injectModalStyles();
+  let current = 0;
+  const total = slides.length;
+  const isSingle = total === 1;
+  const overlay = document.createElement("div");
+  overlay.className = "scenario-modal-overlay";
+  function renderSlide() {
+    const slide = slides[current];
+    overlay.innerHTML = "";
+    const header = document.createElement("div");
+    header.className = "scenario-modal-header";
+    const back = document.createElement("button");
+    back.className = "scenario-modal-back";
+    back.textContent = current === 0 ? "\u2715 Close" : "\u2190 Back";
+    back.addEventListener("click", () => {
+      if (current === 0) dismiss();
+      else {
+        current--;
+        renderSlide();
+      }
+    });
+    header.appendChild(back);
+    if (!isSingle) {
+      const pos = document.createElement("span");
+      pos.className = "scenario-modal-position";
+      pos.textContent = `Slide ${current + 1} of ${total}`;
+      header.appendChild(pos);
+    }
+    overlay.appendChild(header);
+    const body = document.createElement("div");
+    body.className = "scenario-modal-body";
+    body.appendChild(renderModalMarkdown(slide.markdown));
+    overlay.appendChild(body);
+    if (!isSingle) {
+      const footer = document.createElement("div");
+      footer.className = "scenario-modal-footer";
+      const dots = document.createElement("div");
+      dots.className = "scenario-modal-dots";
+      for (let i5 = 0; i5 < total; i5++) {
+        const dot = document.createElement("div");
+        dot.className = `scenario-modal-dot ${i5 === current ? "active" : ""}`;
+        dots.appendChild(dot);
+      }
+      footer.appendChild(dots);
+      const next = document.createElement("button");
+      next.className = "scenario-modal-next";
+      next.textContent = current === total - 1 ? "Done" : "Next \u2192";
+      next.addEventListener("click", () => {
+        if (current === total - 1) dismiss();
+        else {
+          current++;
+          renderSlide();
+        }
+      });
+      footer.appendChild(next);
+      overlay.appendChild(footer);
+    }
+  }
+  function dismiss() {
+    overlay.remove();
+    document.removeEventListener("keydown", onEscape);
+    narrativeTarget.dispatchEvent(new CustomEvent("scenario-narrative-dismiss"));
+  }
+  function onEscape(e5) {
+    if (e5.key === "Escape") dismiss();
+  }
+  document.addEventListener("keydown", onEscape);
+  renderSlide();
+  document.body.appendChild(overlay);
+}
 function sendResult(conn, id, ok, error) {
   conn.send({ op: "command-result", id, ok, error });
 }
@@ -20301,17 +20583,21 @@ function executeAriaCommand(cmd, currentSpeed, isPaused, calloutMsPerChar, narra
     }
     case "show-markdown": {
       const props = state ?? cmd.data ?? {};
+      const display = props.display ?? "panel";
       const markdown = value ?? props.content ?? "";
       const filePath = props.file;
       const section = props.section;
-      narrativeTarget.dispatchEvent(new CustomEvent("scenario-narrative", {
-        detail: {
-          type: filePath ? "template" : "inline",
-          markdown,
-          path: filePath,
-          section
-        }
-      }));
+      if (display === "modal") {
+        return;
+      }
+      const detail = {
+        type: filePath ? "template" : "inline",
+        markdown,
+        path: filePath,
+        section
+      };
+      narrativeTarget.__lastNarrativeContent = detail;
+      narrativeTarget.dispatchEvent(new CustomEvent("scenario-narrative", { detail }));
       return;
     }
     default:
@@ -20344,6 +20630,32 @@ function createScenarioHandler(connection, eventTarget) {
         continue;
       }
       const step = stepQueue.shift();
+      const firstCmd = step.commands[0];
+      if (firstCmd?.action === "show-markdown") {
+        const firstProps = firstCmd.state ?? firstCmd.data ?? {};
+        if (firstProps.display === "modal") {
+          const slides = [{
+            markdown: firstCmd.value ?? firstProps.content ?? "",
+            label: step.label ?? step.name
+          }];
+          while (stepQueue.length > 0) {
+            const nextStep = stepQueue[0];
+            const nextCmd = nextStep.commands[0];
+            if (nextCmd?.action !== "show-markdown") break;
+            const nextProps = nextCmd.state ?? nextCmd.data ?? {};
+            if (nextProps.display !== "modal") break;
+            const consumed = stepQueue.shift();
+            slides.push({
+              markdown: nextCmd.value ?? nextProps.content ?? "",
+              label: consumed.label ?? consumed.name
+            });
+            sendStepResult(connection, sessionId, consumed.name, true, null);
+          }
+          showModalDeck(slides, eventTarget);
+          sendStepResult(connection, sessionId, step.name, true, null);
+          continue;
+        }
+      }
       let stepOk = true;
       let stepError = null;
       for (const cmd of step.commands) {
