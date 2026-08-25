@@ -10,7 +10,8 @@ type: java
 Multi-example repository for CaseHub platform modules. Each subdirectory is an independent Quarkus application demonstrating a platform capability.
 
 **Active examples:**
-- `wacky-manor/` — Multi-agent LLM demo with Wacky Races characters (current focus)
+- `helpdesk/` — Helpdesk scenario demo (Pages scenario engine, push WebSocket, case lifecycle)
+- `wacky-manor/` — Multi-agent LLM demo with Wacky Races characters
 - `ledger-examples/` — Ledger usage examples
 - `qhorus-examples/` — Qhorus messaging examples
 - `work-examples/` — WorkItems examples
@@ -45,6 +46,17 @@ npm --prefix wacky-manor/src/main/webui run dev
 
 **Issue tracking:** enabled
 **GitHub repo:** casehubio/examples
+
+## Helpdesk
+
+Scenario-driven demo for the Pages scenario engine. Serves the helpdesk UI with push WebSocket, case lifecycle, and interactive tutorials.
+
+```bash
+# Run helpdesk dev mode (backend on 8090)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl helpdesk -Dquarkus.http.port=8090 -s slot-settings.xml
+```
+
+The Pages examples gallery (in casehub-pages) connects to this server for the Server tab — the helpdesk scenario demo will not work without it running. The Pages frontend is served separately via `yarn workspace @casehubio/pages-examples run serve` in the casehub-pages repo.
 
 ## Wacky Manor
 
