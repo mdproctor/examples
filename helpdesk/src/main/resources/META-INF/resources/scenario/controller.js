@@ -20373,14 +20373,14 @@ function injectModalStyles() {
     .scenario-modal-next:hover { background: #1d4ed8; }
     .scenario-modal-body { cursor: pointer; position: relative; }
     .scenario-modal-toc {
-      position: fixed; bottom: 60px; right: 24px; z-index: 10003;
+      position: fixed; bottom: 100px; right: 24px; z-index: 10003;
       background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(8px);
       border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
       padding: 8px 0; min-width: 180px; max-width: 280px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     .scenario-modal-toc-toggle {
-      position: fixed; bottom: 24px; right: 24px; z-index: 10003;
+      position: fixed; bottom: 72px; right: 24px; z-index: 10003;
       background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1);
       border-radius: 6px; color: #64748b; cursor: pointer;
       padding: 4px 10px; font-size: 11px;
