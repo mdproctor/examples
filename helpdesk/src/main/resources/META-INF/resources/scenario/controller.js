@@ -12889,6 +12889,9 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
       viewer.onDetach = () => this._detachYaml();
       viewer.onDragMove = (left, top) => this._onViewerDrag(left, top);
       viewer.onDragEnd = () => this._onViewerDragEnd();
+      viewer.onResize = () => {
+        if (this._docked) this._snapViewerToController();
+      };
       document.body.appendChild(viewer);
       this._yamlViewer = viewer;
       this._docked = true;
@@ -19770,10 +19773,16 @@ var PagesScenarioYamlViewer = class extends i4 {
     });
     if (this.scenario) void this._fetchYaml();
     this._bindGuideEvents(this.eventTarget);
+    const card = this.shadowRoot?.querySelector(".viewer-card");
+    if (card && typeof ResizeObserver !== "undefined") {
+      this._resizeObserver = new ResizeObserver(() => this.onResize?.());
+      this._resizeObserver.observe(card);
+    }
   }
   disconnectedCallback() {
     super.disconnectedCallback();
     this._bindGuideEvents(null);
+    this._resizeObserver?.disconnect();
   }
   updated(changed) {
     if (changed.has("scenario") && this.scenario) void this._fetchYaml();
