@@ -20372,6 +20372,27 @@ function injectModalStyles() {
     }
     .scenario-modal-next:hover { background: #1d4ed8; }
     .scenario-modal-body { cursor: pointer; position: relative; }
+    .scenario-modal-toc {
+      position: fixed; bottom: 60px; right: 24px; z-index: 10003;
+      background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+      padding: 8px 0; min-width: 180px; max-width: 280px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .scenario-modal-toc-toggle {
+      position: fixed; bottom: 24px; right: 24px; z-index: 10003;
+      background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px; color: #64748b; cursor: pointer;
+      padding: 4px 10px; font-size: 11px;
+    }
+    .scenario-modal-toc-toggle:hover { color: #e2e8f0; }
+    .scenario-modal-toc-item {
+      padding: 4px 14px; font-size: 12px; color: #94a3b8;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      cursor: pointer;
+    }
+    .scenario-modal-toc-item:hover { background: rgba(255,255,255,0.05); }
+    .scenario-modal-toc-item.active { color: #38bdf8; font-weight: 600; }
     .scenario-modal-scroll-indicator {
       position: absolute; bottom: 0; left: 0; right: 0;
       height: 48px; display: flex; align-items: center; justify-content: center;
@@ -20556,6 +20577,38 @@ function renderActiveDeck() {
   hint.className = "scenario-modal-hint";
   hint.textContent = total > 1 ? "Click or press \u2192 to advance" : "Click anywhere or press \u2192 to continue";
   overlay.appendChild(hint);
+  if (total > 1) {
+    document.querySelectorAll(".scenario-modal-toc, .scenario-modal-toc-toggle").forEach((el) => el.remove());
+    const tocVisible = overlay.getAttribute("data-toc-open") === "true";
+    if (tocVisible) {
+      const toc = document.createElement("div");
+      toc.className = "scenario-modal-toc";
+      for (let i5 = 0; i5 < total; i5++) {
+        const item = document.createElement("div");
+        item.className = `scenario-modal-toc-item ${i5 === current ? "active" : ""}`;
+        item.textContent = `${i5 + 1}. ${slides[i5].label}`;
+        const idx = i5;
+        item.addEventListener("click", (e5) => {
+          e5.stopPropagation();
+          if (activeDeck) {
+            activeDeck.current = idx;
+            renderActiveDeck();
+          }
+        });
+        toc.appendChild(item);
+      }
+      overlay.appendChild(toc);
+    }
+    const toggle = document.createElement("button");
+    toggle.className = "scenario-modal-toc-toggle";
+    toggle.textContent = tocVisible ? "\u25BE Slides" : "\u25B8 Slides";
+    toggle.addEventListener("click", (e5) => {
+      e5.stopPropagation();
+      overlay.setAttribute("data-toc-open", tocVisible ? "false" : "true");
+      renderActiveDeck();
+    });
+    overlay.appendChild(toggle);
+  }
 }
 function sendResult(conn, id, ok, error) {
   conn.send({ op: "command-result", id, ok, error });
