@@ -20818,7 +20818,6 @@ function createScenarioHandler(connection, eventTarget) {
           if (firstCmd?.action === "show-markdown") {
             const firstProps = firstCmd.state ?? firstCmd.data ?? {};
             if (firstProps.display === "modal") {
-              paused = true;
               showOrExtendModalDeck(
                 {
                   markdown: firstCmd.value ?? firstProps.content ?? "",
@@ -20826,7 +20825,6 @@ function createScenarioHandler(connection, eventTarget) {
                 },
                 eventTarget,
                 () => {
-                  paused = false;
                   if (resumeResolve) {
                     resumeResolve();
                     resumeResolve = null;
@@ -20838,7 +20836,11 @@ function createScenarioHandler(connection, eventTarget) {
             }
           }
           if (activeDeck) {
-            activeDeck.dismiss();
+            stepQueue.unshift(step);
+            await new Promise((resolve) => {
+              resumeResolve = resolve;
+            });
+            continue;
           }
           let stepOk = true;
           let stepError = null;
