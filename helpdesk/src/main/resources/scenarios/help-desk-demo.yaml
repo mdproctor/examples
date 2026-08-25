@@ -1,6 +1,6 @@
 scenario: help-desk-demo
 description: "Helpdesk case lifecycle — REST injection, AI classification, and spotlight narration"
-speed: 0.5
+speed: 1.0
 on-error: pause
 
 sections:
@@ -20,10 +20,30 @@ sections:
 
   - label: "Customer submits ticket"
     steps:
+      - label: "Introduction"
+        name: intro-markdown
+        target: browser
+        trigger: { after: bootstrap, delay: 500 }
+        commands:
+          - action: show-markdown
+            value: |
+              ## IT Helpdesk Tutorial
+
+              This scenario walks through a **complete helpdesk case lifecycle** — from ticket submission to resolution and customer notification.
+
+              You'll see how the CaseHub platform:
+              - Accepts tickets through a web form
+              - Classifies and routes them automatically
+              - Injects tickets via REST API
+              - Manages specialist work items
+              - Sends resolution notifications
+
+              *Press Step or Resume to continue.*
+
       - label: "Spotlight the intake form"
         name: spotlight-form
         target: browser
-        trigger: { after: bootstrap, delay: 500 }
+        trigger: { after: intro-markdown, delay: 500 }
         commands:
           - action: spotlight
             target: { role: textbox, name: "Your name" }
@@ -115,10 +135,25 @@ sections:
 
   - label: "REST injection"
     steps:
+      - label: "REST API explained"
+        name: rest-markdown
+        target: browser
+        trigger: { after: spotlight-ops, delay: 500 }
+        commands:
+          - action: show-markdown
+            value: |
+              ## REST API Integration
+
+              Tickets don't only come from the web form. The platform exposes a **REST endpoint** that external systems can call directly.
+
+              The next step injects a ticket from "Bob" via the same `POST /scenario/inject/chat` endpoint — simulating a Slack integration, email gateway, or any external channel.
+
+              The engine processes it identically: classify, route, assign.
+
       - label: "Inject a second ticket via REST"
         name: rest-inject
         target: helpdesk
-        trigger: { after: spotlight-ops, delay: 1000 }
+        trigger: { after: rest-markdown, delay: 1000 }
         commands:
           - action: rest-inject-chat
             data:
@@ -230,3 +265,25 @@ sections:
                 and customer notification — all driven by the case definition YAML.
               position: left
               duration: 0
+
+      - label: "Lifecycle summary"
+        name: summary-markdown
+        target: browser
+        trigger: { after: spotlight-resolved, delay: 1000 }
+        commands:
+          - action: show-markdown
+            value: |
+              ## Lifecycle Complete
+
+              The full helpdesk lifecycle ran end-to-end:
+
+              1. **Intake** — customer submitted a ticket via the web form
+              2. **Classification** — the engine matched "laptop" to HARDWARE/HIGH
+              3. **Routing** — a work item was created and assigned to the hardware group
+              4. **REST injection** — a second ticket arrived via the REST API
+              5. **Resolution** — a specialist claimed, resolved, and closed the ticket
+              6. **Notification** — the customer received a resolution message
+
+              Every stage is an **SPI boundary** — swap the classifier, notification channel, or routing logic without changing application code.
+
+              The same scenario YAML that drove this demo also runs as an automated test in CI.
