@@ -20372,26 +20372,28 @@ function injectModalStyles() {
     }
     .scenario-modal-next:hover { background: #1d4ed8; }
     .scenario-modal-body { cursor: pointer; position: relative; }
-    .scenario-modal-toc {
-      position: fixed; bottom: 100px; right: 24px; z-index: 10003;
-      background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
-      padding: 8px 0; min-width: 180px; max-width: 280px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    .scenario-modal-toc-bar {
+      display: flex; justify-content: flex-end; padding: 0 24px 4px;
     }
     .scenario-modal-toc-toggle {
-      position: fixed; bottom: 72px; right: 24px; z-index: 10003;
-      background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px; color: #64748b; cursor: pointer;
-      padding: 4px 10px; font-size: 11px;
+      background: none; border: none; color: #475569; cursor: pointer;
+      font-size: 11px; padding: 2px 0;
     }
-    .scenario-modal-toc-toggle:hover { color: #e2e8f0; }
+    .scenario-modal-toc-toggle:hover { color: #94a3b8; }
+    .scenario-modal-toc {
+      display: flex; justify-content: flex-end; padding: 0 24px 4px;
+    }
+    .scenario-modal-toc-list {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+      padding: 6px 0;
+    }
     .scenario-modal-toc-item {
-      padding: 4px 14px; font-size: 12px; color: #94a3b8;
+      padding: 3px 14px; font-size: 12px; color: #64748b;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       cursor: pointer;
     }
-    .scenario-modal-toc-item:hover { background: rgba(255,255,255,0.05); }
+    .scenario-modal-toc-item:hover { color: #94a3b8; }
     .scenario-modal-toc-item.active { color: #38bdf8; font-weight: 600; }
     .scenario-modal-scroll-indicator {
       position: absolute; bottom: 0; left: 0; right: 0;
@@ -20578,11 +20580,12 @@ function renderActiveDeck() {
   hint.textContent = total > 1 ? "Click or press \u2192 to advance" : "Click anywhere or press \u2192 to continue";
   overlay.appendChild(hint);
   if (total > 1) {
-    document.querySelectorAll(".scenario-modal-toc, .scenario-modal-toc-toggle").forEach((el) => el.remove());
     const tocVisible = overlay.getAttribute("data-toc-open") === "true";
     if (tocVisible) {
-      const toc = document.createElement("div");
-      toc.className = "scenario-modal-toc";
+      const tocRow = document.createElement("div");
+      tocRow.className = "scenario-modal-toc";
+      const tocList = document.createElement("div");
+      tocList.className = "scenario-modal-toc-list";
       for (let i5 = 0; i5 < total; i5++) {
         const item = document.createElement("div");
         item.className = `scenario-modal-toc-item ${i5 === current ? "active" : ""}`;
@@ -20595,10 +20598,13 @@ function renderActiveDeck() {
             renderActiveDeck();
           }
         });
-        toc.appendChild(item);
+        tocList.appendChild(item);
       }
-      overlay.appendChild(toc);
+      tocRow.appendChild(tocList);
+      overlay.appendChild(tocRow);
     }
+    const toggleBar = document.createElement("div");
+    toggleBar.className = "scenario-modal-toc-bar";
     const toggle = document.createElement("button");
     toggle.className = "scenario-modal-toc-toggle";
     toggle.textContent = tocVisible ? "\u25BE Slides" : "\u25B8 Slides";
@@ -20607,7 +20613,8 @@ function renderActiveDeck() {
       overlay.setAttribute("data-toc-open", tocVisible ? "false" : "true");
       renderActiveDeck();
     });
-    overlay.appendChild(toggle);
+    toggleBar.appendChild(toggle);
+    overlay.appendChild(toggleBar);
   }
 }
 function sendResult(conn, id, ok, error) {
