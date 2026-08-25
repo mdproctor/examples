@@ -12853,7 +12853,8 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
     if (!this._conn) return;
     try {
       await this._conn.sendCommand("/reset");
-      window.location.reload();
+      this._outline = [];
+      this.requestUpdate();
     } catch {
     }
   }
