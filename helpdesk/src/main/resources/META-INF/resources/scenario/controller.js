@@ -20546,39 +20546,6 @@ function renderActiveDeck() {
     });
   });
   overlay.appendChild(body);
-  const footer = document.createElement("div");
-  footer.className = "scenario-modal-footer";
-  if (total > 1) {
-    const dots = document.createElement("div");
-    dots.className = "scenario-modal-dots";
-    for (let i5 = 0; i5 < total; i5++) {
-      const dot = document.createElement("div");
-      dot.className = `scenario-modal-dot ${i5 === current ? "active" : ""}`;
-      dots.appendChild(dot);
-    }
-    footer.appendChild(dots);
-  } else {
-    footer.appendChild(document.createElement("div"));
-  }
-  const next = document.createElement("button");
-  next.className = "scenario-modal-next";
-  next.textContent = current === total - 1 ? total > 1 ? "Done" : "Continue \u2192" : "Next \u2192";
-  next.addEventListener("click", (e5) => {
-    e5.stopPropagation();
-    if (!activeDeck) return;
-    if (activeDeck.current < activeDeck.slides.length - 1) {
-      activeDeck.current++;
-      renderActiveDeck();
-    } else {
-      activeDeck.dismiss();
-    }
-  });
-  footer.appendChild(next);
-  overlay.appendChild(footer);
-  const hint = document.createElement("div");
-  hint.className = "scenario-modal-hint";
-  hint.textContent = total > 1 ? "Click or press \u2192 to advance" : "Click anywhere or press \u2192 to continue";
-  overlay.appendChild(hint);
   if (total > 1) {
     const tocVisible = overlay.getAttribute("data-toc-open") === "true";
     if (tocVisible) {
@@ -20616,6 +20583,39 @@ function renderActiveDeck() {
     toggleBar.appendChild(toggle);
     overlay.appendChild(toggleBar);
   }
+  const footer = document.createElement("div");
+  footer.className = "scenario-modal-footer";
+  if (total > 1) {
+    const dots = document.createElement("div");
+    dots.className = "scenario-modal-dots";
+    for (let i5 = 0; i5 < total; i5++) {
+      const dot = document.createElement("div");
+      dot.className = `scenario-modal-dot ${i5 === current ? "active" : ""}`;
+      dots.appendChild(dot);
+    }
+    footer.appendChild(dots);
+  } else {
+    footer.appendChild(document.createElement("div"));
+  }
+  const next = document.createElement("button");
+  next.className = "scenario-modal-next";
+  next.textContent = current === total - 1 ? total > 1 ? "Done" : "Continue \u2192" : "Next \u2192";
+  next.addEventListener("click", (e5) => {
+    e5.stopPropagation();
+    if (!activeDeck) return;
+    if (activeDeck.current < activeDeck.slides.length - 1) {
+      activeDeck.current++;
+      renderActiveDeck();
+    } else {
+      activeDeck.dismiss();
+    }
+  });
+  footer.appendChild(next);
+  overlay.appendChild(footer);
+  const hint = document.createElement("div");
+  hint.className = "scenario-modal-hint";
+  hint.textContent = total > 1 ? "Click or press \u2192 to advance" : "Click anywhere or press \u2192 to continue";
+  overlay.appendChild(hint);
 }
 function sendResult(conn, id, ok, error) {
   conn.send({ op: "command-result", id, ok, error });
