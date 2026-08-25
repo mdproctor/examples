@@ -20523,9 +20523,9 @@ function renderActiveDeck() {
     });
   });
   overlay.appendChild(body);
+  const footer = document.createElement("div");
+  footer.className = "scenario-modal-footer";
   if (total > 1) {
-    const footer = document.createElement("div");
-    footer.className = "scenario-modal-footer";
     const dots = document.createElement("div");
     dots.className = "scenario-modal-dots";
     for (let i5 = 0; i5 < total; i5++) {
@@ -20534,25 +20534,27 @@ function renderActiveDeck() {
       dots.appendChild(dot);
     }
     footer.appendChild(dots);
-    const next = document.createElement("button");
-    next.className = "scenario-modal-next";
-    next.textContent = current === total - 1 ? "Done" : "Next \u2192";
-    next.addEventListener("click", (e5) => {
-      e5.stopPropagation();
-      if (!activeDeck) return;
-      if (activeDeck.current < activeDeck.slides.length - 1) {
-        activeDeck.current++;
-        renderActiveDeck();
-      } else {
-        activeDeck.dismiss();
-      }
-    });
-    footer.appendChild(next);
-    overlay.appendChild(footer);
+  } else {
+    footer.appendChild(document.createElement("div"));
   }
+  const next = document.createElement("button");
+  next.className = "scenario-modal-next";
+  next.textContent = current === total - 1 ? total > 1 ? "Done" : "Continue \u2192" : "Next \u2192";
+  next.addEventListener("click", (e5) => {
+    e5.stopPropagation();
+    if (!activeDeck) return;
+    if (activeDeck.current < activeDeck.slides.length - 1) {
+      activeDeck.current++;
+      renderActiveDeck();
+    } else {
+      activeDeck.dismiss();
+    }
+  });
+  footer.appendChild(next);
+  overlay.appendChild(footer);
   const hint = document.createElement("div");
   hint.className = "scenario-modal-hint";
-  hint.textContent = total > 1 ? "Click or press \u2192 to advance" : "Click or press Escape to continue";
+  hint.textContent = total > 1 ? "Click or press \u2192 to advance" : "Click anywhere or press \u2192 to continue";
   overlay.appendChild(hint);
 }
 function sendResult(conn, id, ok, error) {
