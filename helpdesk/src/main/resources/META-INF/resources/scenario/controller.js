@@ -20371,6 +20371,12 @@ function injectModalStyles() {
       cursor: pointer; font-size: 14px;
     }
     .scenario-modal-next:hover { background: #1d4ed8; }
+    .scenario-modal-body { cursor: pointer; }
+    .scenario-modal-hint {
+      text-align: center; padding: 8px;
+      color: #475569; font-size: 12px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
     @media (prefers-reduced-motion: reduce) {
       .scenario-modal-overlay { animation: none; }
     }
@@ -20385,76 +20391,118 @@ function renderModalMarkdown(md) {
   el.innerHTML = rendered;
   return el;
 }
-function showModalDeck(slides, narrativeTarget) {
+var activeDeck = null;
+function showOrExtendModalDeck(slide, narrativeTarget) {
+  if (activeDeck && activeDeck.overlay.isConnected) {
+    activeDeck.slides.push(slide);
+    renderActiveDeck();
+    return;
+  }
   injectModalStyles();
-  let current = 0;
-  const total = slides.length;
-  const isSingle = total === 1;
   const overlay = document.createElement("div");
   overlay.className = "scenario-modal-overlay";
-  function renderSlide() {
-    const slide = slides[current];
-    overlay.innerHTML = "";
-    const header = document.createElement("div");
-    header.className = "scenario-modal-header";
-    const back = document.createElement("button");
-    back.className = "scenario-modal-back";
-    back.textContent = current === 0 ? "\u2715 Close" : "\u2190 Back";
-    back.addEventListener("click", () => {
-      if (current === 0) dismiss();
-      else {
-        current--;
-        renderSlide();
-      }
-    });
-    header.appendChild(back);
-    if (!isSingle) {
-      const pos = document.createElement("span");
-      pos.className = "scenario-modal-position";
-      pos.textContent = `Slide ${current + 1} of ${total}`;
-      header.appendChild(pos);
-    }
-    overlay.appendChild(header);
-    const body = document.createElement("div");
-    body.className = "scenario-modal-body";
-    body.appendChild(renderModalMarkdown(slide.markdown));
-    overlay.appendChild(body);
-    if (!isSingle) {
-      const footer = document.createElement("div");
-      footer.className = "scenario-modal-footer";
-      const dots = document.createElement("div");
-      dots.className = "scenario-modal-dots";
-      for (let i5 = 0; i5 < total; i5++) {
-        const dot = document.createElement("div");
-        dot.className = `scenario-modal-dot ${i5 === current ? "active" : ""}`;
-        dots.appendChild(dot);
-      }
-      footer.appendChild(dots);
-      const next = document.createElement("button");
-      next.className = "scenario-modal-next";
-      next.textContent = current === total - 1 ? "Done" : "Next \u2192";
-      next.addEventListener("click", () => {
-        if (current === total - 1) dismiss();
-        else {
-          current++;
-          renderSlide();
-        }
-      });
-      footer.appendChild(next);
-      overlay.appendChild(footer);
-    }
-  }
   function dismiss() {
     overlay.remove();
-    document.removeEventListener("keydown", onEscape);
+    document.removeEventListener("keydown", onKey);
+    activeDeck = null;
     narrativeTarget.dispatchEvent(new CustomEvent("scenario-narrative-dismiss"));
   }
-  function onEscape(e5) {
-    if (e5.key === "Escape") dismiss();
+  function advance() {
+    if (!activeDeck) return;
+    if (activeDeck.current < activeDeck.slides.length - 1) {
+      activeDeck.current++;
+      renderActiveDeck();
+    } else {
+      dismiss();
+    }
   }
-  document.addEventListener("keydown", onEscape);
-  renderSlide();
+  function onKey(e5) {
+    if (e5.key === "Escape") dismiss();
+    if (e5.key === "ArrowRight" || e5.key === " ") {
+      e5.preventDefault();
+      advance();
+    }
+    if (e5.key === "ArrowLeft" && activeDeck && activeDeck.current > 0) {
+      activeDeck.current--;
+      renderActiveDeck();
+    }
+  }
+  document.addEventListener("keydown", onKey);
+  activeDeck = { slides: [slide], current: 0, overlay, dismiss };
+  renderActiveDeck();
   document.body.appendChild(overlay);
+}
+function renderActiveDeck() {
+  if (!activeDeck) return;
+  const { slides, current, overlay } = activeDeck;
+  const total = slides.length;
+  const slide = slides[current];
+  overlay.innerHTML = "";
+  const header = document.createElement("div");
+  header.className = "scenario-modal-header";
+  const back = document.createElement("button");
+  back.className = "scenario-modal-back";
+  back.textContent = current === 0 ? "\u2715 Close" : "\u2190 Back";
+  back.addEventListener("click", (e5) => {
+    e5.stopPropagation();
+    if (current === 0) activeDeck.dismiss();
+    else {
+      activeDeck.current--;
+      renderActiveDeck();
+    }
+  });
+  header.appendChild(back);
+  if (total > 1) {
+    const pos = document.createElement("span");
+    pos.className = "scenario-modal-position";
+    pos.textContent = `Slide ${current + 1} of ${total}`;
+    header.appendChild(pos);
+  }
+  overlay.appendChild(header);
+  const body = document.createElement("div");
+  body.className = "scenario-modal-body";
+  body.appendChild(renderModalMarkdown(slide.markdown));
+  body.addEventListener("click", () => {
+    if (!activeDeck) return;
+    if (activeDeck.current < activeDeck.slides.length - 1) {
+      activeDeck.current++;
+      renderActiveDeck();
+    } else {
+      activeDeck.dismiss();
+    }
+  });
+  overlay.appendChild(body);
+  if (total > 1) {
+    const footer = document.createElement("div");
+    footer.className = "scenario-modal-footer";
+    const dots = document.createElement("div");
+    dots.className = "scenario-modal-dots";
+    for (let i5 = 0; i5 < total; i5++) {
+      const dot = document.createElement("div");
+      dot.className = `scenario-modal-dot ${i5 === current ? "active" : ""}`;
+      dots.appendChild(dot);
+    }
+    footer.appendChild(dots);
+    const next = document.createElement("button");
+    next.className = "scenario-modal-next";
+    next.textContent = current === total - 1 ? "Done" : "Next \u2192";
+    next.addEventListener("click", (e5) => {
+      e5.stopPropagation();
+      if (!activeDeck) return;
+      if (activeDeck.current < activeDeck.slides.length - 1) {
+        activeDeck.current++;
+        renderActiveDeck();
+      } else {
+        activeDeck.dismiss();
+      }
+    });
+    footer.appendChild(next);
+    overlay.appendChild(footer);
+  }
+  const hint = document.createElement("div");
+  hint.className = "scenario-modal-hint";
+  hint.textContent = total > 1 ? "Click or press \u2192 to advance" : "Click or press Escape to continue";
+  overlay.appendChild(hint);
 }
 function sendResult(conn, id, ok, error) {
   conn.send({ op: "command-result", id, ok, error });
@@ -20650,27 +20698,19 @@ function createScenarioHandler(connection, eventTarget) {
       if (firstCmd?.action === "show-markdown") {
         const firstProps = firstCmd.state ?? firstCmd.data ?? {};
         if (firstProps.display === "modal") {
-          const slides = [{
-            markdown: firstCmd.value ?? firstProps.content ?? "",
-            label: step.label ?? step.name
-          }];
-          while (stepQueue.length > 0) {
-            const nextStep = stepQueue[0];
-            const nextCmd = nextStep.commands[0];
-            if (nextCmd?.action !== "show-markdown") break;
-            const nextProps = nextCmd.state ?? nextCmd.data ?? {};
-            if (nextProps.display !== "modal") break;
-            const consumed = stepQueue.shift();
-            slides.push({
-              markdown: nextCmd.value ?? nextProps.content ?? "",
-              label: consumed.label ?? consumed.name
-            });
-            sendStepResult(connection, sessionId, consumed.name, true, null);
-          }
-          showModalDeck(slides, eventTarget);
+          showOrExtendModalDeck(
+            {
+              markdown: firstCmd.value ?? firstProps.content ?? "",
+              label: step.label ?? step.name
+            },
+            eventTarget
+          );
           sendStepResult(connection, sessionId, step.name, true, null);
           continue;
         }
+      }
+      if (activeDeck) {
+        activeDeck.dismiss();
       }
       let stepOk = true;
       let stepError = null;
