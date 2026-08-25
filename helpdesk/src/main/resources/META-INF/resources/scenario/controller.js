@@ -12377,9 +12377,12 @@ var ScenarioConnectionController = class {
     if (this._opts.connection) return;
     if (this._opts.baseUrl && !this._ownConnection) {
       const wsUrl = this._opts.baseUrl.replace(/^http/, "ws") + "/push";
-      this._ownEventTarget = new EventTarget();
+      if (!this._opts.eventTarget) {
+        this._ownEventTarget = new EventTarget();
+      }
+      const target = this._opts.eventTarget ?? this._ownEventTarget;
       this._ownConnection = createEventConnection(wsUrl, {
-        config: { eventTarget: this._ownEventTarget },
+        config: { eventTarget: target },
         onStatusChange: (status) => {
           this.connectionStatus = status;
           this._host.requestUpdate();
