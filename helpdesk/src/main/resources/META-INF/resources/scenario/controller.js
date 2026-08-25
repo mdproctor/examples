@@ -20387,11 +20387,12 @@ function injectModalStyles() {
     .scenario-modal-toc-toggle:hover { color: #94a3b8; }
     .scenario-modal-toc {
       display: flex; justify-content: flex-end; padding: 0 24px 4px;
+      overflow: hidden;
     }
     .scenario-modal-toc-list {
       background: rgba(30, 41, 59, 0.8);
       border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
-      padding: 6px 0;
+      padding: 6px 0; max-width: 260px;
     }
     .scenario-modal-toc-item {
       padding: 3px 14px; font-size: 12px; color: #64748b;
