@@ -12538,7 +12538,7 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
     .connection-status.disconnected { color: var(--pages-danger-9, #dc2626); }
 
     :host([mode="compact"]) {
-      position: fixed; bottom: 16px; right: 16px; z-index: 9999;
+      position: fixed; bottom: 16px; right: 16px; z-index: 10001;
       width: auto; font-size: var(--pages-font-size-sm, 12px);
     }
     .compact-pill {
@@ -19612,7 +19612,7 @@ var PagesScenarioYamlViewer = class extends i4 {
       position: fixed;
       bottom: 16px;
       right: 320px;
-      z-index: 9998;
+      z-index: 10001;
     }
     .viewer-card {
       background: rgba(15, 23, 42, 0.95);
@@ -20307,7 +20307,7 @@ function injectModalStyles() {
   style.id = "scenario-modal-styles";
   style.textContent = `
     .scenario-modal-overlay {
-      position: fixed; inset: 0; z-index: 10000;
+      position: fixed; inset: 0; z-index: 10002;
       background: rgba(15, 23, 42, 0.98);
       display: flex; flex-direction: column;
       font-family: system-ui, sans-serif;
