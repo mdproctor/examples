@@ -355,6 +355,7 @@
     setInterval(refresh, 2000);
   </script>
   <pages-scenario-controller mode="compact" scenario="help-desk-demo"></pages-scenario-controller>
+  <script>document.querySelector('pages-scenario-controller').setAttribute('baseurl', window.location.origin);</script>
   <script type="module">
     import { createScenarioHandler, createEventConnection } from '/scenario/controller.js';
     const wsUrl = window.location.origin.replace(/^http/, 'ws') + '/push';
@@ -369,10 +370,7 @@
         }
       },
     });
-    const controller = document.querySelector('pages-scenario-controller');
-    controller.connection = conn;
-    controller.eventTarget = eventTarget;
-    controller.baseUrl = window.location.origin;
+    document.querySelector('pages-scenario-controller').eventTarget = eventTarget;
   </script>
 </body>
 </html>
