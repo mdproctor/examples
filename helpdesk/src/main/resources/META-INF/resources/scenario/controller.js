@@ -12449,8 +12449,10 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
       this.style.right = "auto";
       this.style.bottom = "auto";
       if (this._docked && this._yamlViewer) {
-        const viewerWidth = this._yamlViewer.getBoundingClientRect().width;
-        this._yamlViewer.setPosition(left - viewerWidth - 8, top);
+        const viewerRect = this._yamlViewer.getBoundingClientRect();
+        const viewerWidth = viewerRect.width;
+        const viewerHeight = viewerRect.height > 0 ? viewerRect.height : window.innerHeight * 0.5;
+        this._yamlViewer.setPosition(left - viewerWidth - 8, top + rect.height - viewerHeight);
       }
     };
     this._onDragEnd = (e5) => {
@@ -12899,7 +12901,8 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
     const viewerRect = this._yamlViewer.getBoundingClientRect();
     const viewerWidth = viewerRect.width > 0 ? viewerRect.width : 360;
     const left = hostRect.left - viewerWidth - 8;
-    const top = hostRect.top;
+    const viewerHeight = viewerRect.height > 0 ? viewerRect.height : window.innerHeight * 0.5;
+    const top = hostRect.bottom - viewerHeight;
     this._yamlViewer.setPosition(left, top);
     this._docked = true;
   }
@@ -12912,8 +12915,9 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
       this._docked = false;
       return;
     }
+    const viewerBottom = top + viewerRect.height;
     this.style.left = `${left + viewerRect.width + 8}px`;
-    this.style.top = `${top}px`;
+    this.style.top = `${viewerBottom - hostRect.height}px`;
     this.style.right = "auto";
     this.style.bottom = "auto";
   }
@@ -12925,7 +12929,7 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
     const hostRect = this.getBoundingClientRect();
     const viewerRect = this._yamlViewer.getBoundingClientRect();
     const gap = hostRect.left - (viewerRect.left + viewerRect.width);
-    if (Math.abs(gap) < 30 && Math.abs(hostRect.top - viewerRect.top) < 30) {
+    if (Math.abs(gap) < 30 && Math.abs(hostRect.bottom - viewerRect.bottom) < 30) {
       this._snapViewerToController();
     }
   }
