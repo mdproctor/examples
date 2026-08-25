@@ -20804,59 +20804,66 @@ function createScenarioHandler(connection, eventTarget) {
   async function executeSequence() {
     if (executing) return;
     executing = true;
-    while (stepQueue.length > 0) {
-      if (paused) {
-        await new Promise((resolve) => {
-          resumeResolve = resolve;
-        });
-        continue;
-      }
-      const step = stepQueue.shift();
-      const firstCmd = step.commands[0];
-      if (firstCmd?.action === "show-markdown") {
-        const firstProps = firstCmd.state ?? firstCmd.data ?? {};
-        if (firstProps.display === "modal") {
-          paused = true;
-          showOrExtendModalDeck(
-            {
-              markdown: firstCmd.value ?? firstProps.content ?? "",
-              label: step.label ?? step.name
-            },
-            eventTarget,
-            () => {
-              paused = false;
-              if (resumeResolve) {
-                resumeResolve();
-                resumeResolve = null;
-              }
-            }
-          );
-          sendStepResult(connection, sessionId, step.name, true, null);
+    try {
+      while (stepQueue.length > 0) {
+        if (paused) {
+          await new Promise((resolve) => {
+            resumeResolve = resolve;
+          });
           continue;
         }
-      }
-      if (activeDeck) {
-        activeDeck.dismiss();
-      }
-      let stepOk = true;
-      let stepError = null;
-      for (const cmd of step.commands) {
+        const step = stepQueue.shift();
         try {
-          const result = executeAriaCommand(cmd, speed, paused, calloutMsPerChar, eventTarget);
-          if (result) await result;
-        } catch (err) {
-          stepOk = false;
-          stepError = err.message;
-          break;
+          const firstCmd = step.commands[0];
+          if (firstCmd?.action === "show-markdown") {
+            const firstProps = firstCmd.state ?? firstCmd.data ?? {};
+            if (firstProps.display === "modal") {
+              paused = true;
+              showOrExtendModalDeck(
+                {
+                  markdown: firstCmd.value ?? firstProps.content ?? "",
+                  label: step.label ?? step.name
+                },
+                eventTarget,
+                () => {
+                  paused = false;
+                  if (resumeResolve) {
+                    resumeResolve();
+                    resumeResolve = null;
+                  }
+                }
+              );
+              sendStepResult(connection, sessionId, step.name, true, null);
+              continue;
+            }
+          }
+          if (activeDeck) {
+            activeDeck.dismiss();
+          }
+          let stepOk = true;
+          let stepError = null;
+          for (const cmd of step.commands) {
+            try {
+              const result = executeAriaCommand(cmd, speed, paused, calloutMsPerChar, eventTarget);
+              if (result) await result;
+            } catch (err) {
+              stepOk = false;
+              stepError = err.message;
+              break;
+            }
+          }
+          sendStepResult(connection, sessionId, step.name, stepOk, stepError);
+        } catch {
+          sendStepResult(connection, sessionId, step.name, false, "step execution error");
+        }
+        if (stepQueue.length > 0 && !paused && speed < 1e3) {
+          const delay = Math.max(10, 1e3 / speed);
+          await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
-      sendStepResult(connection, sessionId, step.name, stepOk, stepError);
-      if (stepQueue.length > 0 && !paused && speed < 1e3) {
-        const delay = Math.max(10, 1e3 / speed);
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      }
+    } finally {
+      executing = false;
     }
-    executing = false;
   }
   function onDispatch(e5) {
     const detail = e5.detail;
