@@ -12626,6 +12626,10 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
       void this._conn.sendCommand("/step");
     }, { description: "Step forward" });
     window.addEventListener("resize", this._resizeHandler);
+    if (this.mode === "compact" && sessionStorage.getItem("scenario-controller-expanded") === "true") {
+      this._expanded = true;
+      sessionStorage.removeItem("scenario-controller-expanded");
+    }
   }
   firstUpdated() {
     this._conn = new ScenarioConnectionController(this, {
@@ -12853,8 +12857,8 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
     if (!this._conn) return;
     try {
       await this._conn.sendCommand("/reset");
-      this._outline = [];
-      this.requestUpdate();
+      sessionStorage.setItem("scenario-controller-expanded", "true");
+      window.location.reload();
     } catch {
     }
   }
