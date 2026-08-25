@@ -13150,11 +13150,12 @@ var PagesScenarioNarrative = class extends i4 {
     if (this._directContent) {
       if (this._directContent.type === "template" && this._directContent.path) {
         const cached = this._templateCache.get(this._directContent.path);
-        if (cached) return this._renderMarkdown(cached);
-        void this._fetchTemplate(this._directContent.path);
+        if (cached) return this._renderMarkdown(this._extractSection(cached, this._directContent.section));
+        void this._fetchTemplate(this._directContent.path, this._directContent.section);
         return b2`<div class="narrative-content"><em>Loading...</em></div>`;
       }
-      return this._renderMarkdown(this._directContent.markdown ?? "");
+      const md = this._directContent.markdown ?? "";
+      return this._renderMarkdown(this._directContent.section ? this._extractSection(md, this._directContent.section) : md);
     }
     const content = this._conn?.state?.content;
     if (!content) return A;
@@ -20302,11 +20303,13 @@ function executeAriaCommand(cmd, currentSpeed, isPaused, calloutMsPerChar, narra
       const props = state ?? cmd.data ?? {};
       const markdown = value ?? props.content ?? "";
       const filePath = props.file;
+      const section = props.section;
       narrativeTarget.dispatchEvent(new CustomEvent("scenario-narrative", {
         detail: {
           type: filePath ? "template" : "inline",
           markdown,
-          path: filePath
+          path: filePath,
+          section
         }
       }));
       return new Promise((resolve) => {
