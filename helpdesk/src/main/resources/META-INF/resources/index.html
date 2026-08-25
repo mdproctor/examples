@@ -357,20 +357,19 @@
   <pages-scenario-controller mode="compact" scenario="help-desk-demo"></pages-scenario-controller>
   <script>document.querySelector('pages-scenario-controller').setAttribute('baseurl', window.location.origin);</script>
   <script type="module">
-    import { createScenarioHandler, createEventConnection } from '/scenario/controller.js';
-    const wsUrl = window.location.origin.replace(/^http/, 'ws') + '/push';
-    const eventTarget = new EventTarget();
+    const { createScenarioHandler } = await import('/scenario/controller.js?_=' + Date.now());
+    const controller = document.querySelector('pages-scenario-controller');
     let handler = null;
-    const conn = createEventConnection(wsUrl, {
-      config: { eventTarget },
-      onStatusChange: (status) => {
-        if (status === 'connected') {
-          if (handler) handler.dispose();
-          handler = createScenarioHandler(conn, eventTarget);
-        }
-      },
-    });
-    document.querySelector('pages-scenario-controller').eventTarget = eventTarget;
+    const poll = setInterval(() => {
+      const conn = controller._conn;
+      if (!conn) return;
+      const wsConn = conn._ownConnection;
+      const et = conn._ownEventTarget ?? conn._opts?.eventTarget;
+      if (!wsConn || !et) return;
+      clearInterval(poll);
+      controller.eventTarget = et;
+      handler = createScenarioHandler(wsConn, et);
+    }, 100);
   </script>
 </body>
 </html>
