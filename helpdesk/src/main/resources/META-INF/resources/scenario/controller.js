@@ -20312,13 +20312,7 @@ function executeAriaCommand(cmd, currentSpeed, isPaused, calloutMsPerChar, narra
           section
         }
       }));
-      return new Promise((resolve) => {
-        function onDismiss() {
-          narrativeTarget.removeEventListener("scenario-narrative-dismiss", onDismiss);
-          resolve();
-        }
-        narrativeTarget.addEventListener("scenario-narrative-dismiss", onDismiss);
-      });
+      return;
     }
     default:
       throw new Error(`Unknown action: ${action}`);
