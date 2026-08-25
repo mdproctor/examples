@@ -20371,7 +20371,23 @@ function injectModalStyles() {
       cursor: pointer; font-size: 14px;
     }
     .scenario-modal-next:hover { background: #1d4ed8; }
-    .scenario-modal-body { cursor: pointer; }
+    .scenario-modal-body { cursor: pointer; position: relative; }
+    .scenario-modal-scroll-indicator {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 48px; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(transparent, rgba(15, 23, 42, 0.95));
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .scenario-modal-scroll-indicator.hidden { opacity: 0; }
+    .scenario-modal-scroll-arrow {
+      color: #64748b; font-size: 20px;
+      animation: scenario-scroll-bounce 1.5s ease-in-out infinite;
+    }
+    @keyframes scenario-scroll-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
     .scenario-modal-hint {
       text-align: center; padding: 8px;
       color: #475569; font-size: 12px;
@@ -20384,15 +20400,26 @@ function injectModalStyles() {
   document.head.appendChild(style);
 }
 function renderModalMarkdown(md) {
+  const placeholders = /* @__PURE__ */ new Map();
+  let pIdx = 0;
+  const withCodeBlocks = md.replace(/```(\w*)\n([\s\S]*?)```/g, (_match, lang, code) => {
+    const key = `__CODE_${pIdx++}__`;
+    const escaped2 = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    placeholders.set(key, `<pre style="background:rgba(255,255,255,0.06);padding:12px 16px;border-radius:6px;overflow-x:auto;font-family:'SF Mono',monospace;font-size:12px;line-height:1.5;color:#e2e8f0;margin:12px 0;"><code${lang ? ` class="language-${lang}"` : ""}>${escaped2}</code></pre>`);
+    return key;
+  });
   const images = /* @__PURE__ */ new Map();
   let imgIdx = 0;
-  const withPlaceholders = md.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, src) => {
+  const withImages = withCodeBlocks.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, src) => {
     const key = `__IMG_${imgIdx++}__`;
     images.set(key, { alt, src });
     return key;
   });
-  const escaped = withPlaceholders.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const escaped = withImages.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   let rendered = escaped.replace(/^### (.+)$/gm, "<h3>$1</h3>").replace(/^## (.+)$/gm, "<h2>$1</h2>").replace(/^# (.+)$/gm, "<h1>$1</h1>").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>").replace(/`(.+?)`/g, "<code>$1</code>").replace(/^- (.+)$/gm, "<li>$1</li>").replace(/\n\n/g, "</p><p>").replace(/^(?!<[hulo])(.+)$/gm, "<p>$1</p>");
+  for (const [key, html] of placeholders) {
+    rendered = rendered.replace(key, html);
+  }
   for (const [key, { alt, src }] of images) {
     rendered = rendered.replace(key, `<img src="${src}" alt="${alt}" style="max-width:100%;border-radius:8px;margin:8px 0;">`);
   }
@@ -20480,6 +20507,18 @@ function renderActiveDeck() {
     } else {
       activeDeck.dismiss();
     }
+  });
+  const scrollIndicator = document.createElement("div");
+  scrollIndicator.className = "scenario-modal-scroll-indicator";
+  scrollIndicator.innerHTML = '<span class="scenario-modal-scroll-arrow">\u2193</span>';
+  body.appendChild(scrollIndicator);
+  requestAnimationFrame(() => {
+    const hasOverflow = body.scrollHeight > body.clientHeight + 10;
+    if (!hasOverflow) scrollIndicator.classList.add("hidden");
+    body.addEventListener("scroll", () => {
+      const atBottom = body.scrollTop + body.clientHeight >= body.scrollHeight - 20;
+      scrollIndicator.classList.toggle("hidden", atBottom);
+    });
   });
   overlay.appendChild(body);
   if (total > 1) {

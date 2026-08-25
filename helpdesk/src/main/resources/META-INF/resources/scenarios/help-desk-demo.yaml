@@ -43,7 +43,31 @@ sections:
 
                 ![Case lifecycle diagram](/diagrams/case-lifecycle.svg)
 
-                Cases are the core abstraction. The same pattern works for insurance claims, patient intake, incident response — any domain where work follows a structured path.
+                This lifecycle is defined in YAML — the engine interprets it at runtime:
+
+                ```yaml
+                bindings:
+                  - name: triage
+                    capability: classify-ticket
+                    on:
+                      contextChange:
+                        filter: '.status == "OPEN" and .category == null'
+
+                  - name: assign-specialist
+                    humanTask:
+                      candidateGroups: >-
+                        if .category == "HARDWARE" then ["hw-specialist"]
+                        elif .category == "SOFTWARE" then ["sw-specialist"]
+                        else ["general-specialist"] end
+
+                  - name: notify-resolution
+                    capability: notify-customer
+                    on:
+                      contextChange:
+                        filter: '.status == "RESOLVED" and .notified == null'
+                ```
+
+                Each binding fires on a context change — no application code orchestrates the sequence. The same pattern works for insurance claims, patient intake, incident response — any domain where work follows a structured path.
 
       - label: "Workers and Bindings"
         name: slide-workers
