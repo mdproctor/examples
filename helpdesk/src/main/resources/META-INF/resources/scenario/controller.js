@@ -20552,43 +20552,6 @@ function renderActiveDeck() {
     });
   });
   overlay.appendChild(body);
-  if (total > 1) {
-    const tocVisible = overlay.getAttribute("data-toc-open") === "true";
-    if (tocVisible) {
-      const tocRow = document.createElement("div");
-      tocRow.className = "scenario-modal-toc";
-      const tocList = document.createElement("div");
-      tocList.className = "scenario-modal-toc-list";
-      for (let i5 = 0; i5 < total; i5++) {
-        const item = document.createElement("div");
-        item.className = `scenario-modal-toc-item ${i5 === current ? "active" : ""}`;
-        item.textContent = `${i5 + 1}. ${slides[i5].label}`;
-        const idx = i5;
-        item.addEventListener("click", (e5) => {
-          e5.stopPropagation();
-          if (activeDeck) {
-            activeDeck.current = idx;
-            renderActiveDeck();
-          }
-        });
-        tocList.appendChild(item);
-      }
-      tocRow.appendChild(tocList);
-      overlay.appendChild(tocRow);
-    }
-    const toggleBar = document.createElement("div");
-    toggleBar.className = "scenario-modal-toc-bar";
-    const toggle = document.createElement("button");
-    toggle.className = "scenario-modal-toc-toggle";
-    toggle.textContent = tocVisible ? "\u25BE Slides" : "\u25B8 Slides";
-    toggle.addEventListener("click", (e5) => {
-      e5.stopPropagation();
-      overlay.setAttribute("data-toc-open", tocVisible ? "false" : "true");
-      renderActiveDeck();
-    });
-    toggleBar.appendChild(toggle);
-    overlay.appendChild(toggleBar);
-  }
   const footer = document.createElement("div");
   footer.className = "scenario-modal-footer";
   if (total > 1) {
