@@ -41,6 +41,8 @@ sections:
 
                 The engine creates a case instance for each ticket and drives it through the lifecycle. Every transition is an event — the dashboard updates in real time because the push layer broadcasts each one.
 
+                ![Case lifecycle diagram](/diagrams/case-lifecycle.svg)
+
                 Cases are the core abstraction. The same pattern works for insurance claims, patient intake, incident response — any domain where work follows a structured path.
 
       - label: "Workers and Bindings"
