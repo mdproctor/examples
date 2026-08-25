@@ -20384,8 +20384,18 @@ function injectModalStyles() {
   document.head.appendChild(style);
 }
 function renderModalMarkdown(md) {
-  const escaped = md.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const rendered = escaped.replace(/^### (.+)$/gm, "<h3>$1</h3>").replace(/^## (.+)$/gm, "<h2>$1</h2>").replace(/^# (.+)$/gm, "<h1>$1</h1>").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>").replace(/`(.+?)`/g, "<code>$1</code>").replace(/^- (.+)$/gm, "<li>$1</li>").replace(/\n\n/g, "</p><p>").replace(/^(?!<[hulo])(.+)$/gm, "<p>$1</p>");
+  const images = /* @__PURE__ */ new Map();
+  let imgIdx = 0;
+  const withPlaceholders = md.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt, src) => {
+    const key = `__IMG_${imgIdx++}__`;
+    images.set(key, { alt, src });
+    return key;
+  });
+  const escaped = withPlaceholders.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  let rendered = escaped.replace(/^### (.+)$/gm, "<h3>$1</h3>").replace(/^## (.+)$/gm, "<h2>$1</h2>").replace(/^# (.+)$/gm, "<h1>$1</h1>").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>").replace(/`(.+?)`/g, "<code>$1</code>").replace(/^- (.+)$/gm, "<li>$1</li>").replace(/\n\n/g, "</p><p>").replace(/^(?!<[hulo])(.+)$/gm, "<p>$1</p>");
+  for (const [key, { alt, src }] of images) {
+    rendered = rendered.replace(key, `<img src="${src}" alt="${alt}" style="max-width:100%;border-radius:8px;margin:8px 0;">`);
+  }
   const el = document.createElement("div");
   el.className = "scenario-modal-content";
   el.innerHTML = rendered;
