@@ -18,12 +18,60 @@ sections:
                 - { match: install, category: SOFTWARE, priority: MEDIUM }
                 - { match: printer, category: HARDWARE, priority: MEDIUM }
 
+  - label: "Platform concepts"
+    steps:
+      - label: "What is a Case?"
+        name: slide-case
+        target: browser
+        trigger: { after: bootstrap, delay: 500 }
+        commands:
+          - action: show-markdown
+            data:
+              display: modal
+              content: |
+                ## What is a Case?
+
+                A **case** is a managed lifecycle — a unit of work that moves through defined stages from creation to completion.
+
+                In this helpdesk, each support ticket is a case. The case definition (written in YAML) declares:
+
+                - **Stages** — the states a case moves through: *intake → classified → assigned → resolved*
+                - **Bindings** — actions that fire on stage transitions: classify the ticket, assign a specialist, notify the customer
+                - **Data** — the case payload: subject, category, priority, customer reference
+
+                The engine creates a case instance for each ticket and drives it through the lifecycle. Every transition is an event — the dashboard updates in real time because the push layer broadcasts each one.
+
+                Cases are the core abstraction. The same pattern works for insurance claims, patient intake, incident response — any domain where work follows a structured path.
+
+      - label: "Workers and Bindings"
+        name: slide-workers
+        target: browser
+        trigger: { after: slide-case }
+        commands:
+          - action: show-markdown
+            data:
+              display: modal
+              content: |
+                ## Workers and Bindings
+
+                A **worker** is a unit of automation attached to a case stage. When the case enters a stage, the engine executes the worker's binding.
+
+                In this helpdesk:
+
+                - **classify-ticket** — a worker that runs when a ticket is created. It matches keywords in the issue description against classification rules and sets category + priority.
+                - **assign-specialist** — fires after classification. Routes the ticket to the right specialist group by creating a work item.
+                - **notify-customer** — fires when the case is resolved. Sends a notification to the customer with the resolution.
+
+                Workers are **SPIs** (Service Provider Interfaces). This demo loads lightweight in-memory implementations at bootstrap. In production, swap them for ML classifiers, real notification channels, and external routing — the case definition doesn't change.
+
+                The separation is deliberate: the *what* (case lifecycle) is defined in YAML, the *how* (worker implementation) is injected at runtime.
+
   - label: "Customer submits ticket"
     steps:
       - label: "Introduction"
         name: intro-markdown
         target: browser
-        trigger: { after: bootstrap, delay: 500 }
+        trigger: { after: slide-workers, delay: 500 }
         commands:
           - action: show-markdown
             value: |
@@ -181,12 +229,60 @@ sections:
                   content: "Bob's ticket — injected via REST, classified as SOFTWARE"
                   position: right
 
+  - label: "Work item lifecycle"
+    steps:
+      - label: "What are Work Items?"
+        name: slide-workitems
+        target: browser
+        trigger: { after: spotlight-live, delay: 1000 }
+        commands:
+          - action: show-markdown
+            data:
+              display: modal
+              content: |
+                ## Work Items
+
+                A **work item** is a task assigned to a person or group. When the case engine classifies a ticket, it creates a work item and assigns it to the matching specialist group.
+
+                Work items have their own lifecycle:
+
+                - **PENDING** — created, waiting for someone to claim it
+                - **IN_PROGRESS** — a specialist claimed the item and is working on it
+                - **COMPLETED** — the specialist resolved the issue
+
+                The operations dashboard you just saw shows work items in real time. Each status change fires a push event — no polling, no refresh. The specialist claims the item, the dashboard updates instantly.
+
+                Work items are separate from cases. A single case can spawn multiple work items (e.g., a hardware issue that also needs a software install). Each item routes to the right group independently.
+
+      - label: "Claim, Resolve, Notify"
+        name: slide-resolve
+        target: browser
+        trigger: { after: slide-workitems }
+        commands:
+          - action: show-markdown
+            data:
+              display: modal
+              content: |
+                ## Claim, Resolve, Notify
+
+                The resolution flow demonstrates three platform capabilities working together:
+
+                **1. Claim** — the specialist claims the work item. This is a state transition (PENDING → IN_PROGRESS) that the engine tracks. In production, claim rules can enforce SLAs, round-robin assignment, or skill-based routing.
+
+                **2. Resolve** — the specialist enters a resolution and completes the work item. The engine fires the *resolve* binding on the case, transitioning it from RUNNING to COMPLETED.
+
+                **3. Notify** — the case's *notify-customer* binding fires automatically on resolution. It sends the customer a message with the resolution text. The notification appears in the dashboard — same push channel, same real-time pattern.
+
+                This chain — claim → resolve → notify — is entirely driven by the case definition. No application code orchestrates the sequence. The engine follows the YAML.
+
+                Next, you'll see this flow in action.
+
   - label: "Specialist resolves ticket"
     steps:
       - label: "Claim Alice's work item"
         name: claim-ticket
         target: browser
-        trigger: { after: spotlight-live, delay: 1000 }
+        trigger: { after: slide-resolve, delay: 1000 }
         commands:
           - action: wait
             target: { role: button, name: "Claim work item", within: { role: row, name: "Alice" } }
