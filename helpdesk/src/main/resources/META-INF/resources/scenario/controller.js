@@ -20429,7 +20429,7 @@ function renderModalMarkdown(md) {
   return el;
 }
 var activeDeck = null;
-function showOrExtendModalDeck(slide, narrativeTarget) {
+function showOrExtendModalDeck(slide, narrativeTarget, onDeckDismiss) {
   if (activeDeck && activeDeck.overlay.isConnected) {
     activeDeck.slides.push(slide);
     renderActiveDeck();
@@ -20441,8 +20441,10 @@ function showOrExtendModalDeck(slide, narrativeTarget) {
   function dismiss() {
     overlay.remove();
     document.removeEventListener("keydown", onKey);
+    const cb = onDeckDismiss;
     activeDeck = null;
     narrativeTarget.dispatchEvent(new CustomEvent("scenario-narrative-dismiss"));
+    cb?.();
   }
   function advance() {
     if (!activeDeck) return;
@@ -20747,12 +20749,20 @@ function createScenarioHandler(connection, eventTarget) {
       if (firstCmd?.action === "show-markdown") {
         const firstProps = firstCmd.state ?? firstCmd.data ?? {};
         if (firstProps.display === "modal") {
+          paused = true;
           showOrExtendModalDeck(
             {
               markdown: firstCmd.value ?? firstProps.content ?? "",
               label: step.label ?? step.name
             },
-            eventTarget
+            eventTarget,
+            () => {
+              paused = false;
+              if (resumeResolve) {
+                resumeResolve();
+                resumeResolve = null;
+              }
+            }
           );
           sendStepResult(connection, sessionId, step.name, true, null);
           continue;
