@@ -20377,8 +20377,10 @@ function injectModalStyles() {
     }
     .scenario-modal-next:hover { background: #1d4ed8; }
     .scenario-modal-body { cursor: pointer; position: relative; }
+    .scenario-modal-footer { position: relative; }
     .scenario-modal-toc-bar {
-      display: flex; justify-content: flex-end; padding: 0 24px 4px;
+      position: absolute; right: 24px; bottom: 100%;
+      z-index: 1;
     }
     .scenario-modal-toc-toggle {
       background: none; border: none; color: #475569; cursor: pointer;
@@ -20386,8 +20388,8 @@ function injectModalStyles() {
     }
     .scenario-modal-toc-toggle:hover { color: #94a3b8; }
     .scenario-modal-toc {
-      display: flex; justify-content: flex-end; padding: 0 24px 4px;
-      overflow: hidden;
+      position: absolute; right: 24px; bottom: 100%; margin-bottom: 20px;
+      z-index: 1;
     }
     .scenario-modal-toc-list {
       background: rgba(30, 41, 59, 0.8);
@@ -20552,6 +20554,8 @@ function renderActiveDeck() {
     });
   });
   overlay.appendChild(body);
+  const footer = document.createElement("div");
+  footer.className = "scenario-modal-footer";
   if (total > 1) {
     const tocVisible = overlay.getAttribute("data-toc-open") === "true";
     if (tocVisible) {
@@ -20574,7 +20578,7 @@ function renderActiveDeck() {
         tocList.appendChild(item);
       }
       tocRow.appendChild(tocList);
-      overlay.appendChild(tocRow);
+      footer.appendChild(tocRow);
     }
     const toggleBar = document.createElement("div");
     toggleBar.className = "scenario-modal-toc-bar";
@@ -20587,10 +20591,8 @@ function renderActiveDeck() {
       renderActiveDeck();
     });
     toggleBar.appendChild(toggle);
-    overlay.appendChild(toggleBar);
+    footer.appendChild(toggleBar);
   }
-  const footer = document.createElement("div");
-  footer.className = "scenario-modal-footer";
   if (total > 1) {
     const dots = document.createElement("div");
     dots.className = "scenario-modal-dots";
