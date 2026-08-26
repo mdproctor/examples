@@ -35,15 +35,14 @@ sections:
 
                 In this helpdesk, each support ticket is a case. The case definition (written in YAML) declares:
 
-                - **Stages** — the states a case moves through: *intake → classified → assigned → resolved*
-                - **Bindings** — actions that fire on stage transitions: classify the ticket, assign a specialist, notify the customer
-                - **Data** — the case payload: subject, category, priority, customer reference
-
-                The engine creates a case instance for each ticket and drives it through the lifecycle. Every transition is an event — the dashboard updates in real time because the push layer broadcasts each one.
+                - **Bindings** — reactive rules that fire when the case context changes: classify the ticket, assign a specialist, notify the customer
+                - **Workers** — the implementations that execute each binding's capability
+                - **Goals** — success conditions that complete the case
+                - **Data** — the case context: subject, category, priority, customer reference
 
                 ![Case lifecycle diagram](/diagrams/case-lifecycle.svg)
 
-                This lifecycle is defined in YAML — the engine interprets it at runtime:
+                This is a **choreography**, not an orchestration. There is no central controller sequencing steps. Each binding watches for context changes and fires independently — like event-driven microservices, but within a single case instance.
 
                 ```yaml
                 bindings:
@@ -55,10 +54,10 @@ sections:
 
                   - name: assign-specialist
                     humanTask:
-                      candidateGroups: >-
-                        if .category == "HARDWARE" then ["hw-specialist"]
-                        elif .category == "SOFTWARE" then ["sw-specialist"]
-                        else ["general-specialist"] end
+                      candidateGroups: '["hw-specialist"]'
+                    on:
+                      contextChange:
+                        filter: '.status == "TRIAGED"'
 
                   - name: notify-resolution
                     capability: notify-customer
@@ -67,7 +66,7 @@ sections:
                         filter: '.status == "RESOLVED" and .notified == null'
                 ```
 
-                Each binding fires on a context change — no application code orchestrates the sequence. The same pattern works for insurance claims, patient intake, incident response — any domain where work follows a structured path.
+                Each binding fires on a context change — no application code orchestrates the sequence. The order emerges from the data: triage sets `TRIAGED`, which triggers assignment, which eventually sets `RESOLVED`, which triggers notification.
 
       - label: "Workers and Bindings"
         name: slide-workers
@@ -78,19 +77,27 @@ sections:
             data:
               display: modal
               content: |
-                ## Workers and Bindings
+                ## Choreography vs Orchestration
 
-                A **worker** is a unit of automation attached to a case stage. When the case enters a stage, the engine executes the worker's binding.
+                Most workflow engines use **orchestration** — a central controller that decides "do step A, then step B, then step C" in a predefined sequence.
 
-                In this helpdesk:
+                CaseHub uses **choreography** — each binding independently watches the case context and fires when its condition is met. There is no step sequence. The flow *emerges* from data changes:
 
-                - **classify-ticket** — a worker that runs when a ticket is created. It matches keywords in the issue description against classification rules and sets category + priority.
-                - **assign-specialist** — fires after classification. Routes the ticket to the right specialist group by creating a work item.
-                - **notify-customer** — fires when the case is resolved. Sends a notification to the customer with the resolution.
+                1. Ticket arrives → context has `status: OPEN` → **triage** binding fires
+                2. Triage sets `category` and `status: TRIAGED` → **assign-specialist** fires
+                3. Specialist resolves → `status: RESOLVED` → **notify-resolution** fires
 
-                Workers are **SPIs** (Service Provider Interfaces). This demo loads lightweight in-memory implementations at bootstrap. In production, swap them for ML classifiers, real notification channels, and external routing — the case definition doesn't change.
+                No binding knows about the others. Add a new binding and it participates automatically — no rewiring.
 
-                The separation is deliberate: the *what* (case lifecycle) is defined in YAML, the *how* (worker implementation) is injected at runtime.
+                **CaseHub is hybrid.** Choreography handles the case lifecycle, but individual bindings can use orchestrated patterns internally — compound tasks, HTN decomposition, GOAP planning. The case definition is always YAML; the worker implementations are SPIs injected at runtime.
+
+                In this demo:
+
+                - **keyword-classifier** — a worker that matches ticket keywords against classification rules
+                - **assign-specialist** — creates a human task (work item) routed to the right specialist group
+                - **notification-sender** — sends the customer a resolution message via the chat platform
+
+                In production, swap any worker — ML classifier, external routing service, real notification channel — the case definition doesn't change.
 
   - label: "Customer submits ticket"
     steps:
