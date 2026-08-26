@@ -52,11 +52,13 @@ npm --prefix wacky-manor/src/main/webui run dev
 Scenario-driven demo for the Pages scenario engine. Serves the helpdesk UI with push WebSocket, case lifecycle, and interactive tutorials.
 
 ```bash
-# Run helpdesk dev mode (backend on 8090)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl helpdesk -Dquarkus.http.port=8090 -s slot-settings.xml
+# Run helpdesk dev mode (backend on 8090, demo profile required for scenario endpoints)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl helpdesk -Dquarkus.http.port=8090 -Dquarkus.profile=demo -s .mvn/slot-settings.xml
 ```
 
-The Pages examples gallery (in casehub-pages) connects to this server for the Server tab — the helpdesk scenario demo will not work without it running. The Pages frontend is served separately via `yarn workspace @casehubio/pages-examples run serve` in the casehub-pages repo.
+**`-Dquarkus.profile=demo` is required.** Without it, the scenario verification endpoints (`/scenario/verify/*`, `/scenario/bootstrap/*`) are not registered and the "Start Demo" button does nothing.
+
+The helpdesk serves its own UI at `http://127.0.0.1:8090/` — no separate frontend needed.
 
 ## Wacky Manor
 
