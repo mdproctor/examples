@@ -20371,10 +20371,11 @@ function injectModalStyles() {
     }
     .scenario-modal-dot.active { background: #38bdf8; }
     .scenario-modal-prev {
-      background: transparent; color: #64748b; border: none;
-      padding: 8px 12px; cursor: pointer; font-size: 14px;
+      background: #2563eb; color: white; border: none;
+      padding: 8px 20px; border-radius: 6px; font-weight: 600;
+      cursor: pointer; font-size: 14px;
     }
-    .scenario-modal-prev:hover { color: #94a3b8; }
+    .scenario-modal-prev:hover { background: #1d4ed8; }
     .scenario-modal-next {
       background: #2563eb; color: white; border: none;
       padding: 8px 20px; border-radius: 6px; font-weight: 600;
