@@ -20472,7 +20472,36 @@ function highlightCode(code, lang) {
 function renderMarkdownBlock(md) {
   const placeholders = /* @__PURE__ */ new Map();
   let pIdx = 0;
-  const withCodeBlocks = md.replace(/```(\w*)\n([\s\S]*?)```/g, (_match, lang, code) => {
+  const withTables = md.replace(/(?:^|\n)((?:\|[^\n]+\|\n){2,})/g, (_match, block) => {
+    const key = `__TABLE_${pIdx++}__`;
+    const rows = block.trim().split("\n").filter((r6) => r6.trim());
+    if (rows.length < 2) {
+      placeholders.set(key, block);
+      return key;
+    }
+    const parseRow = (row) => row.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c4) => c4.trim());
+    const headers = parseRow(rows[0]);
+    const isSep = (r6) => /^\|[\s:-]+\|$/.test(r6.trim());
+    const startIdx = isSep(rows[1]) ? 2 : 1;
+    const isHeader = isSep(rows[1]);
+    let html = '<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;">';
+    if (isHeader) {
+      html += "<thead><tr>" + headers.map(
+        (h3) => `<th style="text-align:left;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,0.15);color:#94a3b8;font-size:12px;font-weight:600;">${h3}</th>`
+      ).join("") + "</tr></thead>";
+    }
+    html += "<tbody>";
+    for (let i5 = startIdx; i5 < rows.length; i5++) {
+      const cells = parseRow(rows[i5]);
+      html += "<tr>" + cells.map(
+        (c4) => `<td style="padding:6px 12px;border-bottom:1px solid rgba(255,255,255,0.06);color:#e2e8f0;">${c4}</td>`
+      ).join("") + "</tr>";
+    }
+    html += "</tbody></table>";
+    placeholders.set(key, html);
+    return key;
+  });
+  const withCodeBlocks = withTables.replace(/```(\w*)\n([\s\S]*?)```/g, (_match, lang, code) => {
     const key = `__CODE_${pIdx++}__`;
     const highlighted = highlightCode(code, lang);
     placeholders.set(key, `<pre style="background:rgba(255,255,255,0.06);padding:12px 16px;border-radius:6px;overflow-x:auto;font-family:'SF Mono',monospace;font-size:12px;line-height:1.5;color:#e2e8f0;margin:12px 0;"><code${lang ? ` class="language-${lang}"` : ""}>${highlighted}</code></pre>`);
