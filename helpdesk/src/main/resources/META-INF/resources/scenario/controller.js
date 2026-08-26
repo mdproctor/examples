@@ -20370,12 +20370,19 @@ function injectModalStyles() {
       background: #334155; transition: background 0.15s;
     }
     .scenario-modal-dot.active { background: #38bdf8; }
+    .scenario-modal-prev {
+      background: none; color: #94a3b8; border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 16px; border-radius: 6px; font-weight: 500;
+      cursor: pointer; font-size: 14px;
+    }
+    .scenario-modal-prev:hover { color: #e2e8f0; border-color: rgba(255,255,255,0.3); }
     .scenario-modal-next {
       background: #2563eb; color: white; border: none;
       padding: 8px 20px; border-radius: 6px; font-weight: 600;
       cursor: pointer; font-size: 14px;
     }
     .scenario-modal-next:hover { background: #1d4ed8; }
+    .scenario-modal-nav { display: flex; gap: 8px; align-items: center; }
     .scenario-modal-body { cursor: pointer; position: relative; }
     .scenario-modal-footer { position: relative; }
     .scenario-modal-toc-bar {
@@ -20561,18 +20568,14 @@ function renderActiveDeck() {
   overlay.innerHTML = "";
   const header = document.createElement("div");
   header.className = "scenario-modal-header";
-  const back = document.createElement("button");
-  back.className = "scenario-modal-back";
-  back.textContent = current === 0 ? "\u2715 Close" : "\u2190 Back";
-  back.addEventListener("click", (e5) => {
+  const close = document.createElement("button");
+  close.className = "scenario-modal-back";
+  close.textContent = "\u2715 Close";
+  close.addEventListener("click", (e5) => {
     e5.stopPropagation();
-    if (current === 0) activeDeck.dismiss();
-    else {
-      activeDeck.current--;
-      renderActiveDeck();
-    }
+    activeDeck.dismiss();
   });
-  header.appendChild(back);
+  header.appendChild(close);
   if (total > 1) {
     const pos = document.createElement("span");
     pos.className = "scenario-modal-position";
@@ -20656,6 +20659,21 @@ function renderActiveDeck() {
   } else {
     footer.appendChild(document.createElement("div"));
   }
+  const nav = document.createElement("div");
+  nav.className = "scenario-modal-nav";
+  if (current > 0) {
+    const prev = document.createElement("button");
+    prev.className = "scenario-modal-prev";
+    prev.textContent = "\u2190 Prev";
+    prev.addEventListener("click", (e5) => {
+      e5.stopPropagation();
+      if (activeDeck) {
+        activeDeck.current--;
+        renderActiveDeck();
+      }
+    });
+    nav.appendChild(prev);
+  }
   const next = document.createElement("button");
   next.className = "scenario-modal-next";
   next.textContent = current === total - 1 ? total > 1 ? "Done" : "Continue \u2192" : "Next \u2192";
@@ -20669,7 +20687,8 @@ function renderActiveDeck() {
       activeDeck.dismiss();
     }
   });
-  footer.appendChild(next);
+  nav.appendChild(next);
+  footer.appendChild(nav);
   overlay.appendChild(footer);
   const hint = document.createElement("div");
   hint.className = "scenario-modal-hint";
