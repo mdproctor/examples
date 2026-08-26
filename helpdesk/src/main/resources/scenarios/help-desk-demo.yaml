@@ -45,6 +45,9 @@ sections:
                 === Lifecycle
                 ![Case lifecycle diagram](/diagrams/case-lifecycle.svg)
 
+                === Architecture
+                ![Case architecture diagram](/diagrams/case-architecture.svg)
+
                 === YAML
                 ```yaml
                 bindings:
