@@ -20446,19 +20446,36 @@ function injectModalStyles() {
     .scenario-modal-tab.active { color: #38bdf8; border-bottom-color: #38bdf8; }
     .scenario-modal-tab-panel { display: none; }
     .scenario-modal-tab-panel.active { display: block; }
+    .hl-key { color: #7dd3fc; }
+    .hl-colon { color: #64748b; }
+    .hl-string { color: #86efac; }
+    .hl-number { color: #fbbf24; }
+    .hl-bool { color: #c084fc; }
+    .hl-comment { color: #475569; font-style: italic; }
+    .hl-dash { color: #f97316; }
     @media (prefers-reduced-motion: reduce) {
       .scenario-modal-overlay { animation: none; }
     }
   `;
   document.head.appendChild(style);
 }
+function highlightCode(code, lang) {
+  const escaped = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  if (lang === "yaml" || lang === "yml") {
+    return escaped.replace(/(#.*)/g, '<span class="hl-comment">$1</span>').replace(/^(\s*- )/gm, '<span class="hl-dash">$1</span>').replace(/^(\s*[\w][\w.-]*)(:)/gm, '<span class="hl-key">$1</span><span class="hl-colon">$2</span>').replace(/:\s+(&quot;.*?&quot;)/g, ': <span class="hl-string">$1</span>').replace(/:\s+('.*?')/g, ': <span class="hl-string">$1</span>').replace(/:\s+(true|false|null)\b/g, ': <span class="hl-bool">$1</span>').replace(/:\s+(\d+\.?\d*)\s*$/gm, ': <span class="hl-number">$1</span>');
+  }
+  if (lang === "json") {
+    return escaped.replace(/(&quot;[^&]*?&quot;)\s*:/g, '<span class="hl-key">$1</span>:').replace(/:\s*(&quot;[^&]*?&quot;)/g, ': <span class="hl-string">$1</span>').replace(/:\s*(true|false|null)\b/g, ': <span class="hl-bool">$1</span>').replace(/:\s*(\d+\.?\d*)/g, ': <span class="hl-number">$1</span>');
+  }
+  return escaped;
+}
 function renderMarkdownBlock(md) {
   const placeholders = /* @__PURE__ */ new Map();
   let pIdx = 0;
   const withCodeBlocks = md.replace(/```(\w*)\n([\s\S]*?)```/g, (_match, lang, code) => {
     const key = `__CODE_${pIdx++}__`;
-    const escaped2 = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    placeholders.set(key, `<pre style="background:rgba(255,255,255,0.06);padding:12px 16px;border-radius:6px;overflow-x:auto;font-family:'SF Mono',monospace;font-size:12px;line-height:1.5;color:#e2e8f0;margin:12px 0;"><code${lang ? ` class="language-${lang}"` : ""}>${escaped2}</code></pre>`);
+    const highlighted = highlightCode(code, lang);
+    placeholders.set(key, `<pre style="background:rgba(255,255,255,0.06);padding:12px 16px;border-radius:6px;overflow-x:auto;font-family:'SF Mono',monospace;font-size:12px;line-height:1.5;color:#e2e8f0;margin:12px 0;"><code${lang ? ` class="language-${lang}"` : ""}>${highlighted}</code></pre>`);
     return key;
   });
   const images = /* @__PURE__ */ new Map();
