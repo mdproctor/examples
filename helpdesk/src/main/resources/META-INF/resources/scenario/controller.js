@@ -20424,13 +20424,28 @@ function injectModalStyles() {
       color: #475569; font-size: 12px;
       border-top: 1px solid rgba(255,255,255,0.05);
     }
+    .scenario-modal-tabs {
+      display: flex; gap: 2px; margin: 16px 0 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .scenario-modal-tab {
+      padding: 6px 16px; cursor: pointer;
+      font-size: 13px; font-weight: 500;
+      color: #64748b; background: none; border: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .scenario-modal-tab:hover { color: #94a3b8; }
+    .scenario-modal-tab.active { color: #38bdf8; border-bottom-color: #38bdf8; }
+    .scenario-modal-tab-panel { display: none; }
+    .scenario-modal-tab-panel.active { display: block; }
     @media (prefers-reduced-motion: reduce) {
       .scenario-modal-overlay { animation: none; }
     }
   `;
   document.head.appendChild(style);
 }
-function renderModalMarkdown(md) {
+function renderMarkdownBlock(md) {
   const placeholders = /* @__PURE__ */ new Map();
   let pIdx = 0;
   const withCodeBlocks = md.replace(/```(\w*)\n([\s\S]*?)```/g, (_match, lang, code) => {
@@ -20454,9 +20469,45 @@ function renderModalMarkdown(md) {
   for (const [key, { alt, src }] of images) {
     rendered = rendered.replace(key, `<img src="${src}" alt="${alt}" style="max-width:100%;border-radius:8px;margin:8px 0;">`);
   }
+  return rendered;
+}
+function renderModalMarkdown(md) {
   const el = document.createElement("div");
   el.className = "scenario-modal-content";
-  el.innerHTML = rendered;
+  const tabPattern = /^=== (.+)$/gm;
+  if (!tabPattern.test(md)) {
+    el.innerHTML = renderMarkdownBlock(md);
+    return el;
+  }
+  const sections = md.split(/^=== (.+)$/m);
+  const preamble = sections[0].trim();
+  if (preamble) {
+    el.innerHTML = renderMarkdownBlock(preamble);
+  }
+  const tabBar = document.createElement("div");
+  tabBar.className = "scenario-modal-tabs";
+  const panels = [];
+  for (let i5 = 1; i5 < sections.length; i5 += 2) {
+    const title = sections[i5];
+    const content = (sections[i5 + 1] || "").trim();
+    const idx = panels.length;
+    const tab = document.createElement("button");
+    tab.className = `scenario-modal-tab${idx === 0 ? " active" : ""}`;
+    tab.textContent = title;
+    tab.addEventListener("click", (e5) => {
+      e5.stopPropagation();
+      tabBar.querySelectorAll(".scenario-modal-tab").forEach((t3) => t3.classList.remove("active"));
+      tab.classList.add("active");
+      panels.forEach((p3, j) => p3.classList.toggle("active", j === idx));
+    });
+    tabBar.appendChild(tab);
+    const panel = document.createElement("div");
+    panel.className = `scenario-modal-tab-panel${idx === 0 ? " active" : ""}`;
+    panel.innerHTML = renderMarkdownBlock(content);
+    panels.push(panel);
+  }
+  el.appendChild(tabBar);
+  for (const panel of panels) el.appendChild(panel);
   return el;
 }
 var activeDeck = null;

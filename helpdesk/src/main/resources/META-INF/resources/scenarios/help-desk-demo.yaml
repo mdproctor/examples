@@ -40,10 +40,12 @@ sections:
                 - **Goals** — success conditions that complete the case
                 - **Data** — the case context: subject, category, priority, customer reference
 
+                This is a **choreography**, not an orchestration. There is no central controller sequencing steps. Each binding watches for context changes and fires independently — the order emerges from the data.
+
+                === Diagram
                 ![Case lifecycle diagram](/diagrams/case-lifecycle.svg)
 
-                This is a **choreography**, not an orchestration. There is no central controller sequencing steps. Each binding watches for context changes and fires independently — like event-driven microservices, but within a single case instance.
-
+                === YAML
                 ```yaml
                 bindings:
                   - name: triage
@@ -65,8 +67,6 @@ sections:
                       contextChange:
                         filter: '.status == "RESOLVED" and .notified == null'
                 ```
-
-                Each binding fires on a context change — no application code orchestrates the sequence. The order emerges from the data: triage sets `TRIAGED`, which triggers assignment, which eventually sets `RESOLVED`, which triggers notification.
 
       - label: "Workers and Bindings"
         name: slide-workers
