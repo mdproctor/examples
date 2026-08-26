@@ -12411,11 +12411,11 @@ var ScenarioConnectionController = class {
 
 // src/controller/scenario-controller.ts
 var ACTION_ICONS = {
-  "show-markdown": "\u{1F4DD}",
-  "spotlight": "\u{1F506}",
-  "click": "\u{1F446}",
-  "fill": "\u270D",
-  "navigate": "\u279C"
+  "show-markdown": "\u25EB",
+  "spotlight": "\u25CE",
+  "click": "\u2299",
+  "fill": "\u270E",
+  "navigate": "\u2192"
 };
 var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
   constructor() {
