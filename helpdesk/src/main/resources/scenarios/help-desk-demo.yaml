@@ -80,27 +80,30 @@ sections:
             data:
               display: modal
               content: |
-                ## Choreography vs Orchestration
+                ## Hybrid Execution
 
-                Most workflow engines use **orchestration** — a central controller that decides "do step A, then step B, then step C" in a predefined sequence.
+                CaseHub is a **hybrid execution platform**. A single case definition can mix execution models — the engine selects the right one based on how each binding is declared.
 
-                CaseHub uses **choreography** — each binding independently watches the case context and fires when its condition is met. There is no step sequence. The flow *emerges* from data changes:
+                | Model | How it works | Use case |
+                | --- | --- | --- |
+                | **Choreography** | Bindings fire reactively on context changes — no central controller | Case lifecycle, event-driven flows |
+                | **Orchestration** | Explicit work submission with suspend/resume | Multi-step agent tasks, blocking waits |
+                | **HTN decomposition** | Goals decompose into compound task trees | Complex multi-agent planning |
+                | **GOAP planning** | Goal-oriented action planning with preconditions and effects | Adaptive agent strategies |
+                | **DAG execution** | Parallel task graphs with dependency scheduling | Pipeline processing |
+                | **Human tasks** | Work items routed to specialist groups | Manual review, approvals |
 
-                1. Ticket arrives → context has `status: OPEN` → **triage** binding fires
+                All models share the same worker selection infrastructure and the same YAML case definition format.
+
+                ### This helpdesk uses choreography
+
+                In a choreography, the flow *emerges* from data changes. No binding knows about the others:
+
+                1. Ticket arrives → context has `status: OPEN` → **triage** fires
                 2. Triage sets `category` and `status: TRIAGED` → **assign-specialist** fires
                 3. Specialist resolves → `status: RESOLVED` → **notify-resolution** fires
 
-                No binding knows about the others. Add a new binding and it participates automatically — no rewiring.
-
-                **CaseHub is hybrid.** Choreography handles the case lifecycle, but individual bindings can use orchestrated patterns internally — compound tasks, HTN decomposition, GOAP planning. The case definition is always YAML; the worker implementations are SPIs injected at runtime.
-
-                In this demo:
-
-                - **keyword-classifier** — a worker that matches ticket keywords against classification rules
-                - **assign-specialist** — creates a human task (work item) routed to the right specialist group
-                - **notification-sender** — sends the customer a resolution message via the chat platform
-
-                In production, swap any worker — ML classifier, external routing service, real notification channel — the case definition doesn't change.
+                Add a new binding and it participates automatically — no rewiring. The workers are SPIs injected at runtime: swap a keyword classifier for an ML model, the case definition doesn't change.
 
   - label: "Customer submits ticket"
     steps:
