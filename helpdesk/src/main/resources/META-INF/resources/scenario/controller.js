@@ -20472,16 +20472,16 @@ function highlightCode(code, lang) {
 function renderMarkdownBlock(md) {
   const placeholders = /* @__PURE__ */ new Map();
   let pIdx = 0;
-  const withTables = md.replace(/(?:^|\n)((?:\|[^\n]+\|\n){2,})/g, (_match, block) => {
+  const withTables = md.replace(/(?:^|\n)((?:[ \t]*\|[^\n]+\|\n){2,})/g, (_match, block) => {
     const key = `__TABLE_${pIdx++}__`;
-    const rows = block.trim().split("\n").filter((r6) => r6.trim());
+    const rows = block.trim().split("\n").map((r6) => r6.trim()).filter(Boolean);
     if (rows.length < 2) {
       placeholders.set(key, block);
       return key;
     }
     const parseRow = (row) => row.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c4) => c4.trim());
     const headers = parseRow(rows[0]);
-    const isSep = (r6) => /^\|[\s:-]+\|$/.test(r6.trim());
+    const isSep = (r6) => /^\|[\s:|-]+\|$/.test(r6.trim()) && r6.includes("---");
     const startIdx = isSep(rows[1]) ? 2 : 1;
     const isHeader = isSep(rows[1]);
     let html = '<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;">';
