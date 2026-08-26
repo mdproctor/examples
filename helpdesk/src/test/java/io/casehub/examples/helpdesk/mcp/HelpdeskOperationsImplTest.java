@@ -224,7 +224,7 @@ class HelpdeskOperationsImplTest {
             sent.add(new SentNotification(to, message, sentAt));
         }
 
-        void reset() { sent.clear(); }
+        public void reset() { sent.clear(); }
 
         @Override
         public List<SentNotification> getSentNotifications() {
