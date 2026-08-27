@@ -12430,6 +12430,7 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
     this._popoutWindow = null;
     this._popoutPoll = null;
     this._docked = true;
+    this._fullOutline = false;
     this._resizeHandler = () => this._clampToViewport();
     this._dragOffset = { x: 0, y: 0 };
     this._onDragStart = (e5) => {
@@ -12702,6 +12703,42 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
       </div>
     `;
   }
+  _flattenLeaves(nodes) {
+    const result = [];
+    for (const node of nodes) {
+      if (node.children.length === 0) result.push(node);
+      else result.push(...this._flattenLeaves(node.children));
+    }
+    return result;
+  }
+  _renderCompactOutline() {
+    const leaves = this._flattenLeaves(this._outline);
+    if (leaves.length === 0) {
+      return b2`<div class="outline-empty">No scenario running</div>`;
+    }
+    const currentIdx = leaves.findIndex((n5) => n5.label === this._conn?.state.step);
+    const start = Math.max(0, Math.min(currentIdx < 0 ? 0 : currentIdx - 1, leaves.length - 3));
+    const window2 = leaves.slice(start, start + 3);
+    return b2`
+      <div class="outline" role="tree" aria-label="Scenario outline">
+        ${window2.map((node) => {
+      const isCurrent = node.label === this._conn?.state.step;
+      const isCompleted = this._isBeforeCurrent(node.label);
+      const icon = node.action ? ACTION_ICONS[node.action] : void 0;
+      return b2`
+            <div class="outline-step ${isCurrent ? "current" : ""} ${isCompleted ? "completed" : ""}"
+                 role="treeitem" tabindex="-1"
+                 style="padding-left: 8px"
+                 @click=${() => void this._conn.sendCommand("/run-to", { label: node.label })}>
+              <span class="step-icon">${isCurrent ? "\u25CF" : isCompleted ? "\u2713" : "\u25CB"}</span>
+              ${icon ? b2`<span class="step-type-icon">${icon}</span>` : ""}
+              ${node.label}
+            </div>
+          `;
+    })}
+      </div>
+    `;
+  }
   _renderNode(node, depth) {
     const isLeaf = node.children.length === 0;
     const isCurrent = isLeaf && node.label === this._conn?.state.step;
@@ -12827,6 +12864,10 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
       <div class="compact-card">
         <div class="compact-header" @pointerdown=${this._onDragStart}>
           <span class="scenario-name">${name}</span>
+          <button aria-label=${this._fullOutline ? "Compact outline" : "Full outline"}
+                  @click=${() => {
+      this._fullOutline = !this._fullOutline;
+    }}>${this._fullOutline ? "\u229F" : "\u229E"}</button>
           <button aria-label="Toggle source" @click=${() => this._toggleYaml()}>&lt;/&gt;</button>
           ${this._yamlOpen ? this._docked ? b2`<button aria-label="Undock viewer" @click=${() => this._undockViewer()} title="Undock panels">⊟</button>` : b2`<button aria-label="Dock viewer" @click=${() => this._dockViewer()} title="Dock panels">⊞</button>` : A}
           <button aria-label="Collapse" @click=${() => {
@@ -12835,9 +12876,11 @@ var PagesScenarioController = class extends KeyboardShortcutMixin(i4) {
     }}>✕</button>
         </div>
         <div class="compact-body">
-          ${this._renderOutline()}
+          ${this._fullOutline ? this._renderOutline() : this._renderCompactOutline()}
         </div>
-        ${this._renderDemoActions()}
+        ${!s4?.scenario && this.scenario ? b2`<div class="demo-actions">
+          <button class="demo-btn demo-btn-start" @click=${() => void this._startDemo()}>Start Demo</button>
+        </div>` : A}
         ${this._renderTransport()}
         ${this._renderStatus()}
       </div>
@@ -13036,6 +13079,9 @@ __decorateClass([
 __decorateClass([
   r5()
 ], PagesScenarioController.prototype, "_docked", 2);
+__decorateClass([
+  r5()
+], PagesScenarioController.prototype, "_fullOutline", 2);
 if (!customElements.get("pages-scenario-controller")) {
   customElements.define("pages-scenario-controller", PagesScenarioController);
 }
@@ -20955,11 +21001,14 @@ function createScenarioHandler(connection, eventTarget) {
             }
           }
           if (activeDeck) {
-            stepQueue.unshift(step);
-            await new Promise((resolve) => {
-              resumeResolve = resolve;
-            });
-            continue;
+            if (paused) {
+              stepQueue.unshift(step);
+              await new Promise((resolve) => {
+                resumeResolve = resolve;
+              });
+              continue;
+            }
+            activeDeck.dismiss();
           }
           let stepOk = true;
           let stepError = null;
@@ -21008,6 +21057,7 @@ function createScenarioHandler(connection, eventTarget) {
         paused = false;
         dismissAllSpotlights();
         completeTypingNow();
+        if (activeDeck) activeDeck.dismiss();
         eventTarget.dispatchEvent(new CustomEvent("scenario-narrative-dismiss"));
         if (resumeResolve) {
           resumeResolve();
@@ -21018,6 +21068,7 @@ function createScenarioHandler(connection, eventTarget) {
         paused = false;
         dismissAllSpotlights();
         completeTypingNow();
+        if (activeDeck) activeDeck.dismiss();
         eventTarget.dispatchEvent(new CustomEvent("scenario-narrative-dismiss"));
         if (resumeResolve) {
           resumeResolve();
