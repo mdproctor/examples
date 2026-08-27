@@ -312,6 +312,9 @@ sections:
 
                 **3. Notify** — the case's *notify-customer* binding fires automatically on resolution. It sends the customer a message with the resolution text. The notification appears in the dashboard — same push channel, same real-time pattern.
 
+                === Flow
+                ![Claim, Resolve, Notify flow](/diagrams/claim-resolve-notify.svg)
+
                 This chain — claim → resolve → notify — is entirely driven by the case definition. No application code orchestrates the sequence. The engine follows the YAML.
 
                 Next, you'll see this flow in action.
