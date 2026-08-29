@@ -35,7 +35,7 @@ class ObservationBuilderTest {
                             java.util.List<io.casehub.neocortex.memory.Memory> reflections,
                             java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>> relationships,
                             java.util.Set<String> tags) {
-        var provider = new ManorWorldObservationProvider(character, world, drain, tags);
+        var provider = new ManorWorldObservationProvider(character, world, drain);
         return ObservationBuilder.buildObservation(provider, character, goals, drain, memories, reflections, relationships);
     }
 
@@ -140,9 +140,9 @@ class ObservationBuilderTest {
     void observation_includes_goals_section() {
         var goals = java.util.List.of(
                 new io.casehub.eidos.api.AgentGoal("find-diamond", "Find the Doily Diamond",
-                                                   io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()),
+                                                   io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of(), java.util.Map.of()),
                 new io.casehub.eidos.api.AgentGoal("solve-puzzles", "Solve puzzles",
-                                                   io.casehub.eidos.api.GoalPriority.SECONDARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()));
+                                                   io.casehub.eidos.api.GoalPriority.SECONDARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of(), java.util.Map.of()));
         var obs = buildObs(world.character("penelope-pitstop"), goals, emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of(), java.util.Set.of());
         assertThat(obs).contains("== Your Goals ==");
         assertThat(obs).contains("[PRIMARY] Find the Doily Diamond");
@@ -162,9 +162,9 @@ class ObservationBuilderTest {
     void goals_sorted_by_priority_then_name() {
         var goals = java.util.List.of(
                 new io.casehub.eidos.api.AgentGoal("z-secondary", "Z goal",
-                                                   io.casehub.eidos.api.GoalPriority.SECONDARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()),
+                                                   io.casehub.eidos.api.GoalPriority.SECONDARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of(), java.util.Map.of()),
                 new io.casehub.eidos.api.AgentGoal("a-primary", "A goal",
-                                                   io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()));
+                                                   io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of(), java.util.Map.of()));
         var obs          = buildObs(world.character("penelope-pitstop"), goals, emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of(), java.util.Set.of());
         int primaryIdx   = obs.indexOf("[PRIMARY]");
         int secondaryIdx = obs.indexOf("[SECONDARY]");

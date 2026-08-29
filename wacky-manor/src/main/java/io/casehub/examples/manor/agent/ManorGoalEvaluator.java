@@ -177,7 +177,7 @@ public class ManorGoalEvaluator {
                     ? p.suggestedPriority() : GoalPriority.SECONDARY;
             try {
                 var goal = new AgentGoal(p.name(), p.description(), priority,
-                        Visibility.PRIVATE, List.of());
+                        Visibility.PRIVATE, List.of(), java.util.Map.of());
                 validated.add(goal);
                 existingNames.add(p.name());
             } catch (Exception e) {

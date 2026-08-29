@@ -31,7 +31,7 @@ class ManorGoalEvaluatorTest {
         registeredDescriptor = new AtomicReference<>();
         nextProposal = new GoalFormationProposal(List.of(
                 new GoalFormationProposal.ProposedGoal("protect-tea",
-                        "Prevent poisoning", GoalPriority.SECONDARY, "Danger observed")),
+                        "Prevent poisoning", GoalPriority.SECONDARY, "Danger observed", java.util.Map.of())),
                 "rationale");
 
         GoalFormationStrategy formationStrategy = ctx -> nextProposal;
@@ -40,7 +40,7 @@ class ManorGoalEvaluatorTest {
                 .agentId("hc").name("Hooded Claw").tenancyId("wacky-manor")
                 .slot("manor-character")
                 .goals(List.of(new AgentGoal("eliminate", "Eliminate Penelope",
-                        GoalPriority.PRIMARY, Visibility.PUBLIC, List.of())))
+                        GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of())))
                 .build();
 
         AgentRegistry registry = new TestRegistry(descriptor);
@@ -73,7 +73,7 @@ class ManorGoalEvaluatorTest {
     void evaluate_defaults_priority_to_secondary() {
         nextProposal = new GoalFormationProposal(List.of(
                 new GoalFormationProposal.ProposedGoal("new-goal",
-                        "A goal", null, "reason")), "");
+                        "A goal", null, "reason", java.util.Map.of())), "");
         evaluator.evaluate("hc", 1, List.of("insight"), Map.of());
         var formedGoal = registeredDescriptor.get().goals().stream()
                 .filter(g -> g.name().equals("new-goal")).findFirst().orElseThrow();
@@ -84,7 +84,7 @@ class ManorGoalEvaluatorTest {
     void evaluate_rejects_duplicate_goal_names() {
         nextProposal = new GoalFormationProposal(List.of(
                 new GoalFormationProposal.ProposedGoal("eliminate",
-                        "Duplicate", GoalPriority.SECONDARY, "reason")), "");
+                        "Duplicate", GoalPriority.SECONDARY, "reason", java.util.Map.of())), "");
         evaluator.evaluate("hc", 1, List.of("insight"), Map.of());
         assertThat(registeredDescriptor.get()).isNull();
     }
@@ -94,7 +94,7 @@ class ManorGoalEvaluatorTest {
         var manyGoals = new ArrayList<GoalFormationProposal.ProposedGoal>();
         for (int i = 0; i < 15; i++) {
             manyGoals.add(new GoalFormationProposal.ProposedGoal(
-                    "goal-" + i, "G" + i, GoalPriority.SECONDARY, "reason"));
+                    "goal-" + i, "G" + i, GoalPriority.SECONDARY, "reason", java.util.Map.of()));
         }
         nextProposal = new GoalFormationProposal(manyGoals, "");
         evaluator.evaluate("hc", 1, List.of("insight"), Map.of());
@@ -104,9 +104,9 @@ class ManorGoalEvaluatorTest {
     @Test
     void evaluate_respects_max_new_per_reflection() {
         var threeGoals = List.of(
-                new GoalFormationProposal.ProposedGoal("a", "A", GoalPriority.SECONDARY, "r"),
-                new GoalFormationProposal.ProposedGoal("b", "B", GoalPriority.SECONDARY, "r"),
-                new GoalFormationProposal.ProposedGoal("c", "C", GoalPriority.SECONDARY, "r"));
+                new GoalFormationProposal.ProposedGoal("a", "A", GoalPriority.SECONDARY, "r", java.util.Map.of()),
+                new GoalFormationProposal.ProposedGoal("b", "B", GoalPriority.SECONDARY, "r", java.util.Map.of()),
+                new GoalFormationProposal.ProposedGoal("c", "C", GoalPriority.SECONDARY, "r", java.util.Map.of()));
         nextProposal = new GoalFormationProposal(threeGoals, "");
         evaluator.evaluate("hc", 1, List.of("insight"), Map.of());
         assertThat(registeredDescriptor.get().goals()).hasSize(3);
@@ -126,7 +126,7 @@ class ManorGoalEvaluatorTest {
         registeredDescriptor.set(null);
         nextProposal = new GoalFormationProposal(List.of(
                 new GoalFormationProposal.ProposedGoal("second-goal",
-                                                       "Another goal", GoalPriority.SECONDARY, "new insight")), "");
+                                                       "Another goal", GoalPriority.SECONDARY, "new insight", java.util.Map.of())), "");
         evaluator.evaluate("hc", 20, List.of("second"), Map.of());
         assertThat(registeredDescriptor.get()).isNotNull();
         assertThat(registeredDescriptor.get().goals().stream()
@@ -153,7 +153,7 @@ class ManorGoalEvaluatorTest {
                                                                                       .agentId("hc").name("Hooded Claw").tenancyId("wacky-manor")
                                                                                       .slot("manor-character")
                                                                                       .goals(List.of(new AgentGoal("eliminate", "Eliminate Penelope",
-                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of())))
+                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of())))
                                                                                       .build()),
                                                       new TestMemoryStore(), "wacky-manor", 10, 2);
         evalWithRevision.evaluate("hc", 1, List.of("insight"), Map.of());
@@ -174,7 +174,7 @@ class ManorGoalEvaluatorTest {
                                                                                       .agentId("hc").name("Hooded Claw").tenancyId("wacky-manor")
                                                                                       .slot("manor-character")
                                                                                       .goals(List.of(new AgentGoal("eliminate", "Eliminate Penelope",
-                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of())))
+                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of())))
                                                                                       .build()),
                                                       new TestMemoryStore(), "wacky-manor", 10, 2);
         evalWithRevision.evaluate("hc", 1, List.of("insight"), Map.of());
@@ -195,7 +195,7 @@ class ManorGoalEvaluatorTest {
                                                                                       .agentId("hc").name("Hooded Claw").tenancyId("wacky-manor")
                                                                                       .slot("manor-character")
                                                                                       .goals(List.of(new AgentGoal("eliminate", "Eliminate Penelope",
-                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of())))
+                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of())))
                                                                                       .build()),
                                                       new TestMemoryStore(), "wacky-manor", 10, 2);
         evalWithRevision.evaluate("hc", 1, List.of("insight"), Map.of());
@@ -219,7 +219,7 @@ class ManorGoalEvaluatorTest {
                                                                                       .agentId("hc").name("Hooded Claw").tenancyId("wacky-manor")
                                                                                       .slot("manor-character")
                                                                                       .goals(List.of(new AgentGoal("eliminate", "Eliminate Penelope",
-                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of())))
+                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of())))
                                                                                       .build()),
                                                       memStore, "wacky-manor", 10, 2);
         evalWithRevision.evaluate("hc", 1, List.of("insight"), Map.of());
@@ -243,7 +243,7 @@ class ManorGoalEvaluatorTest {
                                                                                       .agentId("hc").name("Hooded Claw").tenancyId("wacky-manor")
                                                                                       .slot("manor-character")
                                                                                       .goals(List.of(new AgentGoal("eliminate", "Eliminate Penelope",
-                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of())))
+                                                                                                                   GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of())))
                                                                                       .build()),
                                                       memStore, "wacky-manor", 10, 2);
         evalWithRevision.evaluate("hc", 1, List.of("insight"), Map.of());

@@ -105,7 +105,7 @@ public class ManorGoalFormationStrategy implements GoalFormationStrategy {
                         }
                     }
                     String reason = node.has("formationReason") ? node.get("formationReason").asText() : "";
-                    goals.add(new GoalFormationProposal.ProposedGoal(name, description, priority, reason));
+                    goals.add(new GoalFormationProposal.ProposedGoal(name, description, priority, reason, java.util.Map.of()));
                 }
             }
             return new GoalFormationProposal(goals, rationale);

@@ -22,15 +22,12 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
     private final CharacterState character;
     private final WorldState world;
     private final PartitionedDrain<String> drain;
-    private final Set<String> observerTags;
 
     public ManorWorldObservationProvider(CharacterState character, WorldState world,
-                                         PartitionedDrain<String> drain,
-                                         Set<String> observerTags) {
+                                         PartitionedDrain<String> drain) {
         this.character = character;
         this.world = world;
         this.drain = drain;
-        this.observerTags = observerTags;
     }
 
     @Override
@@ -45,12 +42,15 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
         if (!drain.rememberedPartitions().isEmpty()) {
             sections.add(rememberedSection(drain, world));
         }
-        if (observerTags.contains("perception")) {
-            var keen = keenObservationsSection(character, world);
-            if (keen != null) { sections.add(keen); }
-        } else {
-            var directed = directedDialogueSection(character, world);
-            if (directed != null) { sections.add(directed); }
+        var keen = keenObservationsSection(character, world);
+        var directed = directedDialogueSection(character, world);
+        if (keen != null || directed != null) {
+            sections.add(io.casehub.blocks.summarisation.observation.affordance.AnnotatedSection.withResolution(
+                    keen != null ? keen
+                         : ObservationSection.items("Keen Observations", null, java.util.List.of()),
+                    java.util.Set.of("perception"),
+                    io.casehub.blocks.summarisation.observation.affordance.ResolutionTier.REDUCED,
+                    directed));
         }
         return sections;
     }

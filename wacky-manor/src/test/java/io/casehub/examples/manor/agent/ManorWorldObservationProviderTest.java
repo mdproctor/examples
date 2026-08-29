@@ -28,7 +28,7 @@ class ManorWorldObservationProviderTest {
     @Test
     void worldSections_includes_location_exits_objects_characters() {
         var character = world.character("penelope-pitstop");
-        var provider = new ManorWorldObservationProvider(character, world, emptyDrain, Set.of());
+        var provider = new ManorWorldObservationProvider(character, world, emptyDrain);
         var sections = provider.worldSections();
         var rendered = renderer.renderObservation(sections);
         assertThat(rendered).contains("== Current Location ==");
@@ -39,21 +39,20 @@ class ManorWorldObservationProviderTest {
     }
 
     @Test
-    void worldSections_non_perceptive_has_no_keen_observations() {
+    void worldSections_emits_no_observer_tag_branching() {
         var character = world.character("penelope-pitstop");
-        var provider = new ManorWorldObservationProvider(character, world, emptyDrain, Set.of());
+        var provider = new ManorWorldObservationProvider(character, world, emptyDrain);
         var sections = provider.worldSections();
-        var rendered = renderer.renderObservation(sections);
-        assertThat(rendered).doesNotContain("== Keen Observations ==");
+        // Provider is observer-agnostic — no tag-based branching.
+        // Keen/directed sections are emitted as AnnotatedSection for the pipeline to filter.
+        assertThat(sections).isNotEmpty();
     }
 
     @Test
-    void worldSections_perceptive_has_no_directed_dialogue() {
+    void worldSections_constructor_takes_three_args() {
         var character = world.character("penelope-pitstop");
-        var provider = new ManorWorldObservationProvider(character, world, emptyDrain, Set.of("perception"));
-        var sections = provider.worldSections();
-        var rendered = renderer.renderObservation(sections);
-        assertThat(rendered).doesNotContain("== Directed to You ==");
+        var provider = new ManorWorldObservationProvider(character, world, emptyDrain);
+        assertThat(provider.worldSections()).isNotEmpty();
     }
 
     @Test
@@ -63,7 +62,7 @@ class ManorWorldObservationProviderTest {
         alone.charactersInRoom("entrance-hall").stream()
              .filter(c -> !c.agentId().equals("penelope-pitstop"))
              .forEach(c -> c.setCurrentRoom("kitchen"));
-        var provider = new ManorWorldObservationProvider(character, alone, emptyDrain, Set.of());
+        var provider = new ManorWorldObservationProvider(character, alone, emptyDrain);
         var sections = provider.worldSections();
         var rendered = renderer.renderObservation(sections);
         assertThat(rendered).contains("You are alone.");

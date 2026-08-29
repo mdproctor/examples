@@ -289,7 +289,7 @@ public class ScenarioOrchestrator {
                                 .reweight(memories, new io.casehub.neocortex.memory.personality.PersonalityWeights(
                                     java.util.Map.of(new io.casehub.neocortex.memory.MemoryDomain("manor"), 1.0)), java.time.Instant.now());
                         }
-                        var worldProvider = new ManorWorldObservationProvider(c, world, drain, c.capabilityTags());
+                        var worldProvider = new ManorWorldObservationProvider(c, world, drain);
                         String observation = ObservationBuilder.buildObservation(
                                 worldProvider, c, resolveGoals(c.agentId()), drain,
                                 memories, reflections, relationships);

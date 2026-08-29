@@ -36,7 +36,7 @@ class GoalLifecycleTest {
                         "The rat poison is within reach in the kitchen",
                         "Nobody is watching the kitchen right now"),
                 List.of(new AgentGoal("eliminate-penelope", "Eliminate Penelope before dawn",
-                        GoalPriority.PRIMARY, Visibility.PUBLIC, List.of())),
+                        GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of())),
                 List.of(), 5);
         GoalFormationProposal proposal = strategy.propose(context);
         System.out.println("[Goal formation] " + proposal);
@@ -53,7 +53,7 @@ class GoalLifecycleTest {
         var strategy = new ManorGoalRevisionStrategy(agentProvider);
         var context = new GoalRevisionContext("hooded-claw", "wacky-manor",
                 List.of(new AgentGoal("steal-diamond", "Steal the Doily Diamond from the safe",
-                        GoalPriority.SECONDARY, Visibility.PRIVATE, List.of())),
+                        GoalPriority.SECONDARY, Visibility.PRIVATE, List.of(), java.util.Map.of())),
                 Map.of("steal-diamond", new GoalOutcomeCounts(0, 8)));
         GoalRevisionProposal proposal = strategy.revise(context);
         System.out.println("[Goal revision — abandon] " + proposal);
@@ -71,7 +71,7 @@ class GoalLifecycleTest {
         var strategy = new ManorGoalRevisionStrategy(agentProvider);
         var context = new GoalRevisionContext("hooded-claw", "wacky-manor",
                 List.of(new AgentGoal("poison-tea", "Poison Penelope's tea",
-                        GoalPriority.PRIMARY, Visibility.PRIVATE, List.of())),
+                        GoalPriority.PRIMARY, Visibility.PRIVATE, List.of(), java.util.Map.of())),
                 Map.of("poison-tea", new GoalOutcomeCounts(5, 0)));
         GoalRevisionProposal proposal = strategy.revise(context);
         System.out.println("[Goal revision — complete] " + proposal);

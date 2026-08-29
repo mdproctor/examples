@@ -108,7 +108,7 @@ class ManorGoalRevisionStrategyTest {
     private GoalRevisionContext buildContext() {
         return new GoalRevisionContext("hc", "wacky-manor",
                 List.of(new AgentGoal("protect-tea", "Prevent poisoning",
-                        GoalPriority.SECONDARY, Visibility.PRIVATE, List.of())),
+                        GoalPriority.SECONDARY, Visibility.PRIVATE, List.of(), java.util.Map.of())),
                 Map.of("protect-tea", new GoalOutcomeCounts(3, 1)));
     }
 

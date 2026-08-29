@@ -36,9 +36,9 @@ class CharacterProfileDTOTest {
     void filters_private_goals() {
         var goals = List.of(
             new AgentGoal("public-goal", "A public goal",
-                GoalPriority.PRIMARY, Visibility.PUBLIC, List.of()),
+                GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of()),
             new AgentGoal("private-goal", "A private goal",
-                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of()));
+                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of(), java.util.Map.of()));
 
         var descriptor = AgentDescriptor.builder()
             .agentId("test").name("Test").slot("shaper")

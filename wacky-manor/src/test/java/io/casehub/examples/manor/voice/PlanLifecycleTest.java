@@ -33,7 +33,7 @@ class PlanLifecycleTest {
     void formation_produces_actionable_steps_for_goal() {
         var strategy = new ManorPlanFormationStrategy(agentProvider);
         var goal = new AgentGoal("poison-tea", "Poison Penelope's tea before she drinks it",
-                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of());
+                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of(), java.util.Map.of());
         var plan = strategy.formPlan("hooded-claw", "wacky-manor", goal,
                 List.of(goal), List.of(), 1);
 

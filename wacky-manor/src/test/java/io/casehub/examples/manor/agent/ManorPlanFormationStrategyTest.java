@@ -46,7 +46,7 @@ class ManorPlanFormationStrategyTest {
     @Test
     void formPlan_returns_plan_with_steps() {
         var goal = new AgentGoal("protect-penelope", "Prevent poisoning",
-                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of());
+                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of(), java.util.Map.of());
         AgentPlan plan = strategy.formPlan("pp", "wacky-manor", goal, List.of(goal), List.of(), 5);
         assertThat(plan.goalName()).isEqualTo("protect-penelope");
         assertThat(plan.steps()).hasSize(2);
@@ -59,9 +59,9 @@ class ManorPlanFormationStrategyTest {
     @Test
     void formPlan_prompt_includes_goal_and_context() {
         var goal = new AgentGoal("find-diamond", "Find the hidden diamond",
-                GoalPriority.SECONDARY, Visibility.PRIVATE, List.of());
+                GoalPriority.SECONDARY, Visibility.PRIVATE, List.of(), java.util.Map.of());
         var otherGoal = new AgentGoal("protect-penelope", "Protect Penelope",
-                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of());
+                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of(), java.util.Map.of());
         strategy.formPlan("pp", "wacky-manor", goal, List.of(goal, otherGoal), List.of(), 3);
         assertThat(lastPrompt).contains("find-diamond");
         assertThat(lastPrompt).contains("Find the hidden diamond");
@@ -82,7 +82,7 @@ class ManorPlanFormationStrategyTest {
             }
         };
         var badStrategy = new ManorPlanFormationStrategy(badProvider);
-        var goal = new AgentGoal("g", "desc", GoalPriority.SECONDARY, Visibility.PRIVATE, List.of());
+        var goal = new AgentGoal("g", "desc", GoalPriority.SECONDARY, Visibility.PRIVATE, List.of(), java.util.Map.of());
         AgentPlan plan = badStrategy.formPlan("id", "t", goal, List.of(), List.of(), 1);
         assertThat(plan).isNull();
     }

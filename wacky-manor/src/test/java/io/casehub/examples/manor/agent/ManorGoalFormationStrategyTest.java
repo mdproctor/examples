@@ -47,7 +47,7 @@ class ManorGoalFormationStrategyTest {
         var context = new GoalFormationContext("hc", "wacky-manor",
                                                List.of("Sneekly is acting suspiciously"),
                                                List.of(new AgentGoal("find-diamond", "Find the diamond",
-                                                                     GoalPriority.PRIMARY, Visibility.PUBLIC, List.of())),
+                                                                     GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of())),
                                                List.of(), 5);
         GoalFormationProposal proposal = strategy.propose(context);
         assertThat(proposal.goals()).hasSize(1);
@@ -62,7 +62,7 @@ class ManorGoalFormationStrategyTest {
         var context = new GoalFormationContext("hc", "wacky-manor",
                                                List.of("HC spotted poison"),
                                                List.of(new AgentGoal("eliminate", "Eliminate Penelope",
-                                                                     GoalPriority.PRIMARY, Visibility.PUBLIC, List.of())),
+                                                                     GoalPriority.PRIMARY, Visibility.PUBLIC, List.of(), java.util.Map.of())),
                                                List.of(), 3);
         strategy.propose(context);
         assertThat(lastUserPrompt).contains("HC spotted poison");

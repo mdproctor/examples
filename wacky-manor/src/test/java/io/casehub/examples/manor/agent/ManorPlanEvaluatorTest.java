@@ -82,7 +82,7 @@ class ManorPlanEvaluatorTest {
     @Test
     void formPlanForGoal_stores_plan_on_character() {
         var goal = new AgentGoal("goal-a", "Do something",
-                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of());
+                GoalPriority.PRIMARY, Visibility.PRIVATE, List.of(), java.util.Map.of());
         evaluator.formPlanForGoal("hc", goal, List.of(goal), 1);
         assertThat(character.plans()).containsKey("goal-a");
         assertThat(character.plans().get("goal-a").steps()).hasSize(1);
@@ -136,7 +136,7 @@ class ManorPlanEvaluatorTest {
     void formPlanForGoal_does_not_store_null_plan() {
         nextFormationResult = null;
         var goal = new AgentGoal("goal-b", "Bad goal",
-                GoalPriority.SECONDARY, Visibility.PRIVATE, List.of());
+                GoalPriority.SECONDARY, Visibility.PRIVATE, List.of(), java.util.Map.of());
         evaluator.formPlanForGoal("hc", goal, List.of(goal), 1);
         assertThat(character.plans()).isEmpty();
     }
