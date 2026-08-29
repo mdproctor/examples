@@ -36,7 +36,8 @@ class ObservationBuilderTest {
                             java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>> relationships,
                             java.util.Set<String> tags) {
         var provider = new ManorWorldObservationProvider(character, world, drain);
-        return ObservationBuilder.buildObservation(provider, character, goals, drain, memories, reflections, relationships);
+        var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
+        return ObservationBuilder.buildObservation(provider, pipeline, tags, character, goals, drain, memories, reflections, relationships);
     }
 
     @Test
@@ -246,7 +247,7 @@ class ObservationBuilderTest {
     void exchange_observation_includes_room_and_dialogue_only() {
         var character = world.character("hooded-claw");
         var provider  = new ManorExchangeObservationProvider(character, "What do you need, boss?", world);
-        var obs       = ObservationBuilder.buildObservation(provider, character, java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of());
+        var obs       = ObservationBuilder.buildObservation(provider, null, java.util.Set.of(), character, java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of());
         assertThat(obs).contains("Entrance Hall");
         assertThat(obs).contains("What do you need, boss?");
         assertThat(obs).doesNotContain("== Visible Objects ==");
@@ -258,7 +259,7 @@ class ObservationBuilderTest {
         var character = world.character("hooded-claw");
         character.setCurrentThinking("Get Muttley to fetch the key.");
         var provider = new ManorExchangeObservationProvider(character, "Hehehehe!", world);
-        var obs      = ObservationBuilder.buildObservation(provider, character, java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of());
+        var obs      = ObservationBuilder.buildObservation(provider, null, java.util.Set.of(), character, java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of());
         assertThat(obs).contains("Your Current Thinking");
         assertThat(obs).contains("Get Muttley to fetch the key.");
     }

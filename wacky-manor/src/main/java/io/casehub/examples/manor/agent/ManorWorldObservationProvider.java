@@ -45,12 +45,15 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
         var keen = keenObservationsSection(character, world);
         var directed = directedDialogueSection(character, world);
         if (keen != null || directed != null) {
+            var fullSection = keen != null ? keen
+                    : ObservationSection.items("Keen Observations", null, java.util.List.of());
+            var fallbackSection = directed != null ? directed
+                    : ObservationSection.items("Directed to You", null, java.util.List.of());
             sections.add(io.casehub.blocks.summarisation.observation.affordance.AnnotatedSection.withResolution(
-                    keen != null ? keen
-                         : ObservationSection.items("Keen Observations", null, java.util.List.of()),
+                    fullSection,
                     java.util.Set.of("perception"),
                     io.casehub.blocks.summarisation.observation.affordance.ResolutionTier.REDUCED,
-                    directed));
+                    fallbackSection));
         }
         return sections;
     }

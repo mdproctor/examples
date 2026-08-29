@@ -62,7 +62,7 @@ public final class ExchangeRunner {
             String responderPrompt = responder == initiator ? initiatorPrompt : targetPrompt;
 
             var exchangeProvider = new ManorExchangeObservationProvider(responder, lastDialogue, world);
-            String observation = ObservationBuilder.buildObservation(exchangeProvider, responder, java.util.List.of(), new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of()), java.util.List.of(), java.util.List.of(), java.util.Map.of());
+            String observation = ObservationBuilder.buildObservation(exchangeProvider, null, java.util.Set.of(), responder, java.util.List.of(), new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of()), java.util.List.of(), java.util.List.of(), java.util.Map.of());
             String userPrompt = observation + EXCHANGE_FORMAT_INSTRUCTION;
 
             AgentResponse response = invocationService.invoke(responderPrompt, userPrompt, responder.agentId());

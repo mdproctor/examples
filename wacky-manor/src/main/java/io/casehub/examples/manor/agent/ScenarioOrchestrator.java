@@ -290,8 +290,9 @@ public class ScenarioOrchestrator {
                                     java.util.Map.of(new io.casehub.neocortex.memory.MemoryDomain("manor"), 1.0)), java.time.Instant.now());
                         }
                         var worldProvider = new ManorWorldObservationProvider(c, world, drain);
+                        var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
                         String observation = ObservationBuilder.buildObservation(
-                                worldProvider, c, resolveGoals(c.agentId()), drain,
+                                worldProvider, pipeline, c.capabilityTags(), c, resolveGoals(c.agentId()), drain,
                                 memories, reflections, relationships);
                         String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                         String systemPrompt = renderPrompt(c.agentId());

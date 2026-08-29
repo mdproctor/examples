@@ -6,6 +6,8 @@ public final class ObservationBuilder {
             new io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer();
 
     public static String buildObservation(io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider worldProvider,
+                                          io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline pipeline,
+                                          java.util.Set<String> observerTags,
                                           io.casehub.examples.manor.model.CharacterState character,
                                           java.util.List<io.casehub.eidos.api.AgentGoal> goals,
                                           io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain,
@@ -37,7 +39,13 @@ public final class ObservationBuilder {
         }
         sections.add(lastActionResultSection(character));
 
-        return RENDERER.renderObservation(sections);
+        var filtered = pipeline != null
+                ? pipeline.apply(sections, observerTags)
+                : sections.stream()
+                      .map(s -> s instanceof io.casehub.blocks.summarisation.observation.affordance.AnnotatedSection a ? a.section() : s)
+                      .toList();
+
+        return RENDERER.renderObservation(filtered);
     }
 
     private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection inventorySection(io.casehub.examples.manor.model.CharacterState character) {

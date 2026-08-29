@@ -63,7 +63,7 @@ public class AutonomousScenarioRunner {
                 var goals = goalsByAgent.getOrDefault(agentId, List.of());
                 var emptyDrain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<String>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of());
                 var worldProvider = new ManorWorldObservationProvider(character, world, emptyDrain);
-                String observation = ObservationBuilder.buildObservation(worldProvider, character, goals, emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of())
+                String observation = ObservationBuilder.buildObservation(worldProvider, null, java.util.Set.of(), character, goals, emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of())
                                      + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                 String systemPrompt = promptRenderer.apply(agentId);
 

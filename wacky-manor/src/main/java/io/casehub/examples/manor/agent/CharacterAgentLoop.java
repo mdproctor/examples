@@ -67,7 +67,8 @@ public final class CharacterAgentLoop {
                 java.util.List<io.casehub.neocortex.memory.Memory> memories = experienceService != null
                                                                               ? experienceService.recall(character.agentId(), 10) : java.util.List.of();
                 var worldProvider = new ManorWorldObservationProvider(character, world, drain);
-                String observation = ObservationBuilder.buildObservation(worldProvider, character, goals, drain, memories, java.util.List.of(), java.util.Map.of());
+                var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
+                String observation = ObservationBuilder.buildObservation(worldProvider, pipeline, character.capabilityTags(), character, goals, drain, memories, java.util.List.of(), java.util.Map.of());
                 String userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
 
                 AgentResponse response = invocationService.invoke(systemPrompt, userPrompt, character.agentId());
