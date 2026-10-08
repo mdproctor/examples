@@ -14,6 +14,8 @@ import java.util.List;
 @ApplicationScoped
 public class ManorGraduationScorer implements GraduationScorer {
 
+    private static final int MIN_CORROBORATION = 2;
+
     private final ContentScorer compositeScorer;
 
     public ManorGraduationScorer() {
@@ -26,6 +28,11 @@ public class ManorGraduationScorer implements GraduationScorer {
     public double score(Memory memory, GraduationContext context) {
         if (FormativeScoring.isFormative(memory)) {
             return FormativeScoring.score(memory);
+        }
+
+        int effectiveCorroboration = Math.max(context.corroboratingCount(), context.textSimilarityCount());
+        if (effectiveCorroboration < MIN_CORROBORATION) {
+            return 0.0;
         }
 
         ScoreableContent content      = ScoreableContent.fromMemory(memory);
