@@ -28,7 +28,7 @@ class ManorGraduationScorerTest {
         var mem = memory("critical emergency failure alert",
             Map.of("event-type", "conflict_resolution"),
             Confidence.unknown(0.9));
-        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(0, "test"));
+        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(3, "test"));
         assertThat(score).isBetween(0.5, 1.0);
     }
 
@@ -37,7 +37,7 @@ class ManorGraduationScorerTest {
         var mem = memory("a peaceful calm day passed",
             Map.of("event-type", "idle"),
             Confidence.unknown(0.1));
-        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(0, "test"));
+        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(3, "test"));
         assertThat(score).isBetween(0.0, 0.3);
     }
 
@@ -45,7 +45,7 @@ class ManorGraduationScorerTest {
     void nullConfidence_fallbackToHalf() {
         var mem = memory("critical failure detected",
             Map.of("event-type", "trust_change"), null);
-        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(0, "test"));
+        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(3, "test"));
         assertThat(score).isBetween(0.0, 1.0);
     }
 
@@ -58,7 +58,7 @@ class ManorGraduationScorerTest {
         var mem = memory("peaceful conflict resolution",
             Map.of("event-type", "conflict_resolution"),
             Confidence.unknown(1.0));
-        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(0, "test"));
+        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(3, "test"));
         assertThat(score).isCloseTo(0.66, offset(0.05));
     }
 
@@ -66,8 +66,18 @@ class ManorGraduationScorerTest {
     void scoreAlwaysClamped() {
         var mem = memory("text", Map.of("event-type", "observation"),
             Confidence.unknown(0.5));
-        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(0, "test"));
+        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(3, "test"));
         assertThat(score).isBetween(0.0, 1.0);
+    }
+
+    @Test
+    void belowCorroborationGate_returnsZero() {
+        var mem = memory("critical emergency failure alert",
+            Map.of("event-type", "conflict_resolution"),
+            Confidence.unknown(0.9));
+        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(1, "test"));
+        assertThat(score).as("memories with fewer than 2 corroborations must not graduate")
+                         .isEqualTo(0.0);
     }
 
     @Test

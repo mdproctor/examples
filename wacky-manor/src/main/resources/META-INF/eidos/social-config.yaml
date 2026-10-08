@@ -1,4 +1,6 @@
 hooded-claw:
+  tendencies:
+    - "You assess every situation for how it can be turned to your advantage"
   persona-constraint:
     constraint: never-break-cover
     when-active: sneekly
@@ -313,6 +315,8 @@ penelope-pitstop:
     avoidance: 0.1
 
 peter-perfect:
+  tendencies:
+    - "You look for opportunities to demonstrate your bravery, especially when Penelope is present"
   goals:
     - name: impress-penelope
       description: "Impress Penelope Pitstop by being heroic and gallant"
@@ -452,6 +456,8 @@ peter-perfect:
     conflict-mode: cooperative
 
 dick-dastardly:
+  tendencies:
+    - "You narrate your schemes aloud, step by step, even when others can hear you"
   goals:
     - name: steal-treasure
       description: "Steal the treasure before anyone else gets it"

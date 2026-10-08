@@ -36,8 +36,8 @@ class DescriptorLoadTest {
     @Test
     void hooded_claw_has_villain_disposition() {
         var desc = registry.findById("hooded-claw", ManorConstants.TENANCY_ID).orElseThrow();
-        assertThat(desc.disposition().primaryTerm(io.casehub.eidos.api.DispositionAxis.RISK_APPETITE)).isEqualTo("extreme");
-        assertThat(desc.disposition().primaryTerm(io.casehub.eidos.api.DispositionAxis.CONFLICT_MODE)).isEqualTo("competing");
+        assertThat(desc.disposition().primaryTerm(io.casehub.eidos.api.DispositionAxis.RISK_APPETITE)).isEqualTo("bold");
+        assertThat(desc.disposition().primaryTerm(io.casehub.eidos.api.DispositionAxis.CONFLICT_MODE)).isEqualTo("competitive");
         assertThat(desc.briefing()).containsIgnoringCase("Hooded Claw");
         assertThat(desc.templates()).extracting(t -> t.templateId())
                                     .contains("cartoon-villain");}
@@ -45,7 +45,7 @@ class DescriptorLoadTest {
     @Test
     void penelope_has_collaborative_disposition() {
         var desc = registry.findById("penelope-pitstop", ManorConstants.TENANCY_ID).orElseThrow();
-        assertThat(desc.disposition().primaryTerm(io.casehub.eidos.api.DispositionAxis.SOCIAL_ORIENTATION)).isEqualTo("collaborative");
+        assertThat(desc.disposition().primaryTerm(io.casehub.eidos.api.DispositionAxis.SOCIAL_ORIENTATION)).isEqualTo("cooperative");
         assertThat(desc.briefing()).containsIgnoringCase("Southern");
     }
 
@@ -54,7 +54,7 @@ class DescriptorLoadTest {
         var desc = registry.findById("hooded-claw", ManorConstants.TENANCY_ID).orElseThrow();
         assertThat(desc.templates()).isNotEmpty();
         assertThat(desc.templates()).extracting(t -> t.templateId())
-                                    .contains("hanna-barbera-cartoon-style", "cartoon-villain");
+                                    .contains("theatrical-eccentric-style", "cartoon-villain");
     }
 
     @Test
@@ -80,7 +80,7 @@ class DescriptorLoadTest {
             assertThat(match.descriptor().templates())
                     .as("Character %s should reference hanna-barbera-cartoon-style", match.descriptor().name())
                     .extracting(t -> t.templateId())
-                    .contains("hanna-barbera-cartoon-style");
+                    .contains("theatrical-eccentric-style");
         }
     }
 
