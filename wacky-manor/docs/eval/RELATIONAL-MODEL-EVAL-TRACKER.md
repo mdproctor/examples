@@ -399,10 +399,64 @@ Can childhood memory episodes PRODUCE personality traits without declaring them?
 
 ---
 
+### Run 11 — 2026-10-08 (post cognitive pipeline hardening)
+
+**Data files:**
+- `relational-model-eval-2026-10-08.json`
+- `sleep-derivation-eval-2026-10-08.json`
+
+**Changes landed (epic #109 + #486 + #489):**
+- CAPS settling: threshold 0.5→0.0, oscillation averaging (attractors "emerging"→"noticeable")
+- Disposition: all 26 modifiers resolved, descriptor vocabulary aligned with topology
+- Formative: metadata preservation, classifier reclassification, belief revisability restored
+- Sub-thoughts: cursor persistence, pattern detection (concern/contradiction/intention/affect/causal)
+- Belief revision: timestamp cursor, evidence-indexed caching
+- Tagged block protocol: [TAG] prefix on all cognitive sections, static ordering
+- Cognitive brief template: operating manual for tagged blocks
+
+#### Relational Model Eval — personality emergence
+
+| Test | Prior (Run 10) | Current | Delta |
+|------|:-:|:-:|:-:|
+| mob-protective-alarm | 5 | 5 | = |
+| ampd-only | 5 | 5 | = |
+| pp-warmth | 5 | 5 | = |
+| predatory-satisfaction-full-model | 5 | 5 | = |
+| baseline-no-ampd | 5 | 5 | = |
+| hc-baseline-comparison | 5 | 5 | = |
+| pp-socialconfig-emerged | 3 | 4 | **+1** |
+| hc-socialconfig-emerged | 5 | 5 | = |
+| mob-socialconfig-emerged | 5 | 5 | = |
+| formation-emergence-pp | 5 | 5 | = |
+| formation-emergence-hc | 5 | 5 | = |
+| mob-generic-emerged | 5 | 5 | = |
+| hc-generic-emerged | 5 | 4 | -1 (noise) |
+| pp-generic-emerged | 5 | 5 | = |
+| **Total** | **68/70** | **68/70** | **0** |
+
+#### Sleep Derivation Eval — per-dimension cognitive quality
+
+| Dimension | Prior (Run 2) | Current | Delta |
+|-----------|:-:|:-:|:-:|
+| hc-behavioral-tendencies | 4 | 3 | -1 (noise) |
+| pp-behavioral-tendencies | 4 | 4 | = |
+| hc-emotional-capacity | 4 | 4 | = |
+| hc-somatic-markers | 4 | 4 | = |
+| pp-relational-expectations | 4 | 5 | **+1** |
+| pp-emotional-capacity | 5 | 4 | -1 (noise) |
+| hc-pp-differentiation | 5 | 5 | = |
+| pp-somatic-markers | 4 | 4 | = |
+| hc-relational-expectations | 4 | 4 | = |
+| **Average** | **4.2** | **4.1** | **-0.1** |
+
+**Verdict:** No regressions. ±1 swings within LLM judge noise band (same tests oscillated in prior runs). PP social-config emergence improved +1 (disposition vocabulary fix). Differentiation held at 5/5.
+
+The pipeline hardening, CAPS settling, disposition resolution, tagged blocks, sub-thought patterns, and belief revision caching all landed without degrading cognitive quality. The improvements are architectural (performance, correctness, extensibility) rather than personality-model changes — the eval confirms the architecture change was invisible to character behavior.
+
 ## Next Steps
 
-1. **Fix PP scripting (Test 7):** Remove/soften planning tendency, re-run
-2. **Add grandiosity episode (Test 9):** Add entitlement-crystallising memory, re-run
-3. **Multi-turn experiment:** Run 60+ tick scenario with social-config rendering, measure mood trajectory vs baseline
-4. **Echo experiment:** Compare drift rates with static vs contextual echo
-5. **Clear policy experiment:** Test AFTER_N_TURNS at 10, 20, 30, 50 intervals
+1. **Multi-turn experiment:** Run 60+ tick scenario with cognitive snapshots to measure drift rate with tagged blocks
+2. **Echo experiment:** Compare drift rates with static vs contextual echo
+3. **Clear policy experiment:** Test AFTER_N_TURNS at 10, 20, 30, 50 intervals
+4. **Tagged block eval:** Write tests that specifically exercise [MOOD], [DRIVES], [BEHAVIORAL] rendering and verify they improve response quality vs untagged
+5. **Belief revision eval:** Write scenario that exercises trust oscillation (trust→betray→distrust→trust) and verify belief revision produces observable behavior change
