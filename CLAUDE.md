@@ -71,6 +71,46 @@ Phase 0–2.8 complete. 17 characters across 6 rooms. Phase 2.9 next: scale test
 
 **Profiles:** `BASELINE` (default, Wacky Races), `JUNGIAN`, `BELBIN`, `COMPOSITE`, `GENERIC` (renamed characters, no pop-culture refs — for taxonomy validation). Set via `manor.scenario.profile`.
 
+## Evaluation Framework
+
+**Results location:** `wacky-manor/docs/eval/`
+
+Three eval instruments, each measuring different dimensions:
+
+### 1. Drive expression eval (per-drive, scenario-level)
+**Script:** `wacky-manor/docs/eval/classify_emotions.py`
+**Tracker:** `wacky-manor/docs/CHARACTER-EMERGENCE-FINDINGS.md`
+**Profile:** GENERIC (no pop-culture priors)
+
+Scores each drive (scheming, gloating, gallantry, etc.) 1-5 per event across a 200+ event scenario run. Produces per-character, per-drive averages. Baseline: BASELINE0 (mean 3.93).
+
+```bash
+# Run GENERIC scenario, save transcript to docs/eval/<run-name>/transcript.json
+# Then classify:
+python3 wacky-manor/docs/eval/classify_emotions.py docs/eval/<run-name>
+```
+
+### 2. Personality emergence eval (per-test, unit-level)
+**Test:** `RelationalModelEvalTest` (tag: llm-eval)
+**Tracker:** `wacky-manor/docs/eval/RELATIONAL-MODEL-EVAL-TRACKER.md`
+
+14 tests scoring personality consistency 0-5. Single score per test. Current: 68/70.
+
+### 3. Sleep derivation eval (per-dimension, cognitive quality)
+**Test:** `SleepDerivationEvalTest` (tag: llm-eval)
+**Results:** `wacky-manor/docs/eval/sleep-derivation-eval-*.json`
+
+9 dimensions (behavioral-tendencies, emotional-capacity, somatic-markers, relational-expectations, differentiation) each scored 0-5. Current average: 4.1.
+
+### Running evals
+```bash
+# Personality + sleep derivation (unit tests, ~15 min)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -Pllm-eval -Dtest="RelationalModelEvalTest,SleepDerivationEvalTest" -s .mvn/slot-settings.xml
+
+# Drive expression (scenario run + classification, ~30 min)
+# Start server with GENERIC profile, wait for 300+ events, save, classify
+```
+
 **Dependencies beyond Eidos/Qhorus/Blocks:**
 - `casehub-engine-api` — GoalFormationStrategy/GoalRevisionStrategy SPIs for reflection-driven goal lifecycle
 - `casehub-neocortex-memory-api` + `casehub-neocortex-memory` — salience-scored memory, reflection, relationship tracking
