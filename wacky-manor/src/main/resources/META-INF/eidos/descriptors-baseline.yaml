@@ -4,11 +4,11 @@ descriptors:
     slot: manor-character
     tenancyId: wacky-manor
     disposition:
-      socialOrient: collaborative
-      ruleFollowing: conforming
+      socialOrient: cooperative
+      ruleFollowing: strict
       riskAppetite: moderate
-      autonomy: directed
-      conflictMode: accommodating
+      autonomy: low
+      conflictMode: cooperative
       delegation: false
     capabilities:
       - name: riddle-solving
@@ -53,9 +53,9 @@ descriptors:
     disposition:
       socialOrient: competitive
       ruleFollowing: flexible
-      riskAppetite: extreme
-      autonomy: autonomous
-      conflictMode: competing
+      riskAppetite: bold
+      autonomy: high
+      conflictMode: competitive
       delegation: false
     capabilities:
       - name: discover-hidden-dangers
@@ -112,11 +112,11 @@ descriptors:
     slot: manor-character
     tenancyId: wacky-manor
     disposition:
-      socialOrient: collaborative
-      ruleFollowing: adaptive
+      socialOrient: cooperative
+      ruleFollowing: flexible
       riskAppetite: bold
-      autonomy: reactive
-      conflictMode: accommodating
+      autonomy: low
+      conflictMode: cooperative
       delegation: false
     capabilities:
       - name: detect-suspicious-behavior
@@ -160,10 +160,10 @@ descriptors:
     tenancyId: wacky-manor
     disposition:
       socialOrient: competitive
-      ruleFollowing: defiant
+      ruleFollowing: flexible
       riskAppetite: bold
-      autonomy: autonomous
-      conflictMode: competing
+      autonomy: high
+      conflictMode: competitive
       delegation: false
     capabilities:
       - name: deception
@@ -207,11 +207,11 @@ descriptors:
     slot: manor-character
     tenancyId: wacky-manor
     disposition:
-      socialOrient: collaborative
-      ruleFollowing: conforming
+      socialOrient: cooperative
+      ruleFollowing: strict
       riskAppetite: bold
-      autonomy: directed
-      conflictMode: accommodating
+      autonomy: low
+      conflictMode: cooperative
       delegation: false
     capabilities:
       - name: bravery
