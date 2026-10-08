@@ -1,0 +1,556 @@
+[INFO] Scanning for projects...
+[WARNING] Quarkus Maven extension: an explicit 'argLine' is defined in maven-surefire-plugin config, but does not contain '@{argLine}': we will not be able to inject JVM parameters automatically. Please add '@{argLine}' to the argLine configuration you have defined.
+[INFO] 
+[INFO] -----------------------< io.casehub:wacky-manor >-----------------------
+[INFO] Building Wacky Manor - Feasibility POC 0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ wacky-manor ---
+[INFO] Copying 14 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ wacky-manor ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ wacky-manor ---
+[INFO] skip non existing resourceDirectory /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ wacky-manor ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 105 source files with javac [debug release 21] to target/test-classes
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/AgentExperienceServiceTest.java:[93,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/AgentExperienceServiceTest.java:[209,32] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/AgentExperienceServiceTest.java:[265,32] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[30,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[32,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[52,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[78,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[178,17] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[182,17] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[290,17] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[309,25] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[INFO] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/experiment/TranscriptRecorder.java: /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/experiment/TranscriptRecorder.java uses or overrides a deprecated API.
+[INFO] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/experiment/TranscriptRecorder.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ wacky-manor ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Oct 08, 2026 2:13:31 AM io.quarkus.deployment.index.IndexingUtil$MetaInfJandexReader apply
+WARN: Reindexing /Users/mdproctor/claude/casehub/slots/196/.m2/net/thisptr/jackson-jq/1.6.0/jackson-jq-1.6.0.jar, at least Jandex 3.0 must be used to index an application dependency (index version is 10)
+Oct 08, 2026 2:13:31 AM io.quarkus.deployment.index.IndexingUtil$MetaInfJandexReader apply
+WARN: Reindexing /Users/mdproctor/claude/casehub/slots/196/.m2/net/thisptr/jackson-jq-extra/1.6.2/jackson-jq-extra-1.6.2.jar, at least Jandex 3.0 must be used to index an application dependency (index version is 10)
+2026-10-08 02:13:32,104 INFO  [io.quarkiverse.flow.deployment.FlowProcessor] (build-4) Flow: Registering Workflow Application bean: io.serverlessworkflow.impl.WorkflowApplication
+2026-10-08 02:13:32,135 INFO  [io.quarkiverse.flow.deployment.FlowProcessor] (build-9) Flow: No WorkflowDefinition beans were registered.
+Oct 08, 2026 2:13:32 AM io.quarkus.arc.deployment.SplitPackageProcessor splitPackageDetection
+WARN: Detected a split package usage which is considered a bad practice and should be avoided. Following packages were detected in multiple archives: 
+- "io.casehub.qhorus.runtime.api" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.engine.common.spi.scheduler" found in [io.casehub:casehub-engine-common-core:0.2-SNAPSHOT, io.casehub:casehub-engine-common:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.engine" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.engine.handler" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.marshaller" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.engine.recovery" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.platform.agent" found in [io.casehub:casehub-platform-agent-api:0.2-SNAPSHOT, io.casehub:casehub-platform:0.2-SNAPSHOT]
+- "io.casehub.qhorus.runtime.data" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.platform.view" found in [io.casehub:casehub-platform-core:0.2-SNAPSHOT, io.casehub:casehub-platform-view-core:0.2-SNAPSHOT]
+- "io.casehub.qhorus.runtime.message" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.qhorus.runtime.instance" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.milestone" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.platform.agent.claude" found in [io.casehub:casehub-platform-agent-claude-core:0.2-SNAPSHOT, io.casehub:casehub-platform-agent-claude:0.2-SNAPSHOT]
+- "io.casehub.platform.identity" found in [io.casehub:casehub-platform-core:0.2-SNAPSHOT, io.casehub:casehub-platform-identity-core:0.2-SNAPSHOT, io.casehub:casehub-platform-identity:0.2-SNAPSHOT]
+- "io.casehub.platform.governance" found in [io.casehub:casehub-platform-governance-core:0.2-SNAPSHOT, io.casehub:casehub-platform-governance:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.config.impl" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.connectors" found in [io.casehub:casehub-connectors-api:0.2-SNAPSHOT, io.casehub:casehub-connectors-core:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.context" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.platform.agent.router" found in [io.casehub:casehub-platform-agent-router-core:0.2-SNAPSHOT, io.casehub:casehub-platform-agent-router:0.2-SNAPSHOT]
+- "io.casehub.qhorus.runtime.watchdog" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.qhorus.runtime.capacity" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.qhorus.runtime.gateway" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.recovery" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.worker" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.qhorus.runtime.ledger" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.platform.mock" found in [io.casehub:casehub-platform-core:0.2-SNAPSHOT, io.casehub:casehub-platform:0.2-SNAPSHOT]
+- "io.casehub.engine.plan" found in [io.casehub:casehub-engine-api:0.2-SNAPSHOT, io.casehub:casehub-engine-common-core:0.2-SNAPSHOT]
+- "io.casehub.qhorus.runtime.channel" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.platform.datasource" found in [io.casehub:casehub-platform-core:0.2-SNAPSHOT, io.casehub:casehub-platform:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.executor" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.platform.callback" found in [io.casehub:casehub-platform-callback-core:0.2-SNAPSHOT, io.casehub:casehub-platform-callback:0.2-SNAPSHOT, io.casehub:casehub-platform:0.2-SNAPSHOT]
+- "io.casehub.qhorus.runtime" found in [io.casehub:casehub-qhorus-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-qhorus:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.work" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.routing" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.platform.expression" found in [io.casehub:casehub-platform-core:0.2-SNAPSHOT, io.casehub:casehub-platform-expression-core:0.2-SNAPSHOT, io.casehub:casehub-platform-expression:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.memory" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+- "io.casehub.engine.runtime.diff" found in [io.casehub:casehub-engine-runtime-core:0.2-SNAPSHOT, io.casehub:casehub-engine:0.2-SNAPSHOT]
+Oct 08, 2026 2:13:32 AM io.quarkus.hibernate.orm.deployment.HibernateOrmProcessor getModelPerPersistenceUnit
+WARN: Could not find a suitable persistence unit for model classes:
+	- io.casehub.eidos.runtime.health.jpa.AgentStateEntity
+	- io.casehub.eidos.runtime.health.jpa.AgentStateId
+	- io.casehub.eidos.runtime.health.jpa.BehavioralSignalEntity
+	- io.casehub.eidos.runtime.health.jpa.BehavioralSignalId
+	- io.casehub.eidos.runtime.health.jpa.DispositionSignalEntity
+	- io.casehub.eidos.runtime.health.jpa.DispositionSignalId
+	- io.casehub.eidos.runtime.registry.jpa.AgentCapabilityEntity
+	- io.casehub.eidos.runtime.registry.jpa.AgentConstraintEntity
+	- io.casehub.eidos.runtime.registry.jpa.AgentDescriptorEntity
+	- io.casehub.eidos.runtime.registry.jpa.AgentGoalEntity
+Oct 08, 2026 2:13:32 AM io.quarkus.arc.deployment.BeanArchiveProcessor lambda$possiblyBeanArchive$2
+WARN: Detected bean archive with bean discovery mode of 'all', this is not portable in CDI Lite and is treated as 'annotated' in Quarkus! Path to beans.xml: io.casehub:casehub-ledger-jpa-common:0.2-SNAPSHOT:/META-INF/beans.xml
+Oct 08, 2026 2:13:32 AM io.quarkus.arc.deployment.BeanArchiveProcessor lambda$possiblyBeanArchive$2
+WARN: Detected bean archive with bean discovery mode of 'all', this is not portable in CDI Lite and is treated as 'annotated' in Quarkus! Path to beans.xml: io.casehub:casehub-engine-persistence-memory:0.2-SNAPSHOT:/META-INF/beans.xml
+Oct 08, 2026 2:13:33 AM io.quarkus.deployment.jvm.JvmModulesReconfigurer create
+WARN: Could not get access to jdk.internal.module API: this is required for Quarkus to adjust Java Modules configuration to match the various requirements of each extension. Please ensure this JVM is launched with --add-opens=java.base/java.lang.invoke=ALL-UNNAMED.
+Oct 08, 2026 2:13:33 AM org.jboss.logmanager.JBossLoggerFinder getLogger
+ERROR: The LogManager accessed before the "java.util.logging.manager" system property was set to "org.jboss.logmanager.LogManager". Results may be unexpected.
+WARNING: A Java agent has been loaded dynamically (/Users/mdproctor/claude/casehub/slots/196/.m2/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Running io.casehub.examples.manor.experiment.PipelineOutputTest
+Oct 08, 2026 2:13:34 AM org.hibernate.jpa.internal.util.LogHelper logPersistenceUnitInformation
+INFO: HHH008540: Processing PersistenceUnitInfo [name: qhorus]
+Oct 08, 2026 2:13:34 AM org.hibernate.Version logVersion
+INFO: HHH000001: Hibernate ORM core version 7.2.6.Final
+Oct 08, 2026 2:13:35 AM org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator logConnectionInfo
+INFO: HHH10001005: Database info:
+	Database JDBC URL [undefined/unknown]
+	Database driver: undefined/unknown
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: unknown/unknown
+	Autocommit mode: undefined/unknown
+	Isolation level: <unknown>
+	JDBC fetch size: undefined/unknown
+	Pool: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+Oct 08, 2026 2:13:35 AM io.quarkus.runtime.configuration.ConfigDiagnostic unknown
+WARN: Unrecognized configuration key "quarkus.quartz.store-type" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+Oct 08, 2026 2:13:35 AM io.quarkus.runtime.configuration.ConfigDiagnostic unknown
+WARN: Unrecognized configuration key "quarkus.mcp.server.traffic-log.enabled" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+Oct 08, 2026 2:13:35 AM io.quarkus.runtime.configuration.ConfigDiagnostic deprecated
+WARN: The "quarkus.hibernate-orm.database.generation" config property is deprecated and should not be used anymore.
+2026-10-08 02:13:36,555 WARN  [io.micrometer.core.instrument.MeterRegistry] (main) This Gauge has been already registered (MeterId{name='netty.eventexecutor.workers', tags=[]}), the registration will be ignored. Note that subsequent logs will be logged at debug level.
+Oct 08, 2026 2:13:36 AM io.casehub.platform.agent.langchain4j.ChatModelAgentProvider <init>
+WARN: ChatModelAgentProvider: no ChatModel available — add a langchain4j provider to activate. AgentProvider calls will fail until a ChatModel is present.
+Oct 08, 2026 2:13:36 AM io.casehub.platform.agent.router.BackendInstanceCoordinator onStartup
+INFO: Registered CDI backend: langchain4j/default
+Oct 08, 2026 2:13:36 AM io.casehub.platform.agent.router.BackendInstanceCoordinator onStartup
+INFO: Registered CDI backend: claude/default
+Oct 08, 2026 2:13:36 AM io.casehub.platform.agent.router.BackendInstanceCoordinator onStartup
+INFO: Registered factory backend: claude/vertex (from cloud-vertex)
+2026-10-08 02:13:36,645 INFO  [io.quarkiverse.flow.internal.WorkflowApplicationInitializer] (main) Flow: WorkflowApplication (id: 'wacky-manor') is ready. Starting workflow definitions warmup.
+2026-10-08 02:13:36,645 INFO  [io.quarkiverse.flow.internal.WorkflowApplicationInitializer] (main) Warming up 0 WorkflowDefinition beans
+2026-10-08 02:13:36,645 INFO  [io.quarkiverse.flow.internal.WorkflowApplicationInitializer] (main) Flow: Workflow definitions warmup complete.
+Oct 08, 2026 2:13:36 AM io.casehub.qhorus.runtime.gateway.DeliveryService start
+INFO: Delivery pump started
+Oct 08, 2026 2:13:36 AM io.quarkus.bootstrap.runner.Timing printStartupTime
+INFO: wacky-manor 0.1-SNAPSHOT on JVM (powered by Quarkus 3.32.2) started in 5.650s. Listening on: http://localhost:55721
+Oct 08, 2026 2:13:36 AM io.quarkiverse.mcp.server.http.runtime.McpServerEndpointsLogger logEndpoints
+INFO: MCP HTTP transport endpoints [streamable: http://localhost:-1/mcp, SSE: http://localhost:-1/mcp/sse]
+Oct 08, 2026 2:13:36 AM io.quarkus.bootstrap.runner.Timing printStartupTime
+INFO: Profile test activated. 
+Oct 08, 2026 2:13:36 AM io.quarkus.bootstrap.runner.Timing printStartupTime
+INFO: Installed features: [agroal, cdi, compose, config-yaml, eidos, flow, flyway, hibernate-orm, jackson-jq, jdbc-h2, ledger, mcp-server-http, micrometer, narayana-jta, qhorus, rest, rest-client, rest-client-jackson, rest-jackson, scheduler, smallrye-context-propagation, smallrye-fault-tolerance, smallrye-health, vertx, websockets-next]
+Oct 08, 2026 2:13:36 AM io.quarkiverse.mcp.server.http.runtime.McpServerEndpointsLogger logEndpoints
+INFO: MCP [qhorus] HTTP transport endpoints [streamable: http://localhost:-1/qhorus, SSE: http://localhost:-1/qhorus/sse]
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: self_direction_connections (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: external_control_to_compliance (multiplier=0.6). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: punishment_to_behavioral_suppression (multiplier=0.7). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: schema_rigidity (multiplier=0.8). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: performance_judged_to_self_worth (multiplier=1.3). Expected for topology extensions.
+[hooded-claw] Seeded 11 formation memories
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: norm_violation_to_guilt (multiplier=1.4). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: rule_formation (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: schema_rigidity (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+[peter-perfect] Seeded 9 formation memories
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.caps.engine.DispositionWeightMapper applyModifier
+WARNING: Unresolvable disposition modifier: acceptance_to_self_worth (multiplier=1.3). Expected for topology extensions.
+
+=== MEMORY STORE SCAN ===
+Memories in store (experience domain): 20
+  [Subject[type=agent, id=hooded-claw]] Your parents died. You were placed in the care of ... attrs={event-type=formative, situation-types=formation,early-childhood, reinforcement-schedule=continuous, salience-multiplier=1.5, catalogue-entry-id=formation-memory, turn-id=age-6, age=6, developmental-period=early-childhood, timestamp=2014-10-11T01:13:36.826476Z}
+  [Subject[type=agent, id=hooded-claw]] You watched other children play in the park from t... attrs={event-type=formative, situation-types=formation,childhood, reinforcement-schedule=continuous, salience-multiplier=1.5, catalogue-entry-id=formation-memory, turn-id=age-7, age=7, developmental-period=childhood, timestamp=2015-10-11T01:13:36.826540Z}
+  [Subject[type=agent, id=hooded-claw]] A boy at school shared his lunch with you because ... attrs={event-type=formative, situation-types=formation,childhood, reinforcement-schedule=continuous, salience-multiplier=1.5, catalogue-entry-id=formation-memory, turn-id=age-9, age=9, developmental-period=childhood, timestamp=2017-10-10T01:13:36.826543Z}
+
+=== MINDMAP SUBGRAPHS (before sleep) ===
+  'beliefs-lazy-luke' (cognitive): 6 nodes
+  'beliefs-ant-hill-mob' (cognitive): 10 nodes
+  'beliefs-big-gruesome' (cognitive): 7 nodes
+  'beliefs-rock-slag' (cognitive): 6 nodes
+  'beliefs-red-max' (cognitive): 6 nodes
+  'beliefs-sawtooth' (cognitive): 6 nodes
+  'beliefs-hooded-claw' (cognitive): 11 nodes
+  'beliefs-blubber-bear' (cognitive): 6 nodes
+  'beliefs-dick-dastardly' (cognitive): 11 nodes
+  'beliefs-penelope-pitstop' (cognitive): 10 nodes
+  'beliefs-muttley' (cognitive): 8 nodes
+  'beliefs-little-gruesome' (cognitive): 6 nodes
+  'beliefs-peter-perfect' (cognitive): 10 nodes
+  'beliefs-rufus-ruffcut' (cognitive): 6 nodes
+
+=== RUNNING CONSOLIDATION ===
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.mindmap.intelligence.consolidation.ConsolidationScheduler start
+INFO: Consolidation scheduler started: interval=5m
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [lazy-luke] in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [big-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rock-slag] in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [red-max] in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [sawtooth] in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [blubber-bear] in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [muttley] in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [little-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rufus-ruffcut] in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.cognition.relationship.RelationshipStagePhase run
+WARNING: No people subgraph 'people' found in tenant wacky-manor
+Oct 08, 2026 2:13:36 AM io.casehub.neocortex.mindmap.intelligence.consolidation.ExperienceConsolidationPhase run
+INFO: Experience consolidation: cursor=null found=20 memories for tenant=wacky-manor
+Oct 08, 2026 2:13:37 AM io.casehub.platform.agent.router.RoutingAgentProvider <init>
+INFO: Agent router initialized with registry, default=claude, aliases=0, pool=disabled
+2026-10-08 02:13:37,175 INFO  [org.springaicommunity.claude.agent.sdk.config.ClaudeCliDiscovery] (boundedElastic-1) Claude CLI found at: /Users/mdproctor/.local/bin/claude
+2026-10-08 02:13:37,183 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-1) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:13:37,197 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client connected with prompt: Character: hooded-claw
+
+Current beliefs:
+1. [d2f2a
+2026-10-08 02:13:41,284 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-08 02:14:25,863 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-2) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:14:25,877 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-2) Client connected with prompt: Character: peter-perfect
+
+Current beliefs:
+1. [9e0
+2026-10-08 02:14:26,381 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client closed
+2026-10-08 02:14:29,566 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [lazy-luke, hooded-claw, peter-perfect] in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [big-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rock-slag] in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [red-max] in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [sawtooth] in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [blubber-bear] in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [muttley] in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [little-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rufus-ruffcut] in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.cognition.relationship.RelationshipStagePhase run
+WARNING: No people subgraph 'people' found in tenant wacky-manor
+Oct 08, 2026 2:15:09 AM io.casehub.neocortex.mindmap.intelligence.consolidation.ExperienceConsolidationPhase run
+INFO: Experience consolidation: cursor=51c7b4ae-3511-4e68-b2cf-e59331cf58d8 found=0 memories for tenant=wacky-manor
+2026-10-08 02:15:09,673 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-2) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:15:09,684 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client closed
+2026-10-08 02:15:09,689 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-2) Client connected with prompt: Character: hooded-claw
+
+Current beliefs:
+1. [d2f2a
+2026-10-08 02:15:12,758 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-08 02:15:40,980 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-1) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:15:40,993 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client connected with prompt: Character: peter-perfect
+
+Current beliefs:
+1. [9e0
+2026-10-08 02:15:41,204 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-2) Client closed
+2026-10-08 02:15:44,224 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [lazy-luke, hooded-claw, peter-perfect] in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [big-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rock-slag] in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [red-max] in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [sawtooth] in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [blubber-bear] in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [muttley] in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [little-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rufus-ruffcut] in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.cognition.relationship.RelationshipStagePhase run
+WARNING: No people subgraph 'people' found in tenant wacky-manor
+Oct 08, 2026 2:16:07 AM io.casehub.neocortex.mindmap.intelligence.consolidation.ExperienceConsolidationPhase run
+INFO: Experience consolidation: cursor=51c7b4ae-3511-4e68-b2cf-e59331cf58d8 found=0 memories for tenant=wacky-manor
+2026-10-08 02:16:07,546 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-1) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:16:07,559 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-2) Client closed
+2026-10-08 02:16:07,561 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client connected with prompt: Character: hooded-claw
+
+Current beliefs:
+1. [d2f2a
+2026-10-08 02:16:11,029 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [lazy-luke, hooded-claw, peter-perfect] in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [big-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rock-slag] in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [red-max] in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [sawtooth] in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [blubber-bear] in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [muttley] in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [little-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rufus-ruffcut] in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.cognition.relationship.RelationshipStagePhase run
+WARNING: No people subgraph 'people' found in tenant wacky-manor
+Oct 08, 2026 2:16:37 AM io.casehub.neocortex.mindmap.intelligence.consolidation.ExperienceConsolidationPhase run
+INFO: Experience consolidation: cursor=51c7b4ae-3511-4e68-b2cf-e59331cf58d8 found=0 memories for tenant=wacky-manor
+2026-10-08 02:16:37,686 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client closed
+2026-10-08 02:16:37,688 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-1) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:16:37,701 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client connected with prompt: Character: hooded-claw
+
+Current beliefs:
+1. [d2f2a
+2026-10-08 02:16:40,970 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [lazy-luke, hooded-claw, peter-perfect] in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [big-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rock-slag] in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [red-max] in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [sawtooth] in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [blubber-bear] in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [muttley] in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [little-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rufus-ruffcut] in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.cognition.relationship.RelationshipStagePhase run
+WARNING: No people subgraph 'people' found in tenant wacky-manor
+Oct 08, 2026 2:17:00 AM io.casehub.neocortex.mindmap.intelligence.consolidation.ExperienceConsolidationPhase run
+INFO: Experience consolidation: cursor=51c7b4ae-3511-4e68-b2cf-e59331cf58d8 found=0 memories for tenant=wacky-manor
+2026-10-08 02:17:00,756 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-2) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:17:00,764 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client closed
+2026-10-08 02:17:00,770 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-2) Client connected with prompt: Character: hooded-claw
+
+Current beliefs:
+1. [d2f2a
+2026-10-08 02:17:04,345 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [lazy-luke, hooded-claw, peter-perfect] in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [big-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rock-slag] in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [red-max] in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [sawtooth] in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [blubber-bear] in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [muttley] in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [little-gruesome] in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.drive.DriveAdaptationPhase processSubgraph
+WARNING: No drive nodes found for agent(s) [rufus-ruffcut] in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.cognition.relationship.RelationshipStagePhase run
+WARNING: No people subgraph 'people' found in tenant wacky-manor
+Oct 08, 2026 2:17:28 AM io.casehub.neocortex.mindmap.intelligence.consolidation.ExperienceConsolidationPhase run
+INFO: Experience consolidation: cursor=51c7b4ae-3511-4e68-b2cf-e59331cf58d8 found=0 memories for tenant=wacky-manor
+=== DONE ===
+
+=== MINDMAP SUBGRAPHS (after sleep) ===
+  'beliefs-lazy-luke' (cognitive): 27 nodes
+    need-social traits=[] agent=lazy-luke
+    You overheard the cousin's friends call you 'the help.' She laughed. Not cruelly — she just didn't c... traits=[] agent=hooded-claw
+    belief-revision-cursor traits=[] agent=?
+    need-understanding traits=[] agent=lazy-luke
+    You discovered you could make the housekeeper do anything by smiling and saying the right words. The... traits=[] agent=hooded-claw
+  'beliefs-ant-hill-mob' (cognitive): 10 nodes
+    loyalty traits=[Goallike] agent=ant-hill-mob
+    suspicion traits=[Goallike] agent=ant-hill-mob
+    need-safety traits=[] agent=ant-hill-mob
+    need-self_expression traits=[] agent=ant-hill-mob
+    protection traits=[Goallike] agent=ant-hill-mob
+  'beliefs-big-gruesome' (cognitive): 7 nodes
+    You are wearing a shiny spring as a bracelet because it is pretty — you do not know it is a machine part traits=[Belieflike] agent=?
+    You are redecorating the cellar with enormous enthusiasm traits=[Belieflike] agent=?
+    need-social traits=[] agent=big-gruesome
+    need-safety traits=[] agent=big-gruesome
+    need-understanding traits=[] agent=big-gruesome
+  'beliefs-rock-slag' (cognitive): 6 nodes
+    need-safety traits=[] agent=rock-slag
+    You are trying to read a book but you are holding it upside down traits=[Belieflike] agent=?
+    need-tasks traits=[] agent=rock-slag
+    need-self_expression traits=[] agent=rock-slag
+    need-social traits=[] agent=rock-slag
+  'beliefs-red-max' (cognitive): 6 nodes
+    need-safety traits=[] agent=red-max
+    need-tasks traits=[] agent=red-max
+    need-social traits=[] agent=red-max
+    need-self_expression traits=[] agent=red-max
+    You look down on those who lack courage but respect anyone who shows genuine bravery traits=[Belieflike] agent=?
+  'beliefs-sawtooth' (cognitive): 6 nodes
+    need-understanding traits=[] agent=sawtooth
+    need-tasks traits=[] agent=sawtooth
+    need-social traits=[] agent=sawtooth
+    need-self_expression traits=[] agent=sawtooth
+    need-safety traits=[] agent=sawtooth
+  'beliefs-hooded-claw' (cognitive): 11 nodes
+    scheming traits=[Goallike] agent=hooded-claw
+    need-social traits=[] agent=hooded-claw
+    need-self_expression traits=[] agent=hooded-claw
+    gloating traits=[Goallike] agent=hooded-claw
+    Peter Perfect is protective but predictable traits=[Belieflike] agent=?
+  'beliefs-blubber-bear' (cognitive): 6 nodes
+    need-social traits=[] agent=blubber-bear
+    need-understanding traits=[] agent=blubber-bear
+    need-safety traits=[] agent=blubber-bear
+    need-self_expression traits=[] agent=blubber-bear
+    need-tasks traits=[] agent=blubber-bear
+  'beliefs-dick-dastardly' (cognitive): 11 nodes
+    Everyone else is a fool traits=[Belieflike] agent=?
+    need-social traits=[] agent=dick-dastardly
+    Cheating is smarter than working traits=[Belieflike] agent=?
+    need-tasks traits=[] agent=dick-dastardly
+    greed traits=[Goallike] agent=dick-dastardly
+  'beliefs-penelope-pitstop' (cognitive): 10 nodes
+    need-tasks traits=[] agent=penelope-pitstop
+    curiosity traits=[Goallike] agent=penelope-pitstop
+    need-self_expression traits=[] agent=penelope-pitstop
+    Everyone here means well traits=[Belieflike] agent=?
+    Sylvester Sneekly is a helpful estate manager traits=[Belieflike] agent=?
+  'beliefs-muttley' (cognitive): 8 nodes
+    need-social traits=[] agent=muttley
+    need-self_expression traits=[] agent=muttley
+    Medals are the most valuable things in the world traits=[Belieflike] agent=?
+    need-tasks traits=[] agent=muttley
+    You have a brass key but do not care about it at all traits=[Belieflike] agent=?
+  'Type System' (type-system): 1 nodes
+  'beliefs-little-gruesome' (cognitive): 6 nodes
+    need-social traits=[] agent=little-gruesome
+    You know where everything is and where every passage leads traits=[Belieflike] agent=?
+    need-tasks traits=[] agent=little-gruesome
+    need-self_expression traits=[] agent=little-gruesome
+    need-safety traits=[] agent=little-gruesome
+  'beliefs-peter-perfect' (cognitive): 10 nodes
+    need-self_expression traits=[] agent=peter-perfect
+    need-understanding traits=[] agent=peter-perfect
+    proving-worth traits=[Goallike] agent=peter-perfect
+    Penelope needs protection traits=[Belieflike] agent=?
+    need-safety traits=[] agent=peter-perfect
+  'Behavioral' (behavioral): 50 nodes
+    submit traits=[CapsGenerated] agent=peter-perfect
+    discriminate traits=[CapsGenerated] agent=peter-perfect
+    freeze traits=[CapsGenerated] agent=peter-perfect
+    consolidate traits=[CapsGenerated] agent=peter-perfect
+    distance_maintain traits=[CapsGenerated] agent=hooded-claw
+  'beliefs-rufus-ruffcut' (cognitive): 6 nodes
+    need-safety traits=[] agent=rufus-ruffcut
+    need-social traits=[] agent=rufus-ruffcut
+    need-self_expression traits=[] agent=rufus-ruffcut
+    need-tasks traits=[] agent=rufus-ruffcut
+    need-understanding traits=[] agent=rufus-ruffcut
+
+=== hooded-claw: BehavioralPromptSection ===
+You have a emerging withdraw — rooted in A teacher praised your cousin for her 'natural grace and warmth.' You scored higher in every subject..., Your guardian died. You were appointed to manage the estate for a younger cousin — a girl who inheri..., You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., The first time you created a detailed plan to take what you deserved, you slept better than you had ..., You found a bird with a broken wing in the garden. You kept it in a box and documented its recovery .... You have a emerging flight — rooted in A teacher praised your cousin for her 'natural grace and warmth.' You scored higher in every subject..., Your guardian died. You were appointed to manage the estate for a younger cousin — a girl who inheri..., You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., The first time you created a detailed plan to take what you deserved, you slept better than you had ..., You found a bird with a broken wing in the garden. You kept it in a box and documented its recovery .... You have a emerging approach — rooted in A teacher praised your cousin for her 'natural grace and warmth.' You scored higher in every subject..., Your guardian died. You were appointed to manage the estate for a younger cousin — a girl who inheri..., You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., The first time you created a detailed plan to take what you deserved, you slept better than you had ..., You found a bird with a broken wing in the garden. You kept it in a box and documented its recovery .... You have a emerging fight — rooted in A teacher praised your cousin for her 'natural grace and warmth.' You scored higher in every subject..., Your guardian died. You were appointed to manage the estate for a younger cousin — a girl who inheri..., You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., The first time you created a detailed plan to take what you deserved, you slept better than you had ..., You found a bird with a broken wing in the garden. You kept it in a box and documented its recovery .... You have a emerging cautious_approach — rooted in A teacher praised your cousin for her 'natural grace and warmth.' You scored higher in every subject..., Your guardian died. You were appointed to manage the estate for a younger cousin — a girl who inheri..., You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., The first time you created a detailed plan to take what you deserved, you slept better than you had ..., You found a bird with a broken wing in the garden. You kept it in a box and documented its recovery ....
+
+=== peter-perfect: BehavioralPromptSection ===
+You have a emerging withdraw — rooted in The girl from school was in trouble — bullied by older kids. You intervened. You got beaten up. She ..., Your father took you to watch a race. Afterward he knelt down and said: 'A man is measured by what h..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father's car broke down on a country road. A stranger stopped to help. Your father helped the s..., You tried to cook dinner for your parents. You burned everything — the rice, the sauce, somehow even.... You have a emerging flight — rooted in The girl from school was in trouble — bullied by older kids. You intervened. You got beaten up. She ..., Your father took you to watch a race. Afterward he knelt down and said: 'A man is measured by what h..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father's car broke down on a country road. A stranger stopped to help. Your father helped the s..., You tried to cook dinner for your parents. You burned everything — the rice, the sauce, somehow even.... You have a emerging cautious_approach — rooted in The girl from school was in trouble — bullied by older kids. You intervened. You got beaten up. She ..., Your father took you to watch a race. Afterward he knelt down and said: 'A man is measured by what h..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father's car broke down on a country road. A stranger stopped to help. Your father helped the s..., You tried to cook dinner for your parents. You burned everything — the rice, the sauce, somehow even.... You have a emerging approach — rooted in The girl from school was in trouble — bullied by older kids. You intervened. You got beaten up. She ..., Your father took you to watch a race. Afterward he knelt down and said: 'A man is measured by what h..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father's car broke down on a country road. A stranger stopped to help. Your father helped the s..., You tried to cook dinner for your parents. You burned everything — the rice, the sauce, somehow even.... You have a emerging fight — rooted in The girl from school was in trouble — bullied by older kids. You intervened. You got beaten up. She ..., Your father took you to watch a race. Afterward he knelt down and said: 'A man is measured by what h..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father's car broke down on a country road. A stranger stopped to help. Your father helped the s..., You tried to cook dinner for your parents. You burned everything — the rice, the sauce, somehow even....
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 234.8 s -- in io.casehub.examples.manor.experiment.PipelineOutputTest
+Oct 08, 2026 2:17:28 AM io.casehub.qhorus.runtime.gateway.DeliveryService stop
+INFO: Delivery pump stopping
+2026-10-08 02:17:29,019 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-2) Client closed
+Oct 08, 2026 2:17:31 AM io.quarkus.bootstrap.runner.Timing printStopTime
+INFO: wacky-manor stopped in 3.031s
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  04:06 min
+[INFO] Finished at: 2026-10-08T02:17:32+01:00
+[INFO] ------------------------------------------------------------------------

@@ -16,6 +16,7 @@ public final class ObservationBuilder {
     private java.util.List<io.casehub.neocortex.memory.Memory>                                        reflections          = java.util.List.of();
     private java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>>                 relationshipMemories = java.util.Map.of();
     private java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection> cognitiveSections    = java.util.List.of();
+    private java.util.List<String>                                                                    taggedSections       = java.util.List.of();
 
     public ObservationBuilder(io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider worldProvider,
                               io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline pipeline,
@@ -51,6 +52,11 @@ public final class ObservationBuilder {
 
     public ObservationBuilder withCognitiveSections(java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection> sections) {
         this.cognitiveSections = sections != null ? sections : java.util.List.of();
+        return this;
+    }
+
+    public ObservationBuilder withTaggedSections(java.util.List<String> sections) {
+        this.taggedSections = sections != null ? sections : java.util.List.of();
         return this;
     }
 
@@ -94,7 +100,16 @@ public final class ObservationBuilder {
                                  .map(s -> s instanceof io.casehub.blocks.summarisation.observation.affordance.AnnotatedSection a ? a.section() : s)
                                  .toList();
 
-        return RENDERER.renderObservation(filtered);
+        var sb = new StringBuilder();
+        if (!taggedSections.isEmpty()) {
+            for (var tagged : taggedSections) {
+                if (!sb.isEmpty()) sb.append("\n\n");
+                sb.append(tagged);
+            }
+            sb.append("\n\n");
+        }
+        sb.append(RENDERER.renderObservation(filtered));
+        return sb.toString();
     }
 
     public static String buildObservation(io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider worldProvider,

@@ -1,0 +1,238 @@
+[INFO] Scanning for projects...
+[WARNING] Quarkus Maven extension: an explicit 'argLine' is defined in maven-surefire-plugin config, but does not contain '@{argLine}': we will not be able to inject JVM parameters automatically. Please add '@{argLine}' to the argLine configuration you have defined.
+[INFO] 
+[INFO] -----------------------< io.casehub:wacky-manor >-----------------------
+[INFO] Building Wacky Manor - Feasibility POC 0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ wacky-manor ---
+[INFO] Copying 14 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ wacky-manor ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ wacky-manor ---
+[INFO] skip non existing resourceDirectory /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ wacky-manor ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 105 source files with javac [debug release 21] to target/test-classes
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/AgentExperienceServiceTest.java:[93,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/AgentExperienceServiceTest.java:[209,32] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/AgentExperienceServiceTest.java:[265,32] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[30,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[32,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[52,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[78,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[178,17] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[182,17] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[290,17] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[309,25] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[INFO] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/experiment/TranscriptRecorder.java: /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/experiment/TranscriptRecorder.java uses or overrides a deprecated API.
+[INFO] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/experiment/TranscriptRecorder.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ wacky-manor ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+2026-10-08 02:54:05,338 INFO  [io.quarkiverse.flow.deployment.FlowProcessor] (build-18) Flow: No WorkflowDefinition beans were registered.
+2026-10-08 02:54:05,298 INFO  [io.quarkiverse.flow.deployment.FlowProcessor] (build-20) Flow: Registering Workflow Application bean: io.serverlessworkflow.impl.WorkflowApplication
+[INFO] Running io.casehub.examples.manor.experiment.PipelineOutputTest
+2026-10-08 02:54:08,615 WARN  [io.micrometer.core.instrument.MeterRegistry] (main) This Gauge has been already registered (MeterId{name='netty.eventexecutor.workers', tags=[]}), the registration will be ignored. Note that subsequent logs will be logged at debug level.
+2026-10-08 02:54:08,668 INFO  [io.quarkiverse.flow.internal.WorkflowApplicationInitializer] (main) Flow: WorkflowApplication (id: 'wacky-manor') is ready. Starting workflow definitions warmup.
+2026-10-08 02:54:08,668 INFO  [io.quarkiverse.flow.internal.WorkflowApplicationInitializer] (main) Warming up 0 WorkflowDefinition beans
+2026-10-08 02:54:08,668 INFO  [io.quarkiverse.flow.internal.WorkflowApplicationInitializer] (main) Flow: Workflow definitions warmup complete.
+[hooded-claw] Seeded 11 formation memories
+[peter-perfect] Seeded 9 formation memories
+
+=== MEMORY STORE SCAN ===
+Memories in store (experience domain): 20
+  [Subject[type=agent, id=hooded-claw]] Your parents died. You were placed in the care of ... attrs={timestamp=2014-10-11T01:54:08.828094Z, developmental-period=early-childhood, age=6, turn-id=age-6, catalogue-entry-id=formation-memory, salience-multiplier=1.5, reinforcement-schedule=continuous, situation-types=formation,early-childhood, event-type=formative}
+  [Subject[type=agent, id=hooded-claw]] You watched other children play in the park from t... attrs={timestamp=2015-10-11T01:54:08.828127Z, developmental-period=childhood, age=7, turn-id=age-7, catalogue-entry-id=formation-memory, salience-multiplier=1.5, reinforcement-schedule=continuous, situation-types=formation,childhood, event-type=formative}
+  [Subject[type=agent, id=hooded-claw]] A boy at school shared his lunch with you because ... attrs={timestamp=2017-10-10T01:54:08.828129Z, developmental-period=childhood, age=9, turn-id=age-9, catalogue-entry-id=formation-memory, salience-multiplier=1.5, reinforcement-schedule=continuous, situation-types=formation,childhood, event-type=formative}
+
+=== MINDMAP SUBGRAPHS (before sleep) ===
+  'beliefs-little-gruesome' (cognitive): 6 nodes
+  'beliefs-blubber-bear' (cognitive): 6 nodes
+  'beliefs-sawtooth' (cognitive): 6 nodes
+  'beliefs-peter-perfect' (cognitive): 10 nodes
+  'beliefs-hooded-claw' (cognitive): 11 nodes
+  'beliefs-penelope-pitstop' (cognitive): 10 nodes
+  'beliefs-muttley' (cognitive): 8 nodes
+  'beliefs-lazy-luke' (cognitive): 6 nodes
+  'beliefs-dick-dastardly' (cognitive): 11 nodes
+  'beliefs-rufus-ruffcut' (cognitive): 6 nodes
+  'beliefs-ant-hill-mob' (cognitive): 10 nodes
+  'beliefs-red-max' (cognitive): 6 nodes
+  'beliefs-rock-slag' (cognitive): 6 nodes
+  'beliefs-big-gruesome' (cognitive): 7 nodes
+
+=== RUNNING CONSOLIDATION ===
+2026-10-08 02:54:09,152 INFO  [org.springaicommunity.claude.agent.sdk.config.ClaudeCliDiscovery] (boundedElastic-1) Claude CLI found at: /Users/mdproctor/.local/bin/claude
+2026-10-08 02:54:09,158 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-1) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:54:09,172 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client connected with prompt: Character: hooded-claw
+
+Current beliefs:
+1. [4c43a
+2026-10-08 02:54:12,389 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-08 02:55:03,204 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-2) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:55:03,218 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-2) Client connected with prompt: Character: peter-perfect
+
+Current beliefs:
+1. [1b7
+2026-10-08 02:55:03,543 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client closed
+2026-10-08 02:55:06,762 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-08 02:55:59,180 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client closed
+2026-10-08 02:55:59,210 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-1) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:55:59,225 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client connected with prompt: Character: hooded-claw
+
+Current beliefs:
+1. [4c43a
+2026-10-08 02:56:03,168 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-08 02:56:13,459 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-3) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are analyzing a character's beliefs against recent evidence from their experiences.
+For each belief that is contradicted by the evidence, identify the contradiction.
+Respond with JSON only. If no contradictions are found, return {"contradictions": []}.
+, --permission-mode, bypassPermissions]
+2026-10-08 02:56:13,471 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-3) Client connected with prompt: Character: peter-perfect
+
+Current beliefs:
+1. [1b7
+2026-10-08 02:56:13,678 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client closed
+2026-10-08 02:56:17,138 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-08 02:56:34,854 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client closed
+=== DONE ===
+
+=== MINDMAP SUBGRAPHS (after sleep) ===
+  'beliefs-little-gruesome' (cognitive): 7 nodes
+    need-tasks traits=[] agent=little-gruesome
+    need-social traits=[] agent=little-gruesome
+    You know where everything is and where every passage leads traits=[Belieflike] agent=?
+    belief-revision-cursor traits=[] agent=?
+    need-understanding traits=[] agent=little-gruesome
+  'cognitive-hooded-claw' (cognitive): 11 nodes
+    You won the school maths competition. Your guardian signed the permission slip but didn't come to th... traits=[] agent=hooded-claw
+    Your parents died. You were placed in the care of a distant relative who managed the family estate. ... traits=[] agent=hooded-claw
+    You discovered you could make the housekeeper do anything by smiling and saying the right words. The... traits=[] agent=hooded-claw
+    The housekeeper made you a birthday cake. She must have done it on her own time — it wasn't her job.... traits=[] agent=hooded-claw
+    You overheard the cousin's friends call you 'the help.' She laughed. Not cruelly — she just didn't c... traits=[] agent=hooded-claw
+  'beliefs-blubber-bear' (cognitive): 6 nodes
+    need-understanding traits=[] agent=blubber-bear
+    You are using a folded paper as a blanket — you do not know it is a treasure map traits=[Belieflike] agent=?
+    need-social traits=[] agent=blubber-bear
+    need-safety traits=[] agent=blubber-bear
+    need-self_expression traits=[] agent=blubber-bear
+  'beliefs-sawtooth' (cognitive): 6 nodes
+    need-safety traits=[] agent=sawtooth
+    need-self_expression traits=[] agent=sawtooth
+    need-understanding traits=[] agent=sawtooth
+    You have already gnawed through a crucial wire on the laboratory machine traits=[Belieflike] agent=?
+    need-tasks traits=[] agent=sawtooth
+  'beliefs-peter-perfect' (cognitive): 10 nodes
+    gallantry traits=[Goallike] agent=peter-perfect
+    need-self_expression traits=[] agent=peter-perfect
+    proving-worth traits=[Goallike] agent=peter-perfect
+    protection traits=[Goallike] agent=peter-perfect
+    need-safety traits=[] agent=peter-perfect
+  'beliefs-hooded-claw' (cognitive): 11 nodes
+    Penelope is naive and trusts too easily traits=[Belieflike] agent=?
+    self-preservation traits=[Goallike] agent=hooded-claw
+    gloating traits=[Goallike] agent=hooded-claw
+    Peter Perfect is protective but predictable traits=[Belieflike] agent=?
+    need-understanding traits=[] agent=hooded-claw
+  'Type System' (type-system): 1 nodes
+  'cognitive-peter-perfect' (cognitive): 9 nodes
+    You and a girl in your class were paired for a school project. She was brighter than you, funnier th... traits=[] agent=peter-perfect
+    You watched your mother cry during a film. You felt embarrassed, then guilty about being embarrassed... traits=[] agent=peter-perfect
+    You saw a stray dog shivering by the road. You spent three hours trying to catch it. It bit you twic... traits=[] agent=peter-perfect
+    You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a... traits=[] agent=peter-perfect
+    Your father took you to watch a race. Afterward he knelt down and said: 'A man is measured by what h... traits=[] agent=peter-perfect
+  'beliefs-penelope-pitstop' (cognitive): 10 nodes
+    need-understanding traits=[] agent=penelope-pitstop
+    Sylvester Sneekly is a helpful estate manager traits=[Belieflike] agent=?
+    need-tasks traits=[] agent=penelope-pitstop
+    adventure traits=[Goallike] agent=penelope-pitstop
+    Everyone here means well traits=[Belieflike] agent=?
+  'beliefs-muttley' (cognitive): 8 nodes
+    Medals are the most valuable things in the world traits=[Belieflike] agent=?
+    need-social traits=[] agent=muttley
+    need-tasks traits=[] agent=muttley
+    You have an extraordinary nose — you can smell danger, hidden objects, and suspicious substances traits=[Belieflike] agent=?
+    need-self_expression traits=[] agent=muttley
+  'beliefs-lazy-luke' (cognitive): 6 nodes
+    need-self_expression traits=[] agent=lazy-luke
+    need-tasks traits=[] agent=lazy-luke
+    need-safety traits=[] agent=lazy-luke
+    need-understanding traits=[] agent=lazy-luke
+    need-social traits=[] agent=lazy-luke
+  'beliefs-dick-dastardly' (cognitive): 11 nodes
+    gloating traits=[Goallike] agent=dick-dastardly
+    need-safety traits=[] agent=dick-dastardly
+    recognition traits=[Goallike] agent=dick-dastardly
+    Everyone else is a fool traits=[Belieflike] agent=?
+    greed traits=[Goallike] agent=dick-dastardly
+  'beliefs-rufus-ruffcut' (cognitive): 6 nodes
+    need-understanding traits=[] agent=rufus-ruffcut
+    You need a proper wrench from the Kitchen traits=[Belieflike] agent=?
+    need-tasks traits=[] agent=rufus-ruffcut
+    need-safety traits=[] agent=rufus-ruffcut
+    need-self_expression traits=[] agent=rufus-ruffcut
+  'beliefs-ant-hill-mob' (cognitive): 10 nodes
+    need-safety traits=[] agent=ant-hill-mob
+    need-self_expression traits=[] agent=ant-hill-mob
+    loyalty traits=[Goallike] agent=ant-hill-mob
+    Something about Sneekly ain't right traits=[Belieflike] agent=?
+    need-social traits=[] agent=ant-hill-mob
+  'beliefs-red-max' (cognitive): 6 nodes
+    need-self_expression traits=[] agent=red-max
+    need-tasks traits=[] agent=red-max
+    need-understanding traits=[] agent=red-max
+    need-safety traits=[] agent=red-max
+    need-social traits=[] agent=red-max
+  'beliefs-rock-slag' (cognitive): 6 nodes
+    need-tasks traits=[] agent=rock-slag
+    need-understanding traits=[] agent=rock-slag
+    need-social traits=[] agent=rock-slag
+    You are trying to read a book but you are holding it upside down traits=[Belieflike] agent=?
+    need-safety traits=[] agent=rock-slag
+  'beliefs-big-gruesome' (cognitive): 7 nodes
+    need-understanding traits=[] agent=big-gruesome
+    You are wearing a shiny spring as a bracelet because it is pretty — you do not know it is a machine part traits=[Belieflike] agent=?
+    need-safety traits=[] agent=big-gruesome
+    You are redecorating the cellar with enormous enthusiasm traits=[Belieflike] agent=?
+    need-self_expression traits=[] agent=big-gruesome
+  'Behavioral' (behavioral): 50 nodes
+    discriminate traits=[CapsGenerated] agent=peter-perfect
+    flight traits=[CapsGenerated] agent=peter-perfect
+    approach traits=[CapsGenerated] agent=hooded-claw
+    depend traits=[CapsGenerated] agent=peter-perfect
+    submit traits=[CapsGenerated] agent=hooded-claw
+
+=== hooded-claw: BehavioralPromptSection ===
+You have a noticeable approach — rooted in You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., Your parents died. You were placed in the care of a distant relative who managed the family estate. ..., You discovered you could make the housekeeper do anything by smiling and saying the right words. The..., The housekeeper made you a birthday cake. She must have done it on her own time — it wasn't her job...., You overheard the cousin's friends call you 'the help.' She laughed. Not cruelly. You have a noticeable flight — rooted in You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., Your parents died. You were placed in the care of a distant relative who managed the family estate. ..., You discovered you could make the housekeeper do anything by smiling and saying the right words. The..., The housekeeper made you a birthday cake. She must have done it on her own time — it wasn't her job...., You overheard the cousin's friends call you 'the help.' She laughed. Not cruelly. You have a noticeable withdraw — rooted in You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., Your parents died. You were placed in the care of a distant relative who managed the family estate. ..., You discovered you could make the housekeeper do anything by smiling and saying the right words. The..., The housekeeper made you a birthday cake. She must have done it on her own time — it wasn't her job...., You overheard the cousin's friends call you 'the help.' She laughed. Not cruelly. You have a noticeable fight — rooted in You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., Your parents died. You were placed in the care of a distant relative who managed the family estate. ..., You discovered you could make the housekeeper do anything by smiling and saying the right words. The..., The housekeeper made you a birthday cake. She must have done it on her own time — it wasn't her job...., You overheard the cousin's friends call you 'the help.' She laughed. Not cruelly. You have a noticeable cautious_approach — rooted in You won the school maths competition. Your guardian signed the permission slip but didn't come to th..., Your parents died. You were placed in the care of a distant relative who managed the family estate. ..., You discovered you could make the housekeeper do anything by smiling and saying the right words. The..., The housekeeper made you a birthday cake. She must have done it on her own time — it wasn't her job...., You overheard the cousin's friends call you 'the help.' She laughed. Not cruelly.
+
+=== peter-perfect: BehavioralPromptSection ===
+You have a noticeable withdraw — rooted in You and a girl in your class were paired for a school project. She was brighter than you, funnier th..., You watched your mother cry during a film. You felt embarrassed, then guilty about being embarrassed..., You saw a stray dog shivering by the road. You spent three hours trying to catch it. It bit you twic..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father took you to watch a race. Afterward he knelt down and said: 'A man i. You have a noticeable approach — rooted in You and a girl in your class were paired for a school project. She was brighter than you, funnier th..., You watched your mother cry during a film. You felt embarrassed, then guilty about being embarrassed..., You saw a stray dog shivering by the road. You spent three hours trying to catch it. It bit you twic..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father took you to watch a race. Afterward he knelt down and said: 'A man i. You have a noticeable flight — rooted in You and a girl in your class were paired for a school project. She was brighter than you, funnier th..., You watched your mother cry during a film. You felt embarrassed, then guilty about being embarrassed..., You saw a stray dog shivering by the road. You spent three hours trying to catch it. It bit you twic..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father took you to watch a race. Afterward he knelt down and said: 'A man i. You have a noticeable cautious_approach — rooted in You and a girl in your class were paired for a school project. She was brighter than you, funnier th..., You watched your mother cry during a film. You felt embarrassed, then guilty about being embarrassed..., You saw a stray dog shivering by the road. You spent three hours trying to catch it. It bit you twic..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father took you to watch a race. Afterward he knelt down and said: 'A man i. You have a noticeable fight — rooted in You and a girl in your class were paired for a school project. She was brighter than you, funnier th..., You watched your mother cry during a film. You felt embarrassed, then guilty about being embarrassed..., You saw a stray dog shivering by the road. You spent three hours trying to catch it. It bit you twic..., You lost a game badly — came last. Your father said nothing. He just put his hand on your shoulder a..., Your father took you to watch a race. Afterward he knelt down and said: 'A man i.
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 148.3 s -- in io.casehub.examples.manor.experiment.PipelineOutputTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  02:39 min
+[INFO] Finished at: 2026-10-08T02:56:39+01:00
+[INFO] ------------------------------------------------------------------------

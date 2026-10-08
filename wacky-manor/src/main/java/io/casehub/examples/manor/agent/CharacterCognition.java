@@ -175,6 +175,7 @@ public final class CharacterCognition {
         if (cognitionCore != null && tenantId != null) {
             var ctx = new io.casehub.neocortex.cognition.prompt.CognitionRenderContext(agentId, tenantId, null);
             for (var section : cognitionCore.promptSections()) {
+                if (section.blockTag() != null) continue;
                 var text = section.render(ctx);
                 if (text != null && !text.isBlank()) {
                     sections.add(adaptPromptSection(text));
@@ -191,6 +192,20 @@ public final class CharacterCognition {
         return sections;
     }
 
+
+    public List<String> renderTaggedSections() {
+        if (cognitionCore == null || tenantId == null) return List.of();
+        var ctx = new io.casehub.neocortex.cognition.prompt.CognitionRenderContext(agentId, tenantId, null);
+        var tagged = new ArrayList<String>();
+        for (var section : cognitionCore.promptSections()) {
+            if (section.blockTag() == null) continue;
+            var text = section.render(ctx);
+            if (text != null && !text.isBlank()) {
+                tagged.add(text);
+            }
+        }
+        return tagged;
+    }
 
     private ObservationSection renderFormationMemories() {
         var sb = new StringBuilder();
