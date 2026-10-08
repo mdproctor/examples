@@ -402,6 +402,7 @@ public class PlaybookOrchestrator {
                                 .withDrain(drain)
                                 .withMemories(memories, reflections, relationships)
                                 .withCognitiveSections(cognition.renderCognitiveSections(c, nearbyIds, agentNameMap))
+                                .withTaggedSections(cognition.renderTaggedSections())
                                 .build();
                         String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                         String systemPrompt = renderPrompt(c.agentId());
