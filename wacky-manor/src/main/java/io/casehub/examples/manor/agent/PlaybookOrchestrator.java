@@ -593,6 +593,9 @@ public class PlaybookOrchestrator {
                 }
                 extractDialogueKnowledge(dialogueText, c.agentId(), validatedTarget,
                         c.currentRoom(), false, world);
+                var observation = prompts.get(c.agentId());
+                cognitionCore.recordInteraction(c.agentId(), ManorConstants.TENANCY_ID,
+                        validatedTarget, observation != null ? observation : "", dialogueText, null);
             }
 
             for (var c : actingThisTick) {
