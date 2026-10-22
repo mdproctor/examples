@@ -24,12 +24,15 @@ public final class CharacterAgentLoop {
             new io.casehub.agency.perception.observation.affordance.ActionDescriptor("WAIT", "do nothing this turn", null)
                                                                                                                                                        );
 
+    // Multi-channel thinking prompt aligned with neocortex DriveDescriptionGenerationPhase channels:
+    // somatic (Damasio 1994; Barrett 2017), attentional (Easterbrook 1959),
+    // temporal (Barrett 2017 predictive coding), action tendency (Frijda 1986)
     public static final String RESPONSE_FORMAT_INSTRUCTION = "\n" +
                                                              new io.casehub.agency.perception.observation.affordance.AffordanceRenderer().renderActionVocabulary(
                                                                      """
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
-                                                                       "thinking": "What do you feel in your body right now? A tightness, a warmth, a prickle, a numbness? Start there — in the body, not the head. Then let the thought follow the sensation. Your thinking is your private truth — raw, unperformed, sometimes confused. The character's voice and manner belong in your dialogue. Here you are just a person feeling something. Shown to you next turn.",
+                                                                       "thinking": "What's happening inside you right now? Notice your body — a tightness, a warmth, a numbness. Notice what's grabbing your attention — what you can't look away from, what you're avoiding. Notice time — does the moment feel urgent, or suspended? Notice the pull — what do you feel drawn to do? Your thinking is your private truth — raw, unperformed, sometimes confused. The character's voice and manner belong in your dialogue. Here you are just a person feeling something. Shown to you next turn.",
                                                                        "situationChangeDegree": 0.0-1.0,
                                                                        "dialogue": "what you say aloud (or null if silent)",
                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
