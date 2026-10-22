@@ -172,7 +172,7 @@ public class PlaybookOrchestrator {
         var contextStrategy = new ManorContextStrategy();
 
         // Phase 1 — Foundation (no dependencies)
-        var moodOrch = new io.casehub.neocortex.cognition.mood.MoodOrchestrator(io.casehub.neocortex.cognition.mood.MoodConfig.defaults());
+        var moodOrch = new io.casehub.neocortex.cognition.mood.MoodOrchestrator(config.mood().toMoodConfig());
         var narrativeOrch = new io.casehub.neocortex.cognition.narrative.NarrativeOrchestrator(new io.casehub.neocortex.cognition.narrative.NarrativeMemory(cbrRecordStore, io.casehub.neocortex.cognition.narrative.NarrativeConfig.defaults()));
         var cbrStore = cbrRecordStore;
         var memoryHygiene = new io.casehub.blocks.memory.MemoryHygieneOrchestrator(

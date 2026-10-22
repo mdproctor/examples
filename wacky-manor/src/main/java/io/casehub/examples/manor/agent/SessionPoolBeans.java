@@ -27,14 +27,15 @@ public class SessionPoolBeans {
 
     @Produces
     @Singleton
-    SessionPoolRegistry sessionPoolRegistry(BackendInstanceRegistry backendRegistry) {
+    SessionPoolRegistry sessionPoolRegistry(BackendInstanceRegistry backendRegistry,
+                                            @ConfigProperty(name = "casehub.platform.agent.claude.max-concurrent-sessions", defaultValue = "12") int maxSessions) {
         if (backendRegistry.resolveByKey("claude").isEmpty()) {
             log.info("No Claude backend registered — activating stub backend for testing");
             backendRegistry.register(new StubAgentBackend());
         }
         return new SessionPoolRegistry(
                 List.of(new PoolDeclaration(
-                        "character-pool", "character", "claude", 0, 12, null, null, null)),
+                        "character-pool", "character", "claude", 0, maxSessions, null, null, null)),
                 backendRegistry);
     }
 

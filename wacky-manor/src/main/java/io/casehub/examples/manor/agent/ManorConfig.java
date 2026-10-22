@@ -14,6 +14,7 @@ public record ManorConfig(
         CognitiveSnapshotConfig cognitiveSnapshot,
         AppraisalConfig appraisal,
         ClassificationConfig classification,
+        MoodTuningConfig mood,
         String activeCharacters,
         int maxConcurrentAgents
 ) {
@@ -41,15 +42,26 @@ public record ManorConfig(
 
     public record AppraisalConfig(boolean enabled) {}
 
+    public record MoodTuningConfig(int decayMinutes, double maxDisplacement) {
+        public io.casehub.neocortex.cognition.mood.MoodConfig toMoodConfig() {
+            return new io.casehub.neocortex.cognition.mood.MoodConfig(
+                    new io.casehub.neocortex.memory.mood.MoodBaseline(0.0, 0.0, 0.0),
+                    java.time.Duration.ofMinutes(decayMinutes),
+                    maxDisplacement,
+                    0.3,
+                    java.time.Duration.ofHours(24));
+        }
+    }
+
     public record ClassificationConfig(boolean auditEnabled, String auditLogPath, String externalCharacters,
-                                        double accumulatorAllowance, double accumulatorThreshold,
-                                        double accumulatorDecay, double accumulatorSlowAllowance,
-                                        double accumulatorSlowThreshold) {
+                                       double accumulatorAllowance, double accumulatorThreshold,
+                                       double accumulatorDecay, double accumulatorSlowAllowance,
+                                       double accumulatorSlowThreshold) {
         public boolean isExternal(String agentId) {
-            if (externalCharacters == null || externalCharacters.isBlank()) return false;
+            if (externalCharacters == null || externalCharacters.isBlank()) {return false;}
             return java.util.Arrays.stream(externalCharacters.split(","))
-                    .map(String::strip)
-                    .anyMatch(agentId::equals);
+                                   .map(String::strip)
+                                   .anyMatch(agentId::equals);
         }
 
         public io.casehub.neocortex.caps.engine.DegreeAccumulatorConfig accumulatorConfig() {

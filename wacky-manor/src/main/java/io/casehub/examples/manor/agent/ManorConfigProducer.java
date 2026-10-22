@@ -69,6 +69,11 @@ public class ManorConfigProducer {
     int     cognitiveSnapshotIntervalTicks;
     @ConfigProperty(name = "manor.appraisal.enabled", defaultValue = "false")
     boolean appraisalEnabled;
+    @ConfigProperty(name = "manor.mood.decay-minutes", defaultValue = "240")
+    int moodDecayMinutes;
+    @ConfigProperty(name = "manor.mood.max-displacement", defaultValue = "1.0")
+    double moodMaxDisplacement;
+
     @ConfigProperty(name = "manor.classification.audit-enabled", defaultValue = "true")
     boolean classificationAuditEnabled;
     @ConfigProperty(name = "manor.classification.audit-log-path", defaultValue = "docs/eval/classification-audit.jsonl")
@@ -104,6 +109,7 @@ public class ManorConfigProducer {
                 new ManorConfig.AppraisalConfig(appraisalEnabled),
                 new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters.orElse(""),
                         accumulatorAllowance, accumulatorThreshold, accumulatorDecay, accumulatorSlowAllowance, accumulatorSlowThreshold),
+                new ManorConfig.MoodTuningConfig(moodDecayMinutes, moodMaxDisplacement),
                 activeCharactersConfig.orElse(""),
                 maxConcurrentAgents
         );
