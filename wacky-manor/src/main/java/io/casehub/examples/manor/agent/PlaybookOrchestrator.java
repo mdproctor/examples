@@ -156,6 +156,16 @@ public class PlaybookOrchestrator {
         var mmStore = mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null;
         var seeder = mmStore != null ? new ManorCognitiveSeeder(mmStore) : null;
         var contextStrategy = new ManorContextStrategy();
+
+        var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(sessionPoolRegistry);
+        io.casehub.platform.agent.session.SessionPipeline sessionPipeline = null;
+        if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
+            var admission = new io.casehub.platform.agent.gate.AimdAdmissionStrategy(
+                    maxConcurrentSessions, 5, java.time.Duration.ofSeconds(10));
+            sessionPipeline = new io.casehub.platform.agent.session.SessionPipeline(
+                    sessionLifecycleManager, "claude", admission, 80_000);
+        }
+
         // Phase 1 — Foundation (no dependencies)
         var moodOrch = new io.casehub.neocortex.cognition.mood.MoodOrchestrator(io.casehub.neocortex.cognition.mood.MoodConfig.defaults());
         var narrativeOrch = new io.casehub.neocortex.cognition.narrative.NarrativeOrchestrator(new io.casehub.neocortex.cognition.narrative.NarrativeMemory(cbrRecordStore, io.casehub.neocortex.cognition.narrative.NarrativeConfig.defaults()));
@@ -176,12 +186,12 @@ public class PlaybookOrchestrator {
         io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
                 (agentId, tenantId, since, maxEntries) -> java.util.List.of();
         var userModelOrch = new io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator(
-                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrRecordStore, io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults()), io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults());
+                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrRecordStore, io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults()), io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults(), sessionPipeline);
         var mentalModelOrch = new io.casehub.neocortex.cognition.mentalmodel.MentalModelOrchestrator(
-                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrRecordStore, io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults()), io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults());
+                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrRecordStore, io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults()), io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults(), sessionPipeline);
         var strategyOrch = new io.casehub.neocortex.cognition.strategy.StrategyLearningOrchestrator(
                 new io.casehub.neocortex.cognition.strategy.StrategyMemory(cbrRecordStore, io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults()), noOpReflection,
-                io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults());
+                io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults(), sessionPipeline);
 
         // Phase 3 — Explicit DriveSource pattern (D11)
         var curiosityDrive = new io.casehub.neocortex.cognition.drive.CuriosityDrive(memoryHygieneAdapter);
@@ -196,7 +206,7 @@ public class PlaybookOrchestrator {
         // Phase 4 — InnerLife (depends on Phase 3)
         var innerLifeOrch = new io.casehub.neocortex.cognition.innerlife.InnerLifeOrchestrator(
                 noOpReflection, java.util.List.of(),
-                io.casehub.neocortex.cognition.innerlife.InnerLifeConfig.defaults(), driveOrch);
+                io.casehub.neocortex.cognition.innerlife.InnerLifeConfig.defaults(), driveOrch, sessionPipeline);
 
         // Phase 5 — Goals (pass driveOrch instead of null)
         var goalOrchestrator = new io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator(
@@ -206,23 +216,29 @@ public class PlaybookOrchestrator {
                 io.casehub.neocortex.cognition.goal.GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
 
-        var cognitionConfig = io.casehub.neocortex.cognition.core.CognitionConfig.all();
-        var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
-                moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
-                narrativeOrch, goalOrchestrator, memoryHygieneAdapter, innerLifeOrch,
-                cognitionConfig,
-                mmStore, new ManorNeedTierMappingProvider(), null, null, null, null, null);
-
         var defaultsRegistry = new io.casehub.neocortex.cognitive.index.CognitiveDefaultsRegistry();
-        cognitionCore.setDefaultsRegistry(defaultsRegistry);
+        var cogBuilder = io.casehub.neocortex.cognition.core.CognitivePipelineBuilder
+                .create(moodOrch, driveOrch)
+                .userModel(userModelOrch)
+                .mentalModel(mentalModelOrch)
+                .strategy(strategyOrch)
+                .narrative(narrativeOrch)
+                .goals(goalOrchestrator)
+                .memoryHygiene(memoryHygieneAdapter)
+                .innerLife(innerLifeOrch)
+                .mindMapStore(mmStore)
+                .needTierMappingProvider(new ManorNeedTierMappingProvider())
+                .sessionPipeline(sessionPipeline)
+                .defaultsRegistry(defaultsRegistry);
 
-        io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy llmAppraisal = null;
         if (config.appraisal().enabled()) {
-            llmAppraisal = new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy();
-            cognitionCore.configureAppraisal(llmAppraisal,
+            cogBuilder.appraisal(
+                    new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy(sessionPipeline),
                     new io.casehub.neocortex.cognition.salience.ConcernBasedSalienceStrategy());
             log.info("Appraisal enabled — sub-LLM will evaluate situations against character drives and disposition");
         }
+
+        var cognitionCore = cogBuilder.build();
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
@@ -297,18 +313,8 @@ public class PlaybookOrchestrator {
         // Keep significance accumulator suspended during scenario — its background
         // mindMapStore writes contend with renderCognitiveSections() reads via synchronized
 
-        var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(sessionPoolRegistry);
-
         if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
-            var admission = new io.casehub.platform.agent.gate.AimdAdmissionStrategy(
-                    maxConcurrentSessions, 5, java.time.Duration.ofSeconds(10));
-            var sessionPipeline = new io.casehub.platform.agent.session.SessionPipeline(
-                    sessionLifecycleManager, "claude", admission, 80_000);
             consolidationScheduler.setSessionPipeline(sessionPipeline);
-            cognitionCore.setSessionPipeline(sessionPipeline);
-            if (llmAppraisal != null) {
-                llmAppraisal.setSessionPipeline(sessionPipeline);
-            }
             for (var entry : world.characters().entrySet()) {
                 if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
                 sessionPipeline.openSession(entry.getKey(),

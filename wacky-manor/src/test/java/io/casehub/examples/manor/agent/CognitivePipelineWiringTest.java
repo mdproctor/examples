@@ -41,8 +41,7 @@ class CognitivePipelineWiringTest {
         var llmCallCount = new AtomicInteger();
         var pipeline = createCountingPipeline(llmCallCount);
 
-        var core = CognitiveActivationTest.buildCore(CognitionConfig.all());
-        core.setSessionPipeline(pipeline);
+        var core = CognitiveActivationTest.buildCore(CognitionConfig.all(), pipeline);
 
         core.recordInteraction("agent-1", "test-tenant", "subject-1",
                 "What do you think about the locked door?",
@@ -59,8 +58,7 @@ class CognitivePipelineWiringTest {
         var llmCallCount = new AtomicInteger();
         var pipeline = createCountingPipeline(llmCallCount);
 
-        var core = CognitiveActivationTest.buildCore(CognitionConfig.all());
-        core.setSessionPipeline(pipeline);
+        var core = CognitiveActivationTest.buildCore(CognitionConfig.all(), pipeline);
 
         // Simulate autonomous loop: only tick(), never recordInteraction()
         for (int i = 0; i < 5; i++) {
@@ -78,8 +76,7 @@ class CognitivePipelineWiringTest {
         var llmCallCount = new AtomicInteger();
         var pipeline = createCountingPipeline(llmCallCount);
 
-        var core = CognitiveActivationTest.buildCore(CognitionConfig.all());
-        core.setSessionPipeline(pipeline);
+        var core = CognitiveActivationTest.buildCore(CognitionConfig.all(), pipeline);
 
         // Feed interaction data THEN tick — this is what PlaybookOrchestrator should do
         core.recordInteraction("agent-1", "test-tenant", "subject-1",

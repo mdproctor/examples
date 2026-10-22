@@ -57,7 +57,7 @@ public class CognitiveActivationTest {
         return buildCore(config, null);
     }
 
-    public static CognitionCore buildCore(CognitionConfig config, io.casehub.platform.agent.AgentProvider agentProvider) {
+    public static CognitionCore buildCore(CognitionConfig config, io.casehub.platform.agent.session.SessionPipeline sessionPipeline) {
         var mood = new MoodOrchestrator(MoodConfig.defaults());
         var cbrStore = new InMemoryCbrRecordStore();
         var narrativeOrch = new NarrativeOrchestrator(new io.casehub.neocortex.cognition.narrative.NarrativeMemory(cbrStore, io.casehub.neocortex.cognition.narrative.NarrativeConfig.defaults()));
@@ -99,7 +99,8 @@ public class CognitiveActivationTest {
                 java.time.Clock.systemUTC());
 
         return new CognitionCore(mood, drives, userModel, mentalModel, strategy,
-                narrativeOrch, goals, memoryHygieneAdapter, innerLife, config, null, null, null, null, null, null, null);
+                narrativeOrch, goals, memoryHygieneAdapter, innerLife, config, null, null, null, null, null, null, null,
+                sessionPipeline);
     }
 
     @Test void tickRunsWithoutErrorOnFullConfig() {

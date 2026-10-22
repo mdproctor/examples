@@ -57,7 +57,7 @@ class CognitiveEvalTest {
         Map<String, List<CognitiveDeltaCapture.DeltaRecord>> allDeltas = new LinkedHashMap<>();
 
         for (var level : levels()) {
-            var core = CognitiveActivationTest.buildCore(level.config(), agentProvider);
+            var core = CognitiveActivationTest.buildCore(level.config());
             var capture = new CognitiveDeltaCapture();
 
             for (int tick = 1; tick <= TICKS; tick++) {

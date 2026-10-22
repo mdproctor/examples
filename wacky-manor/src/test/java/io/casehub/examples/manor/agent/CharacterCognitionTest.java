@@ -303,7 +303,7 @@ class CharacterCognitionTest {
                 io.casehub.neocortex.cognition.core.CognitionConfig.none()
                                                                 .with("characterDrives", true)
                                                                 .with("needsPyramid", true),
-                store, new ManorNeedTierMappingProvider(), null, null, null, null, null);
+                store, new ManorNeedTierMappingProvider(), null, null, null, null, null, null);
 
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
@@ -359,7 +359,7 @@ class CharacterCognitionTest {
                                                                 .with("goals", true)
                                                                 .with("characterDrives", true)
                                                                 .with("needsPyramid", true),
-                store, new ManorNeedTierMappingProvider(), null, null, null, null, null);
+                store, new ManorNeedTierMappingProvider(), null, null, null, null, null, null);
 
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
@@ -399,7 +399,7 @@ class CharacterCognitionTest {
                 io.casehub.neocortex.cognition.core.CognitionConfig.none()
                                                                 .with("characterDrives", true)
                                                                 .with("needsPyramid", true),
-                store, new ManorNeedTierMappingProvider(), null, null, null, null, null);
+                store, new ManorNeedTierMappingProvider(), null, null, null, null, null, null);
 
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.getOrDefault(agent, SocialConfig.empty()), List.of(),
