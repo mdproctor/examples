@@ -11,11 +11,10 @@ import io.casehub.neocortex.cognitive.Confidence;
 import io.casehub.neocortex.mindmap.NodeInput;
 import io.casehub.neocortex.mindmap.SubgraphInput;
 import io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore;
+import io.casehub.neocortex.cognition.testing.StubPipelines;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
 import io.casehub.platform.agent.AgentSession;
-import io.casehub.platform.agent.AgentSessionConfig;
-import io.casehub.platform.agent.AgentSessionInit;
+import io.casehub.platform.agent.session.SessionPipeline;
 import io.smallrye.mutiny.Multi;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +34,7 @@ class ManorGoalRevisionStrategyTest {
               "revisionReason": "Goal description too vague"}],
              "rationale": "Refinement needed"}
             """;
-        var strategy = new ManorGoalRevisionStrategy(mockProvider(response));
+        var strategy = new ManorGoalRevisionStrategy(mockPipeline(response));
         var context = buildContext();
         GoalRevisionProposal proposal = strategy.revise(context);
         assertThat(proposal.revisions()).hasSize(1);
@@ -51,7 +50,7 @@ class ManorGoalRevisionStrategyTest {
               "revisionReason": "Diamond confirmed not in the manor"}],
              "rationale": "Goal unachievable"}
             """;
-        var strategy = new ManorGoalRevisionStrategy(mockProvider(response));
+        var strategy = new ManorGoalRevisionStrategy(mockPipeline(response));
         var context = buildContext();
         GoalRevisionProposal proposal = strategy.revise(context);
         assertThat(proposal.revisions()).hasSize(1);
@@ -66,7 +65,7 @@ class ManorGoalRevisionStrategyTest {
               "revisionReason": "Successfully poisoned the tea"}],
              "rationale": "Goal achieved"}
             """;
-        var strategy = new ManorGoalRevisionStrategy(mockProvider(response));
+        var strategy = new ManorGoalRevisionStrategy(mockPipeline(response));
         var context = buildContext();
         GoalRevisionProposal proposal = strategy.revise(context);
         assertThat(proposal.revisions()).hasSize(1);
@@ -76,19 +75,18 @@ class ManorGoalRevisionStrategyTest {
     @Test
     void revise_prompt_includes_goals_and_counts() {
         String[] capturedPrompt = {null};
-        AgentProvider capturingProvider = new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
-                capturedPrompt[0] = config.userPrompt();
+        var capturingPipeline = StubPipelines.create(init -> new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
+                capturedPrompt[0] = prompt;
                 return Multi.createFrom().item(new AgentEvent.TextDelta(
                     "{\"revisions\": [], \"rationale\": \"\"}"));
             }
-            @Override
-            public AgentSession openSession(AgentSessionInit init) {
-                throw new UnsupportedOperationException();
+            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
+                return io.smallrye.mutiny.Uni.createFrom().voidItem();
             }
-        };
-        var strategy = new ManorGoalRevisionStrategy(capturingProvider);
+            @Override public void close(java.time.Duration timeout) {}
+        });
+        var strategy = new ManorGoalRevisionStrategy(capturingPipeline);
         var context = buildContext();
         strategy.revise(context);
         assertThat(capturedPrompt[0]).contains("protect-tea");
@@ -98,7 +96,7 @@ class ManorGoalRevisionStrategyTest {
 
     @Test
     void revise_returns_empty_on_malformed_response() {
-        var strategy = new ManorGoalRevisionStrategy(mockProvider("not json"));
+        var strategy = new ManorGoalRevisionStrategy(mockPipeline("not json"));
         var context = buildContext();
         GoalRevisionProposal proposal = strategy.revise(context);
         assertThat(proposal.revisions()).isEmpty();
@@ -106,7 +104,7 @@ class ManorGoalRevisionStrategyTest {
 
     @Test
     void id_returns_manor_llm() {
-        var strategy = new ManorGoalRevisionStrategy(mockProvider("{}"));
+        var strategy = new ManorGoalRevisionStrategy(mockPipeline("{}"));
         assertThat(strategy.id()).isEqualTo("manor-llm");
     }
 
@@ -118,7 +116,7 @@ class ManorGoalRevisionStrategyTest {
               "revisionReason": "Tasks neglected"}],
              "rationale": "Needs-based reprioritization"}
             """;
-        var strategy = new ManorGoalRevisionStrategy(mockProvider(response));
+        var strategy = new ManorGoalRevisionStrategy(mockPipeline(response));
         var context = buildContext();
         GoalRevisionProposal proposal = strategy.revise(context);
         assertThat(proposal.revisions()).hasSize(1);
@@ -129,18 +127,17 @@ class ManorGoalRevisionStrategyTest {
     @Test
     void revise_prompt_includes_satisfaction_levels() {
         String[] capturedPrompt = {null};
-        AgentProvider capturingProvider = new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
-                capturedPrompt[0] = config.userPrompt();
+        var capturingPipeline = StubPipelines.create(init -> new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
+                capturedPrompt[0] = prompt;
                 return Multi.createFrom().item(new AgentEvent.TextDelta(
                     "{\"revisions\": [], \"rationale\": \"\"}"));
             }
-            @Override
-            public AgentSession openSession(AgentSessionInit init) {
-                throw new UnsupportedOperationException();
+            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
+                return io.smallrye.mutiny.Uni.createFrom().voidItem();
             }
-        };
+            @Override public void close(java.time.Duration timeout) {}
+        });
 
         var store = new InMemoryMindMapStore();
         var subgraphId = store.createSubgraph(
@@ -164,7 +161,7 @@ class ManorGoalRevisionStrategyTest {
                 "satisfaction", "0.28")),
             "wacky-manor");
 
-        var strategy = new ManorGoalRevisionStrategy(capturingProvider, store);
+        var strategy = new ManorGoalRevisionStrategy(capturingPipeline, store);
         strategy.revise(buildContext());
 
         assertThat(capturedPrompt[0]).contains("SAFETY=0.62");
@@ -175,20 +172,19 @@ class ManorGoalRevisionStrategyTest {
     @Test
     void revise_prompt_omits_satisfaction_when_no_store() {
         String[] capturedPrompt = {null};
-        AgentProvider capturingProvider = new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
-                capturedPrompt[0] = config.userPrompt();
+        var capturingPipeline = StubPipelines.create(init -> new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
+                capturedPrompt[0] = prompt;
                 return Multi.createFrom().item(new AgentEvent.TextDelta(
                     "{\"revisions\": [], \"rationale\": \"\"}"));
             }
-            @Override
-            public AgentSession openSession(AgentSessionInit init) {
-                throw new UnsupportedOperationException();
+            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
+                return io.smallrye.mutiny.Uni.createFrom().voidItem();
             }
-        };
+            @Override public void close(java.time.Duration timeout) {}
+        });
 
-        var strategy = new ManorGoalRevisionStrategy(capturingProvider, null);
+        var strategy = new ManorGoalRevisionStrategy(capturingPipeline, null);
         strategy.revise(buildContext());
 
         assertThat(capturedPrompt[0]).doesNotContain("Need satisfaction");
@@ -201,16 +197,15 @@ class ManorGoalRevisionStrategyTest {
                 Map.of("protect-tea", new GoalOutcomeCounts(3, 1)));
     }
 
-    private AgentProvider mockProvider(String responseText) {
-        return new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
+    private SessionPipeline mockPipeline(String responseText) {
+        return StubPipelines.create(init -> new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
                 return Multi.createFrom().item(new AgentEvent.TextDelta(responseText));
             }
-            @Override
-            public AgentSession openSession(AgentSessionInit init) {
-                throw new UnsupportedOperationException();
+            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
+                return io.smallrye.mutiny.Uni.createFrom().voidItem();
             }
-        };
+            @Override public void close(java.time.Duration timeout) {}
+        });
     }
 }

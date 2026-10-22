@@ -11,7 +11,7 @@ import io.casehub.eidos.api.GoalPriority;
 import io.casehub.eidos.api.Visibility;
 import io.casehub.examples.manor.agent.ManorGoalFormationStrategy;
 import io.casehub.examples.manor.agent.ManorGoalRevisionStrategy;
-import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.session.SessionPipeline;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Tag;
@@ -26,11 +26,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Tag("llm-eval")
 class GoalLifecycleTest {
 
-    @Inject AgentProvider agentProvider;
+    @Inject SessionPipeline sessionPipeline;
 
     @Test
     void formation_proposes_goal_from_reflection_insights() {
-        var strategy = new ManorGoalFormationStrategy(agentProvider);
+        var strategy = new ManorGoalFormationStrategy(sessionPipeline);
         var context = new GoalFormationContext("hooded-claw", "wacky-manor",
                 List.of("Penelope is alone in the ballroom near the tea service",
                         "The rat poison is within reach in the kitchen",
@@ -50,7 +50,7 @@ class GoalLifecycleTest {
 
     @Test
     void revision_recommends_abandon_for_impossible_goal() {
-        var strategy = new ManorGoalRevisionStrategy(agentProvider);
+        var strategy = new ManorGoalRevisionStrategy(sessionPipeline);
         var context = new GoalRevisionContext("hooded-claw", "wacky-manor",
                 List.of(new AgentGoal("steal-diamond", "Steal the Doily Diamond from the safe",
                         GoalPriority.SECONDARY, Visibility.PRIVATE, List.of(), java.util.Map.of())),
@@ -68,7 +68,7 @@ class GoalLifecycleTest {
 
     @Test
     void revision_recommends_complete_for_achieved_goal() {
-        var strategy = new ManorGoalRevisionStrategy(agentProvider);
+        var strategy = new ManorGoalRevisionStrategy(sessionPipeline);
         var context = new GoalRevisionContext("hooded-claw", "wacky-manor",
                 List.of(new AgentGoal("poison-tea", "Poison Penelope's tea",
                         GoalPriority.PRIMARY, Visibility.PRIVATE, List.of(), java.util.Map.of())),

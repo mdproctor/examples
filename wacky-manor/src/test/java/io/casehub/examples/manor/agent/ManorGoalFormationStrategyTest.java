@@ -5,8 +5,10 @@ import io.casehub.api.spi.routing.GoalFormationProposal;
 import io.casehub.eidos.api.AgentGoal;
 import io.casehub.eidos.api.GoalPriority;
 import io.casehub.eidos.api.Visibility;
+import io.casehub.neocortex.cognition.testing.StubPipelines;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.AgentSession;
+import io.casehub.platform.agent.session.SessionPipeline;
 import io.smallrye.mutiny.Multi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,10 +24,9 @@ class ManorGoalFormationStrategyTest {
 
     @BeforeEach
     void setUp() {
-        AgentProvider mockProvider = new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
-                lastUserPrompt = config.userPrompt();
+        var pipeline = StubPipelines.create(init -> new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
+                lastUserPrompt = prompt;
                 String response = """
                                   {"goals": [{"name": "protect-tea", "description": "Prevent poisoning",
                                     "suggestedPriority": "SECONDARY", "formationReason": "Observed suspicious behavior"}],
@@ -33,13 +34,12 @@ class ManorGoalFormationStrategyTest {
                                   """;
                 return Multi.createFrom().item(new AgentEvent.TextDelta(response));
             }
-
-            @Override
-            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
-                throw new UnsupportedOperationException();
+            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
+                return io.smallrye.mutiny.Uni.createFrom().voidItem();
             }
-        };
-        strategy = new ManorGoalFormationStrategy(mockProvider);
+            @Override public void close(java.time.Duration timeout) {}
+        });
+        strategy = new ManorGoalFormationStrategy(pipeline);
     }
 
     @Test
@@ -72,7 +72,7 @@ class ManorGoalFormationStrategyTest {
 
     @Test
     void propose_returns_empty_on_malformed_response() {
-        var badStrategy = new ManorGoalFormationStrategy(mockProvider("not json at all"));
+        var badStrategy = new ManorGoalFormationStrategy(mockPipeline("not json at all"));
         var context = new GoalFormationContext("hc", "wacky-manor",
                                                List.of("insight"), List.of(), List.of(), 5);
         GoalFormationProposal proposal = badStrategy.propose(context);
@@ -86,7 +86,7 @@ class ManorGoalFormationStrategyTest {
                             "suggestedPriority": null, "formationReason": "Curiosity"}],
                            "rationale": ""}
                           """;
-        var s = new ManorGoalFormationStrategy(mockProvider(response));
+        var s = new ManorGoalFormationStrategy(mockPipeline(response));
         var context = new GoalFormationContext("hc", "wacky-manor",
                                                List.of("insight"), List.of(), List.of(), 5);
         GoalFormationProposal proposal = s.propose(context);
@@ -99,17 +99,15 @@ class ManorGoalFormationStrategyTest {
         assertThat(strategy.id()).isEqualTo("manor-llm");
     }
 
-    private AgentProvider mockProvider(String responseText) {
-        return new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
+    private SessionPipeline mockPipeline(String responseText) {
+        return StubPipelines.create(init -> new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
                 return Multi.createFrom().item(new AgentEvent.TextDelta(responseText));
             }
-
-            @Override
-            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
-                throw new UnsupportedOperationException();
+            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
+                return io.smallrye.mutiny.Uni.createFrom().voidItem();
             }
-        };
+            @Override public void close(java.time.Duration timeout) {}
+        });
     }
 }

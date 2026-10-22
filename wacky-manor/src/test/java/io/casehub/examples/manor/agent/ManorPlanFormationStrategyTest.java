@@ -5,8 +5,10 @@ import io.casehub.eidos.api.GoalPriority;
 import io.casehub.eidos.api.Visibility;
 import io.casehub.examples.manor.model.AgentPlan;
 import io.casehub.examples.manor.model.PlanStepStatus;
+import io.casehub.neocortex.cognition.testing.StubPipelines;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.AgentSession;
+import io.casehub.platform.agent.session.SessionPipeline;
 import io.smallrye.mutiny.Multi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,10 +24,9 @@ class ManorPlanFormationStrategyTest {
 
     @BeforeEach
     void setUp() {
-        AgentProvider mockProvider = new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
-                lastPrompt = config.userPrompt();
+        var pipeline = StubPipelines.create(init -> new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
+                lastPrompt = prompt;
                 String response = """
                     {"steps": [
                       {"id": "find-poison", "description": "Locate the poison bottle in the kitchen"},
@@ -34,13 +35,12 @@ class ManorPlanFormationStrategyTest {
                     """;
                 return Multi.createFrom().item(new AgentEvent.TextDelta(response));
             }
-
-            @Override
-            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
-                throw new UnsupportedOperationException();
+            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
+                return io.smallrye.mutiny.Uni.createFrom().voidItem();
             }
-        };
-        strategy = new ManorPlanFormationStrategy(mockProvider);
+            @Override public void close(java.time.Duration timeout) {}
+        });
+        strategy = new ManorPlanFormationStrategy(pipeline);
     }
 
     @Test
@@ -70,18 +70,16 @@ class ManorPlanFormationStrategyTest {
 
     @Test
     void formPlan_returns_null_on_malformed_response() {
-        AgentProvider badProvider = new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
+        var badPipeline = StubPipelines.create(init -> new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
                 return Multi.createFrom().item(new AgentEvent.TextDelta("not json"));
             }
-
-            @Override
-            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
-                throw new UnsupportedOperationException();
+            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
+                return io.smallrye.mutiny.Uni.createFrom().voidItem();
             }
-        };
-        var badStrategy = new ManorPlanFormationStrategy(badProvider);
+            @Override public void close(java.time.Duration timeout) {}
+        });
+        var badStrategy = new ManorPlanFormationStrategy(badPipeline);
         var goal = new AgentGoal("g", "desc", GoalPriority.SECONDARY, Visibility.PRIVATE, List.of(), java.util.Map.of());
         AgentPlan plan = badStrategy.formPlan("id", "t", goal, List.of(), List.of(), 1);
         assertThat(plan).isNull();

@@ -6,8 +6,8 @@ import io.casehub.neocortex.memory.Memory;
 import io.casehub.neocortex.memory.reflection.ReflectionEvent;
 import io.casehub.neocortex.memory.reflection.ReflectionSynthesizer;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
-import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.AgentSessionInit;
+import io.casehub.platform.agent.session.SessionPipeline;
 import org.jboss.logging.Logger;
 
 import java.time.Duration;
@@ -33,10 +33,10 @@ public final class ManorReflectionSynthesizer implements ReflectionSynthesizer {
         [{"insight": "...", "importance": 0.0-1.0}]
         Return ONLY the JSON array. No other text.""";
 
-    private final AgentProvider agentProvider;
+    private final SessionPipeline sessionPipeline;
 
-    public ManorReflectionSynthesizer(AgentProvider agentProvider) {
-        this.agentProvider = agentProvider;
+    public ManorReflectionSynthesizer(SessionPipeline sessionPipeline) {
+        this.sessionPipeline = sessionPipeline;
     }
 
     @Override
@@ -50,12 +50,13 @@ public final class ManorReflectionSynthesizer implements ReflectionSynthesizer {
             }
             var sourceIds = sources.stream().map(Memory::memoryId).toList();
 
-            String response = agentProvider.invoke(
-                    AgentSessionConfig.of(SYSTEM_PROMPT, sb.toString()))
+            var session = sessionPipeline.openSession("reflection", AgentSessionInit.of(SYSTEM_PROMPT));
+            var responseBuilder = new StringBuilder();
+            session.query(sb.toString()).subscribe().asStream()
                 .filter(e -> e instanceof AgentEvent.TextDelta)
                 .map(e -> ((AgentEvent.TextDelta) e).text())
-                .collect().with(Collectors.joining())
-                .await().atMost(Duration.ofSeconds(120));
+                .forEach(responseBuilder::append);
+            String response = responseBuilder.toString();
 
             record InsightEntry(String insight, Double importance) {}
             var entries = JSON.readValue(response, new TypeReference<List<InsightEntry>>() {});

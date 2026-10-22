@@ -4,8 +4,8 @@ import io.casehub.blocks.summarisation.LevelEvent;
 import io.casehub.blocks.summarisation.Summariser;
 import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
-import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.AgentSessionInit;
+import io.casehub.platform.agent.session.SessionPipeline;
 import org.jboss.logging.Logger;
 
 import java.time.Duration;
@@ -26,10 +26,10 @@ public final class ManorLlmSummariser implements Summariser<ManorEvent, String> 
             Do not invent events that did not happen.
             Respond with ONLY the summary text, no formatting.""";
 
-    private final AgentProvider agentProvider;
+    private final SessionPipeline sessionPipeline;
 
-    public ManorLlmSummariser(AgentProvider agentProvider) {
-        this.agentProvider = agentProvider;
+    public ManorLlmSummariser(SessionPipeline sessionPipeline) {
+        this.sessionPipeline = sessionPipeline;
     }
 
     @Override
@@ -38,12 +38,13 @@ public final class ManorLlmSummariser implements Summariser<ManorEvent, String> 
                 .map(e -> e.payload().description())
                 .collect(Collectors.joining("\n"));
         try {
-            String summary = agentProvider.invoke(
-                            AgentSessionConfig.of(SYSTEM_PROMPT, eventText, Duration.ofSeconds(30)))
+            var session = sessionPipeline.openSession("summariser", AgentSessionInit.of(SYSTEM_PROMPT));
+            var responseBuilder = new StringBuilder();
+            session.query(eventText).subscribe().asStream()
                     .filter(e -> e instanceof AgentEvent.TextDelta)
                     .map(e -> ((AgentEvent.TextDelta) e).text())
-                    .collect().with(Collectors.joining())
-                    .await().atMost(Duration.ofSeconds(60));
+                    .forEach(responseBuilder::append);
+            String summary = responseBuilder.toString();
             return CompletableFuture.completedFuture(List.of(summary));
         } catch (Exception e) {
             log.warnf("LLM summarisation failed, falling back to raw text: %s", e.getMessage());

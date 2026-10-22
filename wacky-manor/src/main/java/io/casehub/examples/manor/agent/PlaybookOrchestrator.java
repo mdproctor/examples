@@ -94,6 +94,7 @@ public class PlaybookOrchestrator {
     int maxConcurrentSessions;
 
     private volatile AgentProvider gatedProvider;
+    private volatile io.casehub.platform.agent.session.SessionPipeline scenePipeline;
     private final    java.util.Map<String, String> subgraphIdCache = new java.util.concurrent.ConcurrentHashMap<>();
 
 
@@ -125,17 +126,30 @@ public class PlaybookOrchestrator {
         webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("started"));
         webEventBus.broadcast(webEventBus.buildSnapshot(world));
 
+        var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(sessionPoolRegistry);
+        io.casehub.platform.agent.session.SessionPipeline sessionPipeline;
+        if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
+            var admission = new io.casehub.platform.agent.gate.AimdAdmissionStrategy(
+                    maxConcurrentSessions, 5, java.time.Duration.ofSeconds(10));
+            sessionPipeline = new io.casehub.platform.agent.session.SessionPipeline(
+                    sessionLifecycleManager, "claude", admission, 80_000);
+        } else {
+            sessionPipeline = new io.casehub.platform.agent.session.SessionPipeline(
+                    sessionLifecycleManager, "claude", maxConcurrentSessions, 80_000);
+        }
+        this.scenePipeline = sessionPipeline;
+
         var compactor          = new MechanicalCompactor();
-        var summariser         = new ManorLlmSummariser(agentProvider);
+        var summariser         = new ManorLlmSummariser(sessionPipeline);
         var obsRenderer        = new ManorObservationRenderer(compactor, config.observation().verbatimThreshold(), config.observation().groupedThreshold(), summariser);
         var observationService = new ObservationService(obsRenderer);
         observationService.init(world);
 
-        var reflectionSynthesizer = new ManorReflectionSynthesizer(gatedProvider);
+        var reflectionSynthesizer = new ManorReflectionSynthesizer(sessionPipeline);
         var reflectionTrigger = new ManorReflectionTrigger(config.reflection().maxUnreflected(), config.reflection().importanceThreshold());
         ManorPlanEvaluator planEvaluator = null;
         if (config.plan().enabled() && config.goal().enabled()) {
-            var planFormationStrategy = new ManorPlanFormationStrategy(gatedProvider);
+            var planFormationStrategy = new ManorPlanFormationStrategy(sessionPipeline);
             planEvaluator = new ManorPlanEvaluator(planFormationStrategy, planRevisionStrategy,
                 caseMemoryStore, ManorConstants.TENANCY_ID,
                 agentId -> world.character(agentId), config.plan().maxRevisionGeneration());
@@ -156,15 +170,6 @@ public class PlaybookOrchestrator {
         var mmStore = mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null;
         var seeder = mmStore != null ? new ManorCognitiveSeeder(mmStore) : null;
         var contextStrategy = new ManorContextStrategy();
-
-        var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(sessionPoolRegistry);
-        io.casehub.platform.agent.session.SessionPipeline sessionPipeline = null;
-        if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
-            var admission = new io.casehub.platform.agent.gate.AimdAdmissionStrategy(
-                    maxConcurrentSessions, 5, java.time.Duration.ofSeconds(10));
-            sessionPipeline = new io.casehub.platform.agent.session.SessionPipeline(
-                    sessionLifecycleManager, "claude", admission, 80_000);
-        }
 
         // Phase 1 — Foundation (no dependencies)
         var moodOrch = new io.casehub.neocortex.cognition.mood.MoodOrchestrator(io.casehub.neocortex.cognition.mood.MoodConfig.defaults());
@@ -907,12 +912,14 @@ public class PlaybookOrchestrator {
     private String callAgentForScene(String characterId, String prompt) {
         String systemPrompt = renderPrompt(characterId);
         try {
-            return agentProvider.invoke(
-                                        AgentSessionConfig.of(systemPrompt, prompt))
-                                .filter(e -> e instanceof AgentEvent.TextDelta)
-                                .map(e -> ((AgentEvent.TextDelta) e).text())
-                                .collect().with(Collectors.joining())
-                                .await().atMost(Duration.ofSeconds(120));
+            var session = scenePipeline.openSession("scene:" + characterId,
+                    io.casehub.platform.agent.AgentSessionInit.of(systemPrompt));
+            var responseBuilder = new StringBuilder();
+            session.query(prompt).subscribe().asStream()
+                    .filter(e -> e instanceof AgentEvent.TextDelta)
+                    .map(e -> ((AgentEvent.TextDelta) e).text())
+                    .forEach(responseBuilder::append);
+            return responseBuilder.toString();
         } catch (Exception e) {
             log.warnf("Scene LLM call failed for %s: %s", characterId, e.getMessage());
             return "[" + characterId + " is speechless]";

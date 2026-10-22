@@ -8,8 +8,8 @@ import io.casehub.examples.manor.model.AgentPlan;
 import io.casehub.examples.manor.model.PlanStep;
 import io.casehub.examples.manor.model.PlanStepStatus;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
-import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.AgentSessionInit;
+import io.casehub.platform.agent.session.SessionPipeline;
 import org.jboss.logging.Logger;
 
 import java.time.Duration;
@@ -30,10 +30,10 @@ public class ManorPlanFormationStrategy {
         Return ONLY a JSON object: {"steps": [{"id": "step-slug", "description": "what to do"}], \
         "rationale": "why this plan"}""";
 
-    private final AgentProvider agentProvider;
+    private final SessionPipeline sessionPipeline;
 
-    public ManorPlanFormationStrategy(AgentProvider agentProvider) {
-        this.agentProvider = agentProvider;
+    public ManorPlanFormationStrategy(SessionPipeline sessionPipeline) {
+        this.sessionPipeline = sessionPipeline;
     }
 
     public AgentPlan formPlan(String agentId, String tenancyId, AgentGoal goal,
@@ -41,12 +41,13 @@ public class ManorPlanFormationStrategy {
                               int currentTick) {
         try {
             String userPrompt = buildPrompt(agentId, goal, allGoals, memories);
-            String response = agentProvider.invoke(
-                    AgentSessionConfig.of(SYSTEM_PROMPT, userPrompt))
+            var session = sessionPipeline.openSession("plan-formation", AgentSessionInit.of(SYSTEM_PROMPT));
+            var responseBuilder = new StringBuilder();
+            session.query(userPrompt).subscribe().asStream()
                 .filter(e -> e instanceof AgentEvent.TextDelta)
                 .map(e -> ((AgentEvent.TextDelta) e).text())
-                .collect().with(Collectors.joining())
-                .await().atMost(Duration.ofSeconds(120));
+                .forEach(responseBuilder::append);
+            String response = responseBuilder.toString();
             return parseResponse(response, goal.name(), currentTick);
         } catch (Exception e) {
             log.warnf("Plan formation failed for goal %s (non-fatal): %s",

@@ -9,8 +9,8 @@ import io.casehub.engine.plan.adaptation.PlanStepDescriptor;
 import io.casehub.engine.plan.adaptation.RevisedPlan;
 import io.casehub.engine.plan.adaptation.RevisionContext;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
-import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.AgentSessionInit;
+import io.casehub.platform.agent.session.SessionPipeline;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
@@ -35,11 +35,11 @@ public class ManorPlanRevisionStrategy implements PlanRevisionStrategy {
         Return ONLY a JSON object: {"steps": [{"id": "step-slug", "description": "what to do"}], \
         "rationale": "why this revision"}""";
 
-    private final AgentProvider agentProvider;
+    private final SessionPipeline sessionPipeline;
 
     @Inject
-    public ManorPlanRevisionStrategy(AgentProvider agentProvider) {
-        this.agentProvider = agentProvider;
+    public ManorPlanRevisionStrategy(SessionPipeline sessionPipeline) {
+        this.sessionPipeline = sessionPipeline;
     }
 
     @Override
@@ -49,12 +49,13 @@ public class ManorPlanRevisionStrategy implements PlanRevisionStrategy {
     public RevisedPlan revise(RevisionContext context) {
         try {
             String userPrompt = buildPrompt(context);
-            String response = agentProvider.invoke(
-                    AgentSessionConfig.of(SYSTEM_PROMPT, userPrompt))
+            var session = sessionPipeline.openSession("plan-revision", AgentSessionInit.of(SYSTEM_PROMPT));
+            var responseBuilder = new StringBuilder();
+            session.query(userPrompt).subscribe().asStream()
                 .filter(e -> e instanceof AgentEvent.TextDelta)
                 .map(e -> ((AgentEvent.TextDelta) e).text())
-                .collect().with(Collectors.joining())
-                .await().atMost(Duration.ofSeconds(120));
+                .forEach(responseBuilder::append);
+            String response = responseBuilder.toString();
             return parseResponse(response);
         } catch (Exception e) {
             log.warnf("Plan revision failed (non-fatal): %s", e.getMessage());

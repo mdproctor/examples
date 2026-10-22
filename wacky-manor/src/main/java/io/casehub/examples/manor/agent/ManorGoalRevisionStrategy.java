@@ -9,9 +9,9 @@ import io.casehub.api.spi.routing.GoalRevisionStrategy;
 import io.casehub.eidos.api.AgentGoal;
 import io.casehub.eidos.api.GoalOutcomeCounts;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.AgentSessionInit;
 import io.casehub.neocortex.mindmap.MindMapStore;
-import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.session.SessionPipeline;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
@@ -46,17 +46,17 @@ public class ManorGoalRevisionStrategy implements GoalRevisionStrategy {
         "revisedDescription": "..."|null, "newPriority": <number>|null, \
         "revisionReason": "..."}], "rationale": "..."}""";
 
-    private final AgentProvider agentProvider;
+    private final SessionPipeline sessionPipeline;
     private final MindMapStore mindMapStore;
 
-    public ManorGoalRevisionStrategy(AgentProvider agentProvider) {
-        this(agentProvider, null);
+    public ManorGoalRevisionStrategy(SessionPipeline sessionPipeline) {
+        this(sessionPipeline, null);
     }
 
     @Inject
-    public ManorGoalRevisionStrategy(AgentProvider agentProvider,
+    public ManorGoalRevisionStrategy(SessionPipeline sessionPipeline,
                                       @Nullable MindMapStore mindMapStore) {
-        this.agentProvider = agentProvider;
+        this.sessionPipeline = sessionPipeline;
         this.mindMapStore = mindMapStore;
     }
 
@@ -67,12 +67,13 @@ public class ManorGoalRevisionStrategy implements GoalRevisionStrategy {
     public GoalRevisionProposal revise(GoalRevisionContext context) {
         try {
             String userPrompt = buildPrompt(context);
-            String response = agentProvider.invoke(
-                    AgentSessionConfig.of(SYSTEM_PROMPT, userPrompt))
+            var session = sessionPipeline.openSession("goal-revision", AgentSessionInit.of(SYSTEM_PROMPT));
+            var responseBuilder = new StringBuilder();
+            session.query(userPrompt).subscribe().asStream()
                 .filter(e -> e instanceof AgentEvent.TextDelta)
                 .map(e -> ((AgentEvent.TextDelta) e).text())
-                .collect().with(Collectors.joining())
-                .await().atMost(Duration.ofSeconds(120));
+                .forEach(responseBuilder::append);
+            String response = responseBuilder.toString();
             return parseResponse(response);
         } catch (Exception e) {
             log.warnf("Goal revision failed (non-fatal): %s", e.getMessage());

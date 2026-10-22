@@ -12,7 +12,7 @@ import io.casehub.engine.plan.adaptation.RevisionContext;
 import io.casehub.examples.manor.agent.ManorPlanFormationStrategy;
 import io.casehub.examples.manor.agent.ManorPlanRevisionStrategy;
 import io.casehub.examples.manor.model.PlanStepStatus;
-import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.session.SessionPipeline;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Tag;
@@ -27,11 +27,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Tag("llm-eval")
 class PlanLifecycleTest {
 
-    @Inject AgentProvider agentProvider;
+    @Inject SessionPipeline sessionPipeline;
 
     @Test
     void formation_produces_actionable_steps_for_goal() {
-        var strategy = new ManorPlanFormationStrategy(agentProvider);
+        var strategy = new ManorPlanFormationStrategy(sessionPipeline);
         var goal = new AgentGoal("poison-tea", "Poison Penelope's tea before she drinks it",
                 GoalPriority.PRIMARY, Visibility.PRIVATE, List.of(), java.util.Map.of());
         var plan = strategy.formPlan("hooded-claw", "wacky-manor", goal,
@@ -54,7 +54,7 @@ class PlanLifecycleTest {
 
     @Test
     void revision_adapts_plan_to_action_failure() {
-        var strategy = new ManorPlanRevisionStrategy(agentProvider);
+        var strategy = new ManorPlanRevisionStrategy(sessionPipeline);
         var pending = List.of(
                 new PlanStepDescriptor("go-kitchen", "Go to the kitchen to find the poison", ""),
                 new PlanStepDescriptor("take-poison", "Pick up the rat poison", ""),
