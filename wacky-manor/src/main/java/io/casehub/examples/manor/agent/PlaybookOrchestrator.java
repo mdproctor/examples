@@ -660,16 +660,43 @@ public class PlaybookOrchestrator {
                 cognition.recordExperience(c.currentRoom(), desc.strip(), response.thinking(), importance, targetAgentId, currentTick);
             }
 
+            var innerLife = cognitionCore.innerLife();
             for (var c : actingThisTick) {
                 var response = responses.get(c.agentId());
                 if (response == null) continue;
                 var behavior = RegulationTracker.classifyBehavior(response);
+
+                final String observationText;
+                if (innerLife != null) {
+                    var sb = new StringBuilder();
+                    if (response.dialogue() != null) {
+                        sb.append(c.name()).append(": ").append(response.dialogue());
+                    }
+                    if (response.action() != null && response.action().type() != io.casehub.examples.manor.model.ActionType.WAIT) {
+                        if (!sb.isEmpty()) sb.append(" ");
+                        sb.append(c.name()).append(" ").append(response.action().type().name().toLowerCase());
+                        if (response.action().target() != null) sb.append(" ").append(response.action().target());
+                    }
+                    observationText = sb.isEmpty() ? null : sb.toString();
+                } else {
+                    observationText = null;
+                }
+
                 for (var observer : world.charactersInRoom(c.currentRoom())) {
                     if (observer.agentId().equals(c.agentId())) continue;
                     var observerCognition = cognitions.get(observer.agentId());
                     if (observerCognition != null) {
                         observerCognition.observeCharacterState(c.agentId(), behavior,
                             io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
+                    }
+                    if (innerLife != null && observationText != null) {
+                        agentRegistry.findById(observer.agentId(), ManorConstants.TENANCY_ID).ifPresent(observerDesc -> {
+                            var levelEvent = new io.casehub.neocortex.summarisation.LevelEvent<>(
+                                    observationText, System.currentTimeMillis(),
+                                    new io.casehub.neocortex.summarisation.EventLevel("SOCIAL", 1),
+                                    ManorConstants.TENANCY_ID);
+                            innerLife.observe(levelEvent, observerDesc);
+                        });
                     }
                 }
             }
