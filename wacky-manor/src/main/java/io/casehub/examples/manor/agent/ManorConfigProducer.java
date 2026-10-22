@@ -75,6 +75,16 @@ public class ManorConfigProducer {
     String classificationAuditLogPath;
     @ConfigProperty(name = "manor.classification.external-characters")
     java.util.Optional<String> classificationExternalCharacters;
+    @ConfigProperty(name = "manor.classification.accumulator.allowance", defaultValue = "0.2")
+    double accumulatorAllowance;
+    @ConfigProperty(name = "manor.classification.accumulator.threshold", defaultValue = "1.0")
+    double accumulatorThreshold;
+    @ConfigProperty(name = "manor.classification.accumulator.decay", defaultValue = "0.85")
+    double accumulatorDecay;
+    @ConfigProperty(name = "manor.classification.accumulator.slow-allowance", defaultValue = "0.15")
+    double accumulatorSlowAllowance;
+    @ConfigProperty(name = "manor.classification.accumulator.slow-threshold", defaultValue = "2.0")
+    double accumulatorSlowThreshold;
 
     @Produces
     @jakarta.inject.Singleton
@@ -92,7 +102,8 @@ public class ManorConfigProducer {
                 new ManorConfig.ConsolidationConfig(consolidationEnabled, consolidationIntervalTicks),
                 new ManorConfig.CognitiveSnapshotConfig(cognitiveSnapshotIntervalTicks),
                 new ManorConfig.AppraisalConfig(appraisalEnabled),
-                new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters.orElse("")),
+                new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters.orElse(""),
+                        accumulatorAllowance, accumulatorThreshold, accumulatorDecay, accumulatorSlowAllowance, accumulatorSlowThreshold),
                 activeCharactersConfig.orElse(""),
                 maxConcurrentAgents
         );

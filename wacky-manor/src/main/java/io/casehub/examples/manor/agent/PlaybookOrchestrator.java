@@ -383,7 +383,7 @@ public class PlaybookOrchestrator {
         for (var c : activeAgents) {
             sessionPipeline.openSession("classify:" + c.agentId(),
                     io.casehub.platform.agent.AgentSessionInit.of(pipelineClassifier.systemPrompt()));
-            accumulators.put(c.agentId(), io.casehub.neocortex.caps.engine.DegreeAccumulator.withDefaults());
+            accumulators.put(c.agentId(), io.casehub.neocortex.caps.engine.DegreeAccumulator.fromConfig(classificationConfig.accumulatorConfig()));
             trajectoryBuffers.put(c.agentId(), new java.util.ArrayList<>());
         }
 
@@ -720,8 +720,8 @@ public class PlaybookOrchestrator {
 
                 if (accumulator != null) {
                     boolean fired = accumulator.accumulate(degree);
-                    log.infof("  %s: degree=%.2f accum=%.3f%s",
-                            c.agentId(), degree, accumulator.currentLevel(),
+                    log.infof("  %s: degree=%.2f fast=%.3f slow=%.3f%s",
+                            c.agentId(), degree, accumulator.currentLevel(), accumulator.slowLevel(),
                             fired ? " → CLASSIFICATION DUE" : "");
                     if (fired) {
                         if (classificationModeRegistry.isExternal(c.agentId())) {

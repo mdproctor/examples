@@ -41,12 +41,21 @@ public record ManorConfig(
 
     public record AppraisalConfig(boolean enabled) {}
 
-    public record ClassificationConfig(boolean auditEnabled, String auditLogPath, String externalCharacters) {
+    public record ClassificationConfig(boolean auditEnabled, String auditLogPath, String externalCharacters,
+                                        double accumulatorAllowance, double accumulatorThreshold,
+                                        double accumulatorDecay, double accumulatorSlowAllowance,
+                                        double accumulatorSlowThreshold) {
         public boolean isExternal(String agentId) {
             if (externalCharacters == null || externalCharacters.isBlank()) return false;
             return java.util.Arrays.stream(externalCharacters.split(","))
                     .map(String::strip)
                     .anyMatch(agentId::equals);
+        }
+
+        public io.casehub.neocortex.caps.engine.DegreeAccumulatorConfig accumulatorConfig() {
+            return new io.casehub.neocortex.caps.engine.DegreeAccumulatorConfig(
+                    accumulatorAllowance, accumulatorThreshold, accumulatorDecay,
+                    accumulatorSlowAllowance, accumulatorSlowThreshold);
         }
     }
 }
