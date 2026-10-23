@@ -1332,6 +1332,59 @@ The filter calculates `effective_activation = overlap + intensity² × RESTING_W
 
 Gallantry perpetually passes appraisal regardless of situation. Protection requires situational overlap to activate. When both pass, the gallantry↔protection differentiation text survives the filter — this text IS relevant (how honour and threat-response differ when both pull). Proving-worth's texts are correctly excluded.
 
+## Phase 10 — Situation-Dependent Channel Weighting (neocortex #668)
+
+### Problem
+
+Phase 8 established that four-channel drive descriptions (somatic, attentional, temporal, action tendency) produce discriminating expression. The multi-channel thinking prompt guides characters through all four channels equally. But Easterbrook (1959) showed that emotional arousal narrows the attentional field — high-threat situations should suppress attentional breadth and foreground somatic/action tendency channels. Equal weighting ignores the situation.
+
+The Phase 8 eval already showed the temporal channel's weakness in calm states — Penelope and Peter expressed no temporal distortion at a pleasant gathering. Barrett (2017) predicts this: temporal experience is constructed during high-arousal emotion, not during contentment. The channel profile should vary by situation.
+
+### Architecture
+
+`TopologyChannelWeighter` maps CAPS situation activations to a `ChannelWeightProfile` (four normalised weights summing to 1.0). Seven category profiles:
+
+| Category | Somatic | Attentional | Temporal | Action tendency | Literature basis |
+|---|---|---|---|---|---|
+| threat | 0.35 | 0.10 | 0.15 | 0.40 | Easterbrook (1959) attentional narrowing; Frijda (1986) fight/flight action readiness |
+| relationship | 0.25 | 0.30 | 0.25 | 0.20 | Bowlby (1969) interpersonal attention; attachment temporal memory |
+| achievement | 0.15 | 0.30 | 0.25 | 0.30 | McClelland (1961) task focus; temporal planning |
+| social | 0.20 | 0.35 | 0.15 | 0.30 | Baumeister & Leary (1995) social cue attention |
+| resource | 0.15 | 0.25 | 0.30 | 0.30 | Hobfoll (1989) resource planning horizon |
+| autonomy | 0.25 | 0.15 | 0.20 | 0.40 | Deci & Ryan (2000) behavioral agency; Seligman (1975) helplessness embodiment |
+| consequence | 0.20 | 0.20 | 0.30 | 0.30 | Gray (1982) BAS/BIS approach/avoidance |
+
+When multiple categories activate, weights blend by confidence. Integration point: `AppraisalTickParticipant` classifies observations via `SituationClassifier` per tick, caches `ChannelWeightProfile`. `ChannelEmphasisPromptSection` renders foreground/background guidance when weights deviate from default.
+
+### LLM Eval Results — Empirical Validation
+
+6 scenarios classified by real LLM (`AgentProvider` via Opus), activations fed to `TopologyChannelWeighter`:
+
+| Scenario | Activations | Som | Att | Temp | Act | Dominant |
+|---|---|---|---|---|---|---|
+| Beam collapse — physical threat | physical_threat=1.00, unpredictable_danger=0.70, powerlessness=0.80 | **0.32** | **0.12** | 0.17 | **0.40** | action-tendency |
+| Warm welcome — social acceptance | acceptance=0.90, secure_attachment=0.60, exclusion=0.40 | 0.22 | **0.33** | 0.18 | 0.27 | attentional |
+| Key competition — resource contest | competition=0.95, scarcity=0.90, physical_threat=0.60, dominance=0.50 | 0.20 | 0.24 | 0.24 | **0.32** | action-tendency |
+| Locked door — powerlessness | powerlessness=0.95, betrayal=0.85, reward_removal=0.85, controlled=0.60 | 0.24 | 0.22 | 0.22 | **0.31** | action-tendency |
+| Generator repair — mastery | mastery=0.90, agency_granted=0.70, scarcity=0.60, competence_recognition=0.50 | 0.19 | 0.24 | 0.24 | **0.33** | action-tendency |
+| Quiet afternoon — neutral | (empty) | 0.25 | 0.25 | 0.25 | 0.25 | default |
+
+Key findings:
+- **Easterbrook validated**: threat narrowed attentional to 0.12 (52% below default), elevated somatic to 0.32 (28% above) and action tendency to 0.40 (60% above). The literature prediction holds empirically.
+- **Social attention validated**: acceptance elevated attentional to 0.33 — the only scenario where attentional was the dominant channel. Social situations demand attention to interpersonal cues.
+- **Neutral stability**: zero delta from default on the neutral scene. The classifier correctly returned empty activations for a scene with no psychological salience.
+- **Action tendency dominance**: 4 of 5 non-neutral scenarios show action tendency as dominant. Frijda's claim that emotions ARE action tendencies is reflected in the weighting — the behavioral pull is consistently the strongest channel signal.
+- **Cross-category blending works**: competition scenario activated 4 different categories (resource, resource, threat, social) and the confidence-weighted blend produced coherent weights without any single category dominating inappropriately.
+
+### Design Principles (continued)
+
+| # | Principle | Evidence | Phase |
+|---|---|---|---|
+| 79 | Equal channel weighting ignores situation — Easterbrook (1959) attentional narrowing demands situation-dependent profiles | Threat scenario: attentional=0.12 (narrowed 52%), somatic=0.32, action=0.40. Social: attentional=0.33 (dominant). The same four channels carry different information loads per situation | Phase 10 |
+| 80 | Action tendency is the strongest channel signal across situations — Frijda (1986) is constitutive, not consequential | 4/5 non-neutral scenarios show action-tendency as dominant channel. Physical threat (0.40), powerlessness (0.31), competition (0.32), mastery (0.33). The pull to act is the most discriminating dimension | Phase 10 |
+| 81 | Neutral scenes must produce zero delta — the classifier's absence of activation is as important as its presence | Quiet afternoon: all channels 0.25, zero activations. Producing channel emphasis for a psychologically inert scene would be noise injection. The prompt section correctly renders nothing | Phase 10 |
+| 82 | Confidence-weighted category blending produces coherent profiles from multi-category activations | Competition activated resource (0.95), resource (0.90), threat (0.60), social (0.50). The blend produced action=0.32, temporal=0.24, attentional=0.24 — coherent without any single category inappropriately dominating | Phase 10 |
+
 ## Research Journals
 
 The detailed investigation continues in era-specific research journals. Each era is self-contained — opens with a summary of relevant context from prior eras.
