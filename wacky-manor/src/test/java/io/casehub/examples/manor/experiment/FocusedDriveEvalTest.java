@@ -22,6 +22,7 @@ import io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentProvider;
 import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.session.SessionPipeline;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
@@ -242,6 +243,7 @@ class FocusedDriveEvalTest {
     @Inject AgentRegistry registry;
     @Inject SystemPromptRenderer renderer;
     @Inject AgentProvider agentProvider;
+    @Inject SessionPipeline sessionPipeline;
     @Inject jakarta.enterprise.inject.Instance<AgentProvider> agentProviderInstance;
 
     private LlmTestSupport support;
@@ -253,7 +255,7 @@ class FocusedDriveEvalTest {
         support = new LlmTestSupport(registry, renderer, agentProvider);
         configs = ManorSocialConfigLoader.loadForProfile("GENERIC");
         var topology = new CapsTopologyLoader().loadFromClasspath("caps-topology.yaml");
-        classifier = new LlmSituationClassifier(LlmSituationClassifier.createPool(agentProvider, 6), topology);
+        classifier = new LlmSituationClassifier(sessionPipeline, topology);
     }
 
     // --- PP protection scenarios ---

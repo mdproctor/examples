@@ -15,6 +15,7 @@ import io.casehub.examples.manor.voice.LlmTestSupport;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentProvider;
 import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.session.SessionPipeline;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
@@ -453,6 +454,7 @@ class DriveExpressionEvalTest {
     @Inject AgentRegistry registry;
     @Inject SystemPromptRenderer renderer;
     @Inject AgentProvider agentProvider;
+    @Inject SessionPipeline sessionPipeline;
 
     LlmTestSupport support;
     Map<String, SocialConfig> genericConfigs;
@@ -1832,7 +1834,7 @@ class DriveExpressionEvalTest {
 
         // Real LlmSituationClassifier — same as production (Haiku + CAPS topology)
         var topology   = new io.casehub.neocortex.caps.engine.CapsTopologyLoader().loadFromClasspath("caps-topology.yaml");
-        var classifier = new io.casehub.neocortex.caps.llm.LlmSituationClassifier(io.casehub.neocortex.caps.llm.LlmSituationClassifier.createPool(agentProvider, 6), topology);
+        var classifier = new io.casehub.neocortex.caps.llm.LlmSituationClassifier(sessionPipeline, topology);
 
         var cognition = new CharacterCognition(agentId, null, null,
                                                socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,

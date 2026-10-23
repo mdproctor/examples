@@ -15,6 +15,7 @@ import io.casehub.neocortex.mindmap.SubgraphTypes;
 import io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore;
 import io.casehub.neocortex.mindmap.intelligence.consolidation.DriveProfileDerivationPhase;
 import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.session.SessionPipeline;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeAll;
@@ -50,6 +51,7 @@ class DriveProfilePipelineTest {
     private static final String TENANT = "pipeline-test";
 
     @Inject AgentProvider agentProvider;
+    @Inject SessionPipeline sessionPipeline;
     @Inject CapsEngine capsEngine;
 
     private Map<String, SocialConfig> socialConfigs;
@@ -61,7 +63,7 @@ class DriveProfilePipelineTest {
     void deriveAllProfiles() {
         socialConfigs = ManorSocialConfigLoader.loadForProfile("GENERIC");
         store         = new InMemoryMindMapStore();
-        classifier    = new LlmSituationClassifier(LlmSituationClassifier.createPool(agentProvider, 6), capsEngine.topology());
+        classifier    = new LlmSituationClassifier(sessionPipeline, capsEngine.topology());
 
         var testedAgents = allScenarios()
                                    .map(Scenario::agentId)

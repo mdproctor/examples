@@ -8,6 +8,7 @@ import io.casehub.platform.agent.AgentProvider;
 import io.casehub.platform.agent.AgentSession;
 import io.casehub.platform.agent.AgentSessionConfig;
 import io.casehub.platform.agent.AgentSessionInit;
+import io.casehub.platform.agent.session.SessionPipeline;
 import io.quarkus.test.junit.QuarkusTest;
 import io.smallrye.mutiny.Multi;
 import jakarta.inject.Inject;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 class ClassifierModelComparisonTest {
 
     @Inject AgentProvider agentProvider;
+    @Inject SessionPipeline sessionPipeline;
     @Inject CapsEngine capsEngine;
 
     private static final List<String> SCENARIOS = List.of(
@@ -44,8 +46,7 @@ class ClassifierModelComparisonTest {
         var topology = capsEngine.topology();
 
         for (String model : MODELS) {
-            var modelProvider = new ModelOverrideProvider(agentProvider, model);
-            var classifier = new LlmSituationClassifier(LlmSituationClassifier.createPool(modelProvider, 6), topology);
+            var classifier = new LlmSituationClassifier(sessionPipeline, topology);
 
             System.out.println("\n=== MODEL: " + model + " ===");
             for (String scenario : SCENARIOS) {
