@@ -219,6 +219,7 @@ public class ManorCognitivePipelineBuilder {
             cogBuilder.appraisal(
                     new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy(sessionPipeline),
                     new io.casehub.neocortex.cognition.salience.ConcernBasedSalienceStrategy());
+            cogBuilder.situationClassifier(situationClassifier);
         }
 
         var cognitionCore = cogBuilder.build();
