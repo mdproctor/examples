@@ -51,12 +51,13 @@ class PipelineToRenderingTest {
     }
 
     @Test
-    void fallbackToHandAuthored_whenNoGenerated() {
+    void fallbackToLabelAndDegree_whenNoGenerated() {
         seedDrive("gallantry", 0.9, "Fallback gallantry description");
 
         var content = renderWhatPulls();
 
-        assertThat(content).contains("Fallback gallantry description");
+        assertThat(content).contains("GALLANTRY (0.9)");
+        assertThat(content).doesNotContain("Fallback gallantry description");
     }
 
     @Test

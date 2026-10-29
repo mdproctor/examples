@@ -452,16 +452,16 @@ class CharacterCognitionTest {
         var noActivation = cognition.renderInternalState(List.of(), "");
         assertThat(noActivation).isNotNull();
         var content0 = ((io.casehub.agency.perception.observation.affordance.ObservationSection.TextBlock) noActivation).content();
-        assertThat(content0.indexOf("Webs")).isLessThan(content0.indexOf("Triumph"));
-        assertThat(content0.indexOf("Triumph")).isLessThan(content0.indexOf("watchful"));
+        assertThat(content0.indexOf("SCHEMING (0.9)")).isLessThan(content0.indexOf("GLOATING (0.7)"));
+        assertThat(content0.indexOf("GLOATING (0.7)")).isLessThan(content0.indexOf("SELF PRESERVATION (0.5)"));
 
         // With gloating activated: intensity order preserved (Principle 43 — strength, not activation)
         var withActivation = cognition.renderInternalState(List.of("gloating"), "");
         var content1       = ((io.casehub.agency.perception.observation.affordance.ObservationSection.TextBlock) withActivation).content();
-        assertThat(content1.indexOf("Webs"))
+        assertThat(content1.indexOf("SCHEMING (0.9)"))
                 .as("Highest intensity (scheming 0.9) first regardless of activation")
-                .isLessThan(content1.indexOf("Triumph"));
-        assertThat(content1.indexOf("Triumph")).isLessThan(content1.indexOf("watchful"));
+                .isLessThan(content1.indexOf("GLOATING (0.7)"));
+        assertThat(content1.indexOf("GLOATING (0.7)")).isLessThan(content1.indexOf("SELF PRESERVATION (0.5)"));
     }
 
     @Test
@@ -475,7 +475,7 @@ class CharacterCognitionTest {
         var section = cognition.renderInternalState(List.of(), "");
         assertThat(section).isNotNull();
         var content = ((io.casehub.agency.perception.observation.affordance.ObservationSection.TextBlock) section).content();
-        assertThat(content.indexOf("Fists")).isLessThan(content.indexOf("pull toward"));
+        assertThat(content.indexOf("PROTECTION (0.8)")).isLessThan(content.indexOf("LOYALTY (0.3)"));
     }
 
 
