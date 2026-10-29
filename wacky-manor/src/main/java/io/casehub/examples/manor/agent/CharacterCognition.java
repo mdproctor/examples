@@ -243,7 +243,7 @@ public final class CharacterCognition {
         }
 
         var internalState = cognitiveObservation.renderInternalState(
-                activatedCategories, character.lastActionResult(), nearbyAgentIds, situationContext);
+                activatedCategories, character.lastActionResult(), nearbyAgentIds, situationContext, agentNames);
         if (internalState != null) {
             sections.add(toAgency(internalState));
         }
