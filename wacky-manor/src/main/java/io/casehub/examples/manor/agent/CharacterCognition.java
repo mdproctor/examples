@@ -4,9 +4,9 @@ import io.casehub.agency.perception.observation.affordance.ObservationSection;
 import io.casehub.eidos.api.AgentConstraint;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.CharacterState;
-import io.casehub.neocortex.cognitive.index.CognitiveDefaults;
 import io.casehub.neocortex.cognition.prompt.observation.CognitionObservationBuilder;
 import io.casehub.neocortex.cognition.prompt.observation.DriveSnapshot;
+import io.casehub.neocortex.cognitive.index.CognitiveDefaults;
 import io.casehub.neocortex.memory.Memory;
 
 import java.util.ArrayList;
@@ -367,6 +367,54 @@ public final class CharacterCognition {
 
 
     private ObservationSection renderRelationalSchemas(Collection<String> nearbyAgentIds, Map<String, String> agentNames) {
+        if (mindMapStore != null && tenantId != null) {
+            var evolved = renderEvolvedRelationalSchemas(nearbyAgentIds, agentNames);
+            if (evolved != null) {return evolved;}
+        }
+        return renderRelationalSchemasFromConfig(nearbyAgentIds, agentNames);
+    }
+
+    private ObservationSection renderEvolvedRelationalSchemas(Collection<String> nearbyAgentIds, Map<String, String> agentNames) {
+        var peopleSg = mindMapStore.listSubgraphs(tenantId).stream()
+                                   .filter(sg -> "people".equals(sg.name()))
+                                   .findFirst();
+        if (peopleSg.isEmpty()) {return null;}
+
+        var nodes         = mindMapStore.nodesIn(peopleSg.get().id(), tenantId);
+        var agentToNodeId = new java.util.HashMap<String, String>();
+        for (var node : nodes) {
+            if (!node.traits().contains("overlay")) {
+                node.property("agentId").ifPresent(aid -> {
+                    if (nearbyAgentIds.contains(aid)) {agentToNodeId.put(aid, node.id());}
+                });
+            }
+        }
+
+        var     sb    = new StringBuilder();
+        boolean found = false;
+        for (var overlay : nodes) {
+            if (!overlay.traits().contains("overlay")) {continue;}
+            if (!agentId.equals(overlay.property(io.casehub.neocortex.mindmap.OverlayRef.AGENT_ID).orElse(null))) {
+                continue;
+            }
+            var sharedId = io.casehub.neocortex.mindmap.OverlayRef.sharedNodeId(overlay).orElse(null);
+            for (var entry : agentToNodeId.entrySet()) {
+                if (entry.getValue().equals(sharedId)) {
+                    var schema = io.casehub.neocortex.cognitive.index.RelationalSchema.fromProperties(overlay.properties());
+                    if (schema != null && schema.description() != null && !schema.description().isEmpty()) {
+                        var displayName = agentNames.getOrDefault(entry.getKey(), entry.getKey());
+                        sb.append("**").append(displayName).append(":** ").append(schema.description()).append("\n");
+                        found = true;
+                    }
+                }
+            }
+        }
+
+        if (!found) {return null;}
+        return ObservationSection.text("How You Feel About Those Present", sb.toString().strip());
+    }
+
+    private ObservationSection renderRelationalSchemasFromConfig(Collection<String> nearbyAgentIds, Map<String, String> agentNames) {
         var relevant = socialConfig.relationalSchemas().stream()
                                    .filter(rs -> nearbyAgentIds.contains(rs.target()))
                                    .toList();
@@ -383,6 +431,7 @@ public final class CharacterCognition {
         }
         return ObservationSection.text("How You Feel About Those Present", sb.toString().strip());
     }
+
 
     // Attachment quadrants — Bartholomew & Horowitz (1991) anxiety × avoidance two-dimensional model
     private ObservationSection renderAttachmentStyle() {
