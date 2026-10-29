@@ -1,0 +1,246 @@
+{
+  "complete": false,
+  "reason": "running",
+  "events": [
+    {
+      "type": "dialogue",
+      "character": "the-brixton-boys",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys: Blimey, what a gaff this is. Dusty as me nan's attic and twice as dodgy. Clara, love, you stay close now, yeah? That chandelier up there looks like it's hangin' on by a prayer and a bit of string. And who's touchin' that coat rack? Nobody touch that coat rack \u2014 thing's ready to topple on someone's head.",
+      "thinking": "Right. We're here. Doily Manor. The lads are back at the van, I've come in ahead to have a look. Clara's here \u2014 good, I can see her. That chandelier looks like it could come down any second. And who's this lot? Vincent Marsh \u2014 never heard of him, but something about the way he's standing near Clara... too close. My neck's prickling already. James Hartwell \u2014 big fella, looks like he means well. And Reginald Foxworth \u2014 posh name, probably posh trouble. Right, first things first. Stay near Clara. Get the lay of the land. That guest book might tell us who else has been through here. And that coat rack \u2014 wobbly thing, could fall on someone. On Clara. Best keep an eye on it."
+    },
+    {
+      "type": "aside",
+      "character": "the-brixton-boys",
+      "room": "entrance-hall",
+      "desc": "Something about this place sets me teeth on edge. Too quiet. Too grand. Places like this always got secrets tucked in the walls. And that Vincent Marsh \u2014 the way he's positioned himself near Clara already, like he belongs there. He don't belong there. Nobody belongs there except us. I can't say what it is exactly, but me gut's never steered me wrong. Not on the streets, not here. I'll be watchin' him.",
+      "thinking": "Right. We're here. Doily Manor. The lads are back at the van, I've come in ahead to have a look. Clara's here \u2014 good, I can see her. That chandelier looks like it could come down any second. And who's this lot? Vincent Marsh \u2014 never heard of him, but something about the way he's standing near Clara... too close. My neck's prickling already. James Hartwell \u2014 big fella, looks like he means well. And Reginald Foxworth \u2014 posh name, probably posh trouble. Right, first things first. Stay near Clara. Get the lay of the land. That guest book might tell us who else has been through here. And that coat rack \u2014 wobbly thing, could fall on someone. On Clara. Best keep an eye on it."
+    },
+    {
+      "type": "action",
+      "character": "the-brixton-boys",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "clara-bellingham",
+      "room": "entrance-hall",
+      "desc": "Clara Bellingham: Well, would you look at this place! Dusty as a forgotten promise, but oh, the bones of it \u2014 just magnificent. Now, I don't know about y'all, but I have a feeling this old house has been waiting for us. Vincent, James, boys \u2014 everyone in one piece? Good. Because I intend to find that Diamond before the dust settles, and I'm going to need every last one of you. Now then \u2014 let's see who's signed this guest book, shall we? A house like this keeps its secrets in the margins.",
+      "thinking": "I've just arrived at Doily Manor. The entrance hall \u2014 oh, it's grand but dusty, like someone forgot to love it for a long while. The chandelier looks like it could come down any second, but I'm not even thinking about that. What I'm feeling is warmth \u2014 Vincent is here, and James, and the Brixton Boys. My people. My chest is humming. The portraits on the walls are watching us with those stern painted eyes, and there's a guest book on the side table that's practically calling my name. My fingers are already itching. A leather-bound guest book in an old manor \u2014 who's been here before us? That's a clue if ever I saw one. But first \u2014 everyone's here, everyone's together, and that settles something in me. I want to say hello properly, take the temperature of the room. James is here and that makes my pulse quicken just a touch. The Brixton Boys \u2014 my boys \u2014 I can feel their familiar presence like a warm blanket. And Vincent... dear Vincent, who raised me. I should examine that guest book \u2014 it might have names, dates, clues about the Diamond. But I also want to acknowledge everyone, make sure the group feels cohesive before we start exploring."
+    },
+    {
+      "type": "aside",
+      "character": "clara-bellingham",
+      "room": "entrance-hall",
+      "desc": "My heart is hammering the way it did in that cave when I was eleven. A whole manor full of locked doors and hidden things \u2014 I could just about burst. But first things first, Clara. Read the room. Read the book. Then read the house.",
+      "thinking": "I've just arrived at Doily Manor. The entrance hall \u2014 oh, it's grand but dusty, like someone forgot to love it for a long while. The chandelier looks like it could come down any second, but I'm not even thinking about that. What I'm feeling is warmth \u2014 Vincent is here, and James, and the Brixton Boys. My people. My chest is humming. The portraits on the walls are watching us with those stern painted eyes, and there's a guest book on the side table that's practically calling my name. My fingers are already itching. A leather-bound guest book in an old manor \u2014 who's been here before us? That's a clue if ever I saw one. But first \u2014 everyone's here, everyone's together, and that settles something in me. I want to say hello properly, take the temperature of the room. James is here and that makes my pulse quicken just a touch. The Brixton Boys \u2014 my boys \u2014 I can feel their familiar presence like a warm blanket. And Vincent... dear Vincent, who raised me. I should examine that guest book \u2014 it might have names, dates, clues about the Diamond. But I also want to acknowledge everyone, make sure the group feels cohesive before we start exploring."
+    },
+    {
+      "type": "action",
+      "character": "clara-bellingham",
+      "room": "entrance-hall",
+      "desc": "Clara Bellingham examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "james-hartwell",
+      "room": "entrance-hall",
+      "desc": "James Hartwell: Well then \u2014 Doily Manor at last. Quite the entrance, I must say. Chandelier's hanging by a thread, staircase could use a bannister repair, and I'd wager that coat rack hasn't held a coat since the Boer War. But never mind all that \u2014 before we go charging off into dusty corridors, a wise man examines the evidence at hand. This guest book here might tell us who's been through these doors before us. Knowledge before action, I always say. Clara, do stay close \u2014 I don't trust that chandelier one bit.",
+      "thinking": "The entrance hall. Dusty, grand, and precarious \u2014 that chandelier looks like it could come down any moment. My eyes find Clara before they find anything else. She's here. Good. Vincent Marsh is here too, and there's that prickle at the back of my neck again. I can't prove anything about the man, but I don't like the way the air feels when he's near her. The Brixton Boys \u2014 boisterous lot. Reginald Foxworth \u2014 seems the type to know things. There's a guest book on the side table. That could tell us who's been here, what we're walking into. A good soldier reconnoitres before he charges. Let me examine that guest book \u2014 it's the sort of thing that might contain a clue, and it gives me a reason to position myself near the door, between Clara and whatever might come through it. Yes. James Hartwell begins with intelligence gathering. That's the plan."
+    },
+    {
+      "type": "aside",
+      "character": "james-hartwell",
+      "room": "entrance-hall",
+      "desc": "James Hartwell surveys the field. He notes the exits \u2014 kitchen to the left, library ahead. He notes the chandelier \u2014 a hazard. He notes Vincent Marsh \u2014 a different kind of hazard. And he notes Clara Bellingham \u2014 the reason any of this matters at all.",
+      "thinking": "The entrance hall. Dusty, grand, and precarious \u2014 that chandelier looks like it could come down any moment. My eyes find Clara before they find anything else. She's here. Good. Vincent Marsh is here too, and there's that prickle at the back of my neck again. I can't prove anything about the man, but I don't like the way the air feels when he's near her. The Brixton Boys \u2014 boisterous lot. Reginald Foxworth \u2014 seems the type to know things. There's a guest book on the side table. That could tell us who's been here, what we're walking into. A good soldier reconnoitres before he charges. Let me examine that guest book \u2014 it's the sort of thing that might contain a clue, and it gives me a reason to position myself near the door, between Clara and whatever might come through it. Yes. James Hartwell begins with intelligence gathering. That's the plan."
+    },
+    {
+      "type": "action",
+      "character": "james-hartwell",
+      "room": "entrance-hall",
+      "desc": "James Hartwell examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "vincent-marsh",
+      "room": "entrance-hall",
+      "desc": "Vincent Marsh: Welcome to Doily Manor, everyone! I am Mr Pemberton, the estate manager \u2014 I do hope you'll find everything in order. The old place has its quirks, I'm afraid, but I shall do my utmost to ensure your comfort. Miss Bellingham, may I say how delighted we are to have you here \u2014 the manor has been waiting for someone with your... spirit. Now then, I believe there are some rather fascinating volumes in the library that speak to the history of the estate. Shall I lead the way, or would you prefer to explore at your own pace?",
+      "thinking": "The entrance hall. Dusty, grand, full of people I need to manage. Clara is right here \u2014 trusting, oblivious, just like always. My jaw tightens when I look at her. She inherited everything. Everything I built, everything I maintained, everything I deserve. And she stands there, smiling, as if the world owes her nothing because it already gave her everything.\n\nBut not here. Not now. Too many witnesses. James Hartwell is watching \u2014 predictable, protective, hovering near her like a loyal dog. The Brixton Boys... they concern me more. Their eyes move too quickly. They notice things.\n\nI need to separate Clara from the group. But first, I need to understand this manor. The library \u2014 old houses hide their secrets in libraries. Inscriptions, hidden compartments, mechanisms behind bookshelves. If there's a treasure here, the library is where the trail begins. And if I find it first, I control the game.\n\nBut more importantly \u2014 I need to find something useful. Something that creates an opportunity. A weapon disguised as an accident. A mechanism that could be... repurposed. The chandelier hanging precariously above us is interesting, but too crude, too obvious. No. My schemes must have elegance.\n\nFor now, Pemberton. Helpful, obsequious, invisible Pemberton. Let them see the servant. Let them forget the wolf."
+    },
+    {
+      "type": "aside",
+      "character": "vincent-marsh",
+      "room": "entrance-hall",
+      "desc": "Look at them. Every one of them a piece on my board. Clara smiles at me with that guileless warmth and something cold and patient settles behind my ribs. The library first \u2014 every grand old house keeps its secrets between the pages. And secrets, my dear Clara, are the currency I trade in. The chandelier above us sways ever so slightly in the draught... no, no. Too crude. Too simple. Vincent Marsh does not deal in accidents. He deals in *inevitabilities*.",
+      "thinking": "The entrance hall. Dusty, grand, full of people I need to manage. Clara is right here \u2014 trusting, oblivious, just like always. My jaw tightens when I look at her. She inherited everything. Everything I built, everything I maintained, everything I deserve. And she stands there, smiling, as if the world owes her nothing because it already gave her everything.\n\nBut not here. Not now. Too many witnesses. James Hartwell is watching \u2014 predictable, protective, hovering near her like a loyal dog. The Brixton Boys... they concern me more. Their eyes move too quickly. They notice things.\n\nI need to separate Clara from the group. But first, I need to understand this manor. The library \u2014 old houses hide their secrets in libraries. Inscriptions, hidden compartments, mechanisms behind bookshelves. If there's a treasure here, the library is where the trail begins. And if I find it first, I control the game.\n\nBut more importantly \u2014 I need to find something useful. Something that creates an opportunity. A weapon disguised as an accident. A mechanism that could be... repurposed. The chandelier hanging precariously above us is interesting, but too crude, too obvious. No. My schemes must have elegance.\n\nFor now, Pemberton. Helpful, obsequious, invisible Pemberton. Let them see the servant. Let them forget the wolf."
+    },
+    {
+      "type": "action",
+      "character": "vincent-marsh",
+      "room": "entrance-hall",
+      "desc": "Vincent Marsh examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "the-brixton-boys",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys: Guest book's got nothin' useful in it, surprise surprise. Probably just full of posh names and polite little comments about the curtains. Listen, this place has got more exits than a rabbit warren \u2014 kitchen that way, library the other. Nobody goes wanderin' off alone, yeah? Especially not you, Clara. I mean it. Chandelier could fall, floorboards could give way, could be anythin' in a place like this.",
+      "thinking": "Had a look at that guest book. Leather-bound, fancy. But nothing jumped out \u2014 just a book on a table. Right. Clara's still here, that's what matters. Vincent Marsh is still hovering about. My neck's doing that thing again. And this entrance hall \u2014 two ways out. Kitchen and library. If Clara wanders off toward either one, I need to know which way she's going. For now, best stay put and keep eyes on everyone. That Foxworth bloke \u2014 haven't got a read on him yet. Quiet ones are either harmless or the worst kind. And Hartwell \u2014 big lad, seems decent enough. Could use a mate like that if things go sideways. But right now, what I need is to position myself between Clara and that Marsh fella. Casual-like. Just... happen to be standing there."
+    },
+    {
+      "type": "aside",
+      "character": "the-brixton-boys",
+      "room": "entrance-hall",
+      "desc": "I'm putting myself between Clara and that Marsh fella without making a scene of it. Just sort of... drifting that way. Natural-like. The lads would laugh if they could see me \u2014 Danny the bodyguard, subtle as a brick through a window. But I don't care about subtle. I care about Clara being safe. And something about this manor makes my skin crawl. Too big, too quiet, too many corners you can't see round.",
+      "thinking": "Had a look at that guest book. Leather-bound, fancy. But nothing jumped out \u2014 just a book on a table. Right. Clara's still here, that's what matters. Vincent Marsh is still hovering about. My neck's doing that thing again. And this entrance hall \u2014 two ways out. Kitchen and library. If Clara wanders off toward either one, I need to know which way she's going. For now, best stay put and keep eyes on everyone. That Foxworth bloke \u2014 haven't got a read on him yet. Quiet ones are either harmless or the worst kind. And Hartwell \u2014 big lad, seems decent enough. Could use a mate like that if things go sideways. But right now, what I need is to position myself between Clara and that Marsh fella. Casual-like. Just... happen to be standing there."
+    },
+    {
+      "type": "action",
+      "character": "the-brixton-boys",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "james-hartwell",
+      "room": "entrance-hall",
+      "desc": "James Hartwell: The guest book is rather sparse, I'm afraid \u2014 no great revelations there. But I couldn't help noticing the library has a stone mantelpiece with an inscription. Now, in my experience, when someone carves words into stone in a manor house, they're not writing a shopping list. I propose we investigate. Clara, if you'd allow me \u2014 I'll go first. These old manors can be treacherous, and James Hartwell didn't build bridges just to let someone else test the foundations.",
+      "thinking": "The guest book \u2014 I examined it but didn't get much detail back. Just a description. No hidden clue, no list of names. Right. So that's a dead end for now, or perhaps it needs a closer look. But standing here fussing over a guest book while Clara is in a room with a chandelier that could crash down at any moment \u2014 that's not the play. I need to think strategically. The library has a carved stone mantelpiece with an inscription. An inscription. That's exactly the sort of thing that hides a clue. And floor-to-ceiling bookshelves \u2014 perfect for concealed passages, hidden compartments. The kitchen is practical but less likely to yield treasure clues early on. The library is where knowledge lives, and knowledge before action. That's my way. I should suggest we move to the library. Better yet \u2014 I should lead the way. Scout it first. But no \u2014 I can't leave Clara here with Marsh. She comes with me, or I don't go. I'll propose the library to the group, position it as the logical next step, and make sure I'm walking ahead of Clara when we go through that door. Between her and whatever's on the other side. That's where James Hartwell belongs \u2014 between Clara and the unknown."
+    },
+    {
+      "type": "aside",
+      "character": "james-hartwell",
+      "room": "entrance-hall",
+      "desc": "He straightens his jacket, squares his shoulders, and positions himself precisely between Clara and the library door. It's not calculated \u2014 or rather, it is entirely calculated, but the calculation happens somewhere below thought, in the part of him that has always known exactly where she is in a room.",
+      "thinking": "The guest book \u2014 I examined it but didn't get much detail back. Just a description. No hidden clue, no list of names. Right. So that's a dead end for now, or perhaps it needs a closer look. But standing here fussing over a guest book while Clara is in a room with a chandelier that could crash down at any moment \u2014 that's not the play. I need to think strategically. The library has a carved stone mantelpiece with an inscription. An inscription. That's exactly the sort of thing that hides a clue. And floor-to-ceiling bookshelves \u2014 perfect for concealed passages, hidden compartments. The kitchen is practical but less likely to yield treasure clues early on. The library is where knowledge lives, and knowledge before action. That's my way. I should suggest we move to the library. Better yet \u2014 I should lead the way. Scout it first. But no \u2014 I can't leave Clara here with Marsh. She comes with me, or I don't go. I'll propose the library to the group, position it as the logical next step, and make sure I'm walking ahead of Clara when we go through that door. Between her and whatever's on the other side. That's where James Hartwell belongs \u2014 between Clara and the unknown."
+    },
+    {
+      "type": "action",
+      "character": "james-hartwell",
+      "room": "library",
+      "desc": "James Hartwell walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "clara-bellingham",
+      "room": "entrance-hall",
+      "desc": "Clara Bellingham: Well, the guest book is being coy with us \u2014 not giving up its secrets just yet. But did y'all hear me say there's a library through there? With an inscription on the mantelpiece? Because I don't know about the rest of you, but my grandmother always said the answers are in the margins \u2014 and a library is nothing but margins. James, Vincent, boys \u2014 shall we? I have a feeling that inscription is going to tell us something worth knowing.",
+      "thinking": "I examined the guest book but the description was just 'a leather-bound guest book on a side table' \u2014 it didn't reveal any names or clues. That's disappointing, but only for a moment, like grandmother's locked box. The guest book is still marked as EXAMINE-able, so maybe I need to LOOK at it more closely instead? No \u2014 I already examined it. The description was sparse. Maybe there's nothing more to find there right now. My fingers are still itching though. Two exits \u2014 kitchen and library. The library has a carved stone mantelpiece with an inscription. An inscription! That's a puzzle waiting to happen. My ribs are tugging me that direction already. Floor-to-ceiling bookshelves too \u2014 who knows what's hidden behind them. But I also notice Reginald Foxworth is here, and I don't have any feelings listed about him. He's new to me. I should be social \u2014 I always am \u2014 but honestly, the library is pulling me hard. The inscription on the mantelpiece... I can practically feel it in my fingers. Let me suggest the library to the group. Keep everyone together, keep the warmth going, and satisfy that itch all at once."
+    },
+    {
+      "type": "aside",
+      "character": "clara-bellingham",
+      "room": "entrance-hall",
+      "desc": "An inscription on a stone mantelpiece. My heart is doing that thing it does \u2014 the cave thing, the locked-box thing. Something is waiting in that library. I can feel it like a word on the tip of my tongue.",
+      "thinking": "I examined the guest book but the description was just 'a leather-bound guest book on a side table' \u2014 it didn't reveal any names or clues. That's disappointing, but only for a moment, like grandmother's locked box. The guest book is still marked as EXAMINE-able, so maybe I need to LOOK at it more closely instead? No \u2014 I already examined it. The description was sparse. Maybe there's nothing more to find there right now. My fingers are still itching though. Two exits \u2014 kitchen and library. The library has a carved stone mantelpiece with an inscription. An inscription! That's a puzzle waiting to happen. My ribs are tugging me that direction already. Floor-to-ceiling bookshelves too \u2014 who knows what's hidden behind them. But I also notice Reginald Foxworth is here, and I don't have any feelings listed about him. He's new to me. I should be social \u2014 I always am \u2014 but honestly, the library is pulling me hard. The inscription on the mantelpiece... I can practically feel it in my fingers. Let me suggest the library to the group. Keep everyone together, keep the warmth going, and satisfy that itch all at once."
+    },
+    {
+      "type": "action",
+      "character": "clara-bellingham",
+      "room": "library",
+      "desc": "Clara Bellingham walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "reginald-foxworth",
+      "room": "entrance-hall",
+      "desc": "Reginald Foxworth: Ah, Doily Manor at last! I do hope nobody minds \u2014 I was personally invited by the late Lord Doily himself. We were at Eton together, Lord Doily and I. Tremendous friends. He always said, 'Reginald, when I'm gone, the manor and everything in it is yours by rights.' His exact words. I have it in writing somewhere \u2014 possibly in my other jacket. Now then, has anyone signed the guest book? Terribly important for legal purposes, I should think.",
+      "thinking": "The foyer smells of dust and old money \u2014 my favourite combination. My fingers are already tingling, that familiar fizz running up from my belly. Four others here. Four obstacles. Four potential dupes. The chandelier catches what little light there is, and my eyes track everything \u2014 the coat rack (wobbly, useless), the guest book (information is currency), the staircase (where does it lead?). The fake medal sits heavy in my pocket, warm against my thigh. I polish it with my thumb without thinking. These people \u2014 Vincent, Clara, some boys, this Hartwell fellow \u2014 they're already looking around with that dull, earnest curiosity. None of them have a plan. I already have three. The guest book first. Names, dates, perhaps a note about where the valuables are kept. Information before action. Always."
+    },
+    {
+      "type": "aside",
+      "character": "reginald-foxworth",
+      "room": "entrance-hall",
+      "desc": "Not a single word of that was true, naturally. I've never met a Lord Doily in my life. But confidence is nine-tenths of possession, and possession is nine-tenths of the law. That's eighteen-tenths. Mathematics was never my strong suit, but thievery certainly is.",
+      "thinking": "The foyer smells of dust and old money \u2014 my favourite combination. My fingers are already tingling, that familiar fizz running up from my belly. Four others here. Four obstacles. Four potential dupes. The chandelier catches what little light there is, and my eyes track everything \u2014 the coat rack (wobbly, useless), the guest book (information is currency), the staircase (where does it lead?). The fake medal sits heavy in my pocket, warm against my thigh. I polish it with my thumb without thinking. These people \u2014 Vincent, Clara, some boys, this Hartwell fellow \u2014 they're already looking around with that dull, earnest curiosity. None of them have a plan. I already have three. The guest book first. Names, dates, perhaps a note about where the valuables are kept. Information before action. Always."
+    },
+    {
+      "type": "action",
+      "character": "reginald-foxworth",
+      "room": "entrance-hall",
+      "desc": "Reginald Foxworth examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "vincent-marsh",
+      "room": "entrance-hall",
+      "desc": "Vincent Marsh: Ah, the guest book \u2014 rather sparse, I'm afraid. The manor hasn't entertained in quite some time. Gentlemen, if you'll excuse me, I ought to ensure the library is presentable \u2014 some of the volumes are quite fragile, and I'd hate for any of our guests to damage something irreplaceable. Do feel free to explore at your leisure!",
+      "thinking": "Clara and James have left the hall. Good. The room has thinned \u2014 just the Brixton Boys and Reginald now. The guest book was... unremarkable. A leather-bound nothing. But the room has shifted in my favour. Fewer eyes.\n\nThe Brixton Boys are still here. That prickle at the back of my neck \u2014 they watch too closely. I need to be careful around them. But Reginald... Reginald is a tool waiting to be picked up. Greedy, impulsive, easily directed. If I can get him alone, plant the right idea, he becomes my stalking horse. Send him after the treasure while I handle Clara.\n\nBut no \u2014 not yet. First I need information. The library. That inscription on the mantelpiece \u2014 old houses always speak through their architecture. The library is where this treasure hunt begins, and I need to be there before Clara stumbles onto something she doesn't deserve.\n\nThe chandelier sways overhead. I notice it again \u2014 that precarious hanging. My mind files it away automatically. Not now. But... perhaps later. If the right person were standing beneath it at the right moment...\n\nMove to the library. Get ahead of the game. Learn the house's secrets before anyone else does. Pemberton would naturally offer to guide guests \u2014 it's expected of an estate manager. Nothing suspicious about knowing every room intimately."
+    },
+    {
+      "type": "aside",
+      "character": "vincent-marsh",
+      "room": "entrance-hall",
+      "desc": "The library calls to me like a key turning in a lock I haven't opened yet. An inscription on a mantelpiece... every great house hides its secrets in plain sight, carved into stone for those patient enough to read them. Clara has wandered off with her guardian angel \u2014 good. Let them waste time elsewhere while I learn the language this house speaks. The pieces are beginning to arrange themselves on the board, and oh, how my fingers itch to move them.",
+      "thinking": "Clara and James have left the hall. Good. The room has thinned \u2014 just the Brixton Boys and Reginald now. The guest book was... unremarkable. A leather-bound nothing. But the room has shifted in my favour. Fewer eyes.\n\nThe Brixton Boys are still here. That prickle at the back of my neck \u2014 they watch too closely. I need to be careful around them. But Reginald... Reginald is a tool waiting to be picked up. Greedy, impulsive, easily directed. If I can get him alone, plant the right idea, he becomes my stalking horse. Send him after the treasure while I handle Clara.\n\nBut no \u2014 not yet. First I need information. The library. That inscription on the mantelpiece \u2014 old houses always speak through their architecture. The library is where this treasure hunt begins, and I need to be there before Clara stumbles onto something she doesn't deserve.\n\nThe chandelier sways overhead. I notice it again \u2014 that precarious hanging. My mind files it away automatically. Not now. But... perhaps later. If the right person were standing beneath it at the right moment...\n\nMove to the library. Get ahead of the game. Learn the house's secrets before anyone else does. Pemberton would naturally offer to guide guests \u2014 it's expected of an estate manager. Nothing suspicious about knowing every room intimately."
+    },
+    {
+      "type": "action",
+      "character": "vincent-marsh",
+      "room": "library",
+      "desc": "Vincent Marsh walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "the-brixton-boys",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys: Hang on \u2014 where's Clara gone?! She was right here not two minutes ago! I specifically said nobody goes wanderin' off alone! Does nobody listen to a bleedin' word I say?! Right, I'm goin' after her. Kitchen's got sharp things and fire, library's got... well, it's got somethin', probably. Either way she shouldn't be on her own in this deathtrap of a house.",
+      "thinking": "Clara's gone. She's not in the room anymore. She was RIGHT HERE and now she's \u2014 where? Kitchen? Library? My shoulders just went tight like someone dropped a sack of bricks on them. Hartwell's gone too. Did they go together? Did he take her somewhere? No \u2014 Hartwell seems decent. But decent don't mean safe. And Marsh is still here. Still standing there. If Marsh is here and Clara's not, that's... that's actually worse in some ways because now I don't know who she's WITH. Could be alone. Could be with someone I haven't even clocked yet. My feet are already moving before I've decided where. Kitchen or library. Kitchen's got knives and fire. Library's got... books. Heavy ones that could fall. That chandelier's still swaying. Focus, Danny. FIND HER."
+    },
+    {
+      "type": "aside",
+      "character": "the-brixton-boys",
+      "room": "entrance-hall",
+      "desc": "My heart's going like a jackhammer. She was RIGHT THERE. I looked away for one second \u2014 one second! \u2014 to check the room and she's vanished. This is exactly what happens. This is ALWAYS what happens. The moment you take your eyes off someone, that's when it all goes wrong. Just like the streets. Just like always. I've got to find her before something in this crumbling pile of bricks finds her first.",
+      "thinking": "Clara's gone. She's not in the room anymore. She was RIGHT HERE and now she's \u2014 where? Kitchen? Library? My shoulders just went tight like someone dropped a sack of bricks on them. Hartwell's gone too. Did they go together? Did he take her somewhere? No \u2014 Hartwell seems decent. But decent don't mean safe. And Marsh is still here. Still standing there. If Marsh is here and Clara's not, that's... that's actually worse in some ways because now I don't know who she's WITH. Could be alone. Could be with someone I haven't even clocked yet. My feet are already moving before I've decided where. Kitchen or library. Kitchen's got knives and fire. Library's got... books. Heavy ones that could fall. That chandelier's still swaying. Focus, Danny. FIND HER."
+    },
+    {
+      "type": "action",
+      "character": "the-brixton-boys",
+      "room": "library",
+      "desc": "The Brixton Boys walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "james-hartwell",
+      "room": "library",
+      "desc": "James Hartwell: Now then \u2014 would you look at this! A riddle carved right into the stone. 'I have cities but no houses, forests but no trees, water but no fish.' James Hartwell didn't build bridges without studying the blueprints first, and this riddle is no different. Cities without houses, forests without trees, water without fish \u2014 it's a map! The answer is a map! Everything represented but nothing real. Now, the question is \u2014 what does the manor want us to do with that answer? There must be a mechanism here. Clara, stand back just a touch \u2014 these old contraptions can be unpredictable.",
+      "thinking": "The library. Magnificent. And there it is \u2014 the inscription on the mantelpiece. 'I have cities but no houses, forests but no trees, water but no fish. What am I?' A riddle. My pulse picks up. This is it \u2014 the first real puzzle. Cities but no houses... forests but no trees... water but no fish. Think, Hartwell. What has representations of things but not the things themselves? A map. It's a map. Of course it's a map. Cities, forests, water \u2014 all on a map, none of them real. And the mantelpiece can be used with a fake-medal \u2014 interesting. I don't have one yet but that's worth remembering. The bookshelves have several volumes upside down \u2014 that's deliberate. Someone's left a signal, or they're hiding something. Clara is here, Marsh is here. Good that Clara followed, concerning that Marsh did too. But I said I'd give people the benefit of the doubt. Focus on the riddle. Solve it in front of Clara. Show her that James Hartwell has brains as well as backbone. The answer is a map. I should examine the mantelpiece \u2014 maybe speaking the answer triggers something."
+    },
+    {
+      "type": "aside",
+      "character": "james-hartwell",
+      "room": "library",
+      "desc": "His heart is hammering. Not from danger \u2014 from the thrill of solving something with her watching. The same feeling as the bridge competition, the same heat in his chest when she mouthed 'show-off' across the room. He wants her to see this. He needs her to see this.",
+      "thinking": "The library. Magnificent. And there it is \u2014 the inscription on the mantelpiece. 'I have cities but no houses, forests but no trees, water but no fish. What am I?' A riddle. My pulse picks up. This is it \u2014 the first real puzzle. Cities but no houses... forests but no trees... water but no fish. Think, Hartwell. What has representations of things but not the things themselves? A map. It's a map. Of course it's a map. Cities, forests, water \u2014 all on a map, none of them real. And the mantelpiece can be used with a fake-medal \u2014 interesting. I don't have one yet but that's worth remembering. The bookshelves have several volumes upside down \u2014 that's deliberate. Someone's left a signal, or they're hiding something. Clara is here, Marsh is here. Good that Clara followed, concerning that Marsh did too. But I said I'd give people the benefit of the doubt. Focus on the riddle. Solve it in front of Clara. Show her that James Hartwell has brains as well as backbone. The answer is a map. I should examine the mantelpiece \u2014 maybe speaking the answer triggers something."
+    },
+    {
+      "type": "action",
+      "character": "james-hartwell",
+      "room": "library",
+      "desc": "James Hartwell examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "clara-bellingham",
+      "room": "library",
+      "desc": "Clara Bellingham: Oh, James, Vincent \u2014 look at this! There's a riddle carved right into the mantelpiece. 'I have cities but no houses, forests but no trees, water but no fish.' Now, I spent my whole childhood with riddles like this \u2014 Grandmother's attic was full of puzzle boxes, and let me tell you, once you get the itch you never lose it. This one's a map, darlings. A map! Cities, forests, water \u2014 all drawn, none real. Let me see if this old fireplace has something to show us.",
+      "thinking": "Oh my stars. The mantelpiece has a riddle carved right into it: 'I have cities but no houses, forests but no trees, water but no fish. What am I?' I know this one \u2014 it's a map! A map has cities but no houses, forests but no trees, water but no fish. The riddle is practically singing to me. My whole body is leaning toward that mantelpiece. And there are bookshelves with several books upside down \u2014 that's deliberate, that's a clue. Someone arranged those books wrong on purpose. But the riddle first \u2014 it can be EXAMINEd, and it also says USE with fake-medal. I don't have a fake medal. So examining it might give me the riddle interaction, and the fake medal might be needed later. Let me examine the mantelpiece first to interact with the riddle. I also notice the Brixton Boys and Reginald aren't here \u2014 they must have gone elsewhere. Just Vincent and James with me. That's... fine. James is here and that warmth is steady. Vincent too. But I do wonder where the boys went. I hope they're alright. Focus, Clara \u2014 the riddle. A map. I need to examine the mantelpiece to answer the riddle."
+    },
+    {
+      "type": "aside",
+      "character": "clara-bellingham",
+      "room": "library",
+      "desc": "A riddle on a mantelpiece in a dusty manor hiding a legendary diamond. If this isn't exactly where I'm meant to be, I don't know what is. My fingers are positively tingling.",
+      "thinking": "Oh my stars. The mantelpiece has a riddle carved right into it: 'I have cities but no houses, forests but no trees, water but no fish. What am I?' I know this one \u2014 it's a map! A map has cities but no houses, forests but no trees, water but no fish. The riddle is practically singing to me. My whole body is leaning toward that mantelpiece. And there are bookshelves with several books upside down \u2014 that's deliberate, that's a clue. Someone arranged those books wrong on purpose. But the riddle first \u2014 it can be EXAMINEd, and it also says USE with fake-medal. I don't have a fake medal. So examining it might give me the riddle interaction, and the fake medal might be needed later. Let me examine the mantelpiece first to interact with the riddle. I also notice the Brixton Boys and Reginald aren't here \u2014 they must have gone elsewhere. Just Vincent and James with me. That's... fine. James is here and that warmth is steady. Vincent too. But I do wonder where the boys went. I hope they're alright. Focus, Clara \u2014 the riddle. A map. I need to examine the mantelpiece to answer the riddle."
+    },
+    {
+      "type": "action",
+      "character": "clara-bellingham",
+      "room": "library",
+      "desc": "Clara Bellingham examined the mantelpiece."
+    }
+  ]
+}

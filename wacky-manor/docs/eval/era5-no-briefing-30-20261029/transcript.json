@@ -1,0 +1,706 @@
+{
+  "complete": false,
+  "reason": "running",
+  "events": [
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys: Blimey, Clara \u2014 what a gaff, eh? Chandelier up there looks like it's hangin' on by a prayer and a bit of string. You stay close now, yeah? The lads and me, we'll keep an eye on fings.",
+      "thinking": "Just walked through the door of this manor and already my gut's doing that thing \u2014 tightening up like a fist. Grand place, sure, but dusty. Neglected. The chandelier up there looks like it could come down any second. My eyes go straight to Clara \u2014 she's here, she's standing, she's breathing. Good. That's the first thing sorted.\n\nNow who else we got? Vincent Marsh \u2014 that's the one I can't figure. Too smooth. My neck's prickling already just clocking him in the room. And James Hartwell \u2014 he seems alright, means well from what I can tell. Protective of Clara too, which is either a good sign or competition I don't need.\n\nReginald Foxworth \u2014 don't know him. Don't trust him yet. Don't trust anyone yet except Clara.\n\nRight. First things first. Get close to Clara. Make sure she knows the lads are here. And keep my eyes on that Marsh bloke. Something about him... my stomach's already turning."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "Right then. New place, new dangers. That Marsh fella's already standing too close for my liking. I can feel it in my neck \u2014 same prickle I got with that new kid back on the estate, the one who smiled too easy and nicked the stash. I ain't clever enough to say exactly what's wrong with him, but my gut don't lie. Not about this. Never about this.",
+      "thinking": "Just walked through the door of this manor and already my gut's doing that thing \u2014 tightening up like a fist. Grand place, sure, but dusty. Neglected. The chandelier up there looks like it could come down any second. My eyes go straight to Clara \u2014 she's here, she's standing, she's breathing. Good. That's the first thing sorted.\n\nNow who else we got? Vincent Marsh \u2014 that's the one I can't figure. Too smooth. My neck's prickling already just clocking him in the room. And James Hartwell \u2014 he seems alright, means well from what I can tell. Protective of Clara too, which is either a good sign or competition I don't need.\n\nReginald Foxworth \u2014 don't know him. Don't trust him yet. Don't trust anyone yet except Clara.\n\nRight. First things first. Get close to Clara. Make sure she knows the lads are here. And keep my eyes on that Marsh bloke. Something about him... my stomach's already turning."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Clara Bellingham: Well, would you look at this place! I declare, it's even grander than I imagined \u2014 cobwebs and all. Now don't y'all go wandering off just yet, I want to peek at this guest book. You never know what little breadcrumbs folks leave behind in their penmanship!",
+      "thinking": "Oh my stars, here I am at last \u2014 Doily Manor! The dust tickles my nose and that chandelier looks like it could come crashing down any second, but isn't it just magnificent? My heart is doing a little flutter. Vincent is here, bless him, and James \u2014 just seeing James makes my shoulders drop an inch. And my boys! Everyone I care about, all under one gloriously crumbling roof. There's a guest book on that side table \u2014 my fingers are already itching. Guest books always have secrets tucked between the pleasantries. And somewhere in this old pile of stones is the Doily Diamond. I can practically feel it calling to me. But first things first \u2014 let's see who's signed in before us."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Every good treasure hunt starts with knowing who else has been hunting. And that chandelier \u2014 I do hope it holds.",
+      "thinking": "Oh my stars, here I am at last \u2014 Doily Manor! The dust tickles my nose and that chandelier looks like it could come crashing down any second, but isn't it just magnificent? My heart is doing a little flutter. Vincent is here, bless him, and James \u2014 just seeing James makes my shoulders drop an inch. And my boys! Everyone I care about, all under one gloriously crumbling roof. There's a guest book on that side table \u2014 my fingers are already itching. Guest books always have secrets tucked between the pleasantries. And somewhere in this old pile of stones is the Doily Diamond. I can practically feel it calling to me. But first things first \u2014 let's see who's signed in before us."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Clara Bellingham examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "James Hartwell: Clara \u2014 if I may \u2014 I'd advise stepping a touch to your left. That chandelier has a rather... ambitious lean to it, and James Hartwell did not drive all this way to watch a lighting fixture make an unscheduled landing. I've already noted two exits \u2014 kitchen and library \u2014 and I intend to have this entire ground floor mapped before the evening is out. One must always have a plan, and mine begins with ensuring your safety.",
+      "thinking": "I've just arrived at Doily Manor. The entrance hall \u2014 grand but dusty, chandelier hanging precariously. My eyes sweep the room automatically, cataloguing: the chandelier (potential hazard, note the angle of the chain), the staircase (structurally sound? Hard to tell under the dust), the coat rack (wobbly \u2014 keep Clara away from it). Clara is here. Of course I noticed her first, before the chandelier, before the exits, before anything. My chest does that thing. Vincent Marsh is here too, and something about him makes my shoulders tighten. I can't put a finger on it. The Brixton Boys \u2014 boisterous, unpredictable. Reginald Foxworth \u2014 seems composed enough. There's a guest book on the side table. That's where I should start \u2014 sign in properly, show some courtesy. But first \u2014 Clara. I should make sure she's comfortable. The room is dusty, the chandelier looks unstable. James Hartwell does not let a lady stand under a precarious chandelier without at least noting the danger. I should say something. Something gallant. Something that shows I've already assessed the situation and have a plan. Because I always have a plan."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "And there it is \u2014 the tightening in my chest the moment I see her. I've rehearsed a dozen clever things to say on the drive here. Every single one has evaporated. So instead I'm talking about chandeliers. Chandeliers, Hartwell. Truly inspired.",
+      "thinking": "I've just arrived at Doily Manor. The entrance hall \u2014 grand but dusty, chandelier hanging precariously. My eyes sweep the room automatically, cataloguing: the chandelier (potential hazard, note the angle of the chain), the staircase (structurally sound? Hard to tell under the dust), the coat rack (wobbly \u2014 keep Clara away from it). Clara is here. Of course I noticed her first, before the chandelier, before the exits, before anything. My chest does that thing. Vincent Marsh is here too, and something about him makes my shoulders tighten. I can't put a finger on it. The Brixton Boys \u2014 boisterous, unpredictable. Reginald Foxworth \u2014 seems composed enough. There's a guest book on the side table. That's where I should start \u2014 sign in properly, show some courtesy. But first \u2014 Clara. I should make sure she's comfortable. The room is dusty, the chandelier looks unstable. James Hartwell does not let a lady stand under a precarious chandelier without at least noting the danger. I should say something. Something gallant. Something that shows I've already assessed the situation and have a plan. Because I always have a plan."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "James Hartwell examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Vincent Marsh: Ah, welcome, welcome to Doily Manor, everyone! Do please forgive the dust \u2014 the old girl has been sleeping for quite some years, I'm afraid. Miss Bellingham, how wonderful to see you here at last. Your late uncle would be so pleased. Now, if I might suggest we all sign the guest book? Tradition of the house, you understand. Every visitor since 1843.",
+      "thinking": "The entrance hall. Dust on everything, chandelier threatening to fall \u2014 poetic, really. My skin prickles as I scan the room. Clara is here. Standing right there, breathing, trusting, inheriting. The familiar tightness in my jaw. And the others \u2014 Hartwell with his earnest shoulders squared like a guard dog, the Brixton Boys with their sharp little eyes, Foxworth practically salivating at the portraits. Everyone accounted for. My breathing slows. The Pemberton mask settles over my face like a second skin \u2014 the slight stoop, the deferential half-smile, the hands clasped at the waist. Effortless. The guest book catches my eye. Names, arrivals, perhaps something useful \u2014 a pattern, a detail someone left carelessly. Start there. Establish the role. The obsequious estate manager, fussing over details no one else cares about. Let them all see Pemberton. Let none of them see me."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Look at them. Every last one of them \u2014 pawns on a board they can't even see. Clara smiles at me like I'm furniture. Trusted, reliable old Pemberton. That trust is the sharpest knife in this house, and she handed it to me herself. The treasure hunt is the perfect cover. While they scramble after clues, I shall be arranging something far more... permanent. But first \u2014 the guest book. Let us see who has been here before, and what careless little breadcrumbs they may have left behind.",
+      "thinking": "The entrance hall. Dust on everything, chandelier threatening to fall \u2014 poetic, really. My skin prickles as I scan the room. Clara is here. Standing right there, breathing, trusting, inheriting. The familiar tightness in my jaw. And the others \u2014 Hartwell with his earnest shoulders squared like a guard dog, the Brixton Boys with their sharp little eyes, Foxworth practically salivating at the portraits. Everyone accounted for. My breathing slows. The Pemberton mask settles over my face like a second skin \u2014 the slight stoop, the deferential half-smile, the hands clasped at the waist. Effortless. The guest book catches my eye. Names, arrivals, perhaps something useful \u2014 a pattern, a detail someone left carelessly. Start there. Establish the role. The obsequious estate manager, fussing over details no one else cares about. Let them all see Pemberton. Let none of them see me."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Vincent Marsh examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Reginald Foxworth: Ah, Doily Manor at last! I was beginning to think the directions from my contact at the Royal Antiquarian Society were leading me astray. But no \u2014 this is precisely the place. You lot wouldn't happen to know about the east wing passage, would you? No? Pity. I was told it's absolutely critical to avoid \u2014 terribly dangerous, structurally unsound. Best stay well clear of it, all of you.",
+      "thinking": "The foyer smells of old wood and dust. My chest tightens \u2014 that familiar hunger. Four others already here, milling about like sheep in a field. My eyes sweep the room: the guest book, the coat rack, the staircase. The guest book could have useful information \u2014 previous visitors, clues. But these fools are watching. I need to seem casual while I work. The fake medal in my pocket presses against my thigh \u2014 that could be useful later. First things first: establish authority. Make them think I know something they don't. Then examine that guest book while they're busy being impressed."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "There is no east wing passage, of course. But if these credulous halfwits go looking for it, they'll waste precious time stumbling about while I search for the real prize. The treasure is here \u2014 I can practically smell it beneath the dust. And when I find it, oh, the look on their faces will be exquisite.",
+      "thinking": "The foyer smells of old wood and dust. My chest tightens \u2014 that familiar hunger. Four others already here, milling about like sheep in a field. My eyes sweep the room: the guest book, the coat rack, the staircase. The guest book could have useful information \u2014 previous visitors, clues. But these fools are watching. I need to seem casual while I work. The fake medal in my pocket presses against my thigh \u2014 that could be useful later. First things first: establish authority. Make them think I know something they don't. Then examine that guest book while they're busy being impressed."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Reginald Foxworth examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Reginald Foxworth: Hmm, interesting \u2014 the last entry in this guest book mentions something about a hidden compartment in the kitchen larder. Dated 1923, a Lord Pembury. 'Found the mechanism behind the flour bin,' it says. Fascinating! I'd investigate myself, but I've a dreadful wheat allergy. Positively life-threatening. You lot should have a look \u2014 could be the whole game, that.",
+      "thinking": "The guest book \u2014 nothing useful. Just names and dates, dusty pleasantries from decades past. My fingers are itching. The library has a carved stone mantelpiece with an inscription \u2014 that sounds like it could hold a clue. Inscriptions mean codes, riddles, directions to hidden things. The kitchen is just pots and stoves, nothing worth my time. But the library... yes. Books, hidden compartments, inscriptions. That's where treasure hides in a place like this. I need to get there before any of these dimwits stumble onto something by accident. Especially that Hartwell \u2014 he has a look about him, like he might actually think. Better to move now while they're all still gawping at the chandelier. But I should send them the wrong way first. The kitchen. Send them to the kitchen."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "The guest book says nothing of the sort, naturally. But with any luck, they'll spend the next twenty minutes elbow-deep in flour while I make for the library. That inscription on the mantelpiece \u2014 now THAT is where the real clues will be. Reginald Foxworth does not rummage through kitchens. Reginald Foxworth reads inscriptions and solves puzzles while lesser minds do the heavy lifting.",
+      "thinking": "The guest book \u2014 nothing useful. Just names and dates, dusty pleasantries from decades past. My fingers are itching. The library has a carved stone mantelpiece with an inscription \u2014 that sounds like it could hold a clue. Inscriptions mean codes, riddles, directions to hidden things. The kitchen is just pots and stoves, nothing worth my time. But the library... yes. Books, hidden compartments, inscriptions. That's where treasure hides in a place like this. I need to get there before any of these dimwits stumble onto something by accident. Especially that Hartwell \u2014 he has a look about him, like he might actually think. Better to move now while they're all still gawping at the chandelier. But I should send them the wrong way first. The kitchen. Send them to the kitchen."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Reginald Foxworth walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "James Hartwell: Before we venture any further into this manor, I believe proper etiquette demands we sign the guest book. And I confess \u2014 James Hartwell has never met a leather-bound book he didn't want to inspect rather thoroughly. Clara, would you care to sign first? Ladies before gentlemen, always.",
+      "thinking": "I've surveyed the room. Good \u2014 always establish the terrain first. The chandelier is concerning, the coat rack is unstable, and there are two exits I've noted. Now \u2014 the guest book. A proper gentleman signs the guest book upon arrival. It's courteous, it's expected, and more importantly, it gives me a reason to be useful \u2014 to offer Clara the pen first, perhaps. But there's something else pulling at me. The guest book might contain information. Who else has been here? When? If there's a treasure in this manor, the guest book could hold clues \u2014 names, dates, patterns. Two birds, one stone. Sign in like a gentleman, investigate like a man with a plan. The library is calling to me too \u2014 floor-to-ceiling bookshelves, a carved stone mantelpiece with an inscription. An inscription. That's the kind of thing that hides secrets. But first things first. The guest book. Examine it properly. And if I can position myself near Clara while I do it, well \u2014 James Hartwell is nothing if not efficient with his movements."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "A guest book in a dusty manor with a treasure hidden somewhere inside it. If previous visitors left any clues \u2014 intentional or otherwise \u2014 they'll be in those pages. And if I happen to look terribly diligent and courteous while investigating... well. That's just good planning.",
+      "thinking": "I've surveyed the room. Good \u2014 always establish the terrain first. The chandelier is concerning, the coat rack is unstable, and there are two exits I've noted. Now \u2014 the guest book. A proper gentleman signs the guest book upon arrival. It's courteous, it's expected, and more importantly, it gives me a reason to be useful \u2014 to offer Clara the pen first, perhaps. But there's something else pulling at me. The guest book might contain information. Who else has been here? When? If there's a treasure in this manor, the guest book could hold clues \u2014 names, dates, patterns. Two birds, one stone. Sign in like a gentleman, investigate like a man with a plan. The library is calling to me too \u2014 floor-to-ceiling bookshelves, a carved stone mantelpiece with an inscription. An inscription. That's the kind of thing that hides secrets. But first things first. The guest book. Examine it properly. And if I can position myself near Clara while I do it, well \u2014 James Hartwell is nothing if not efficient with his movements."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "James Hartwell examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Clara Bellingham: Well now, that guest book has some fascinatin' names in it \u2014 but I do believe the real story is waitin' for us deeper in this old place. James, sugar, come with me to the library? A carved mantelpiece with an inscription just sounds like it's beggin' to be read, and I never could resist a good inscription.",
+      "thinking": "I just looked at the guest book \u2014 leather-bound, sitting right there on the side table. The names inside, the handwriting... my fingers are tingling. Who else has come to this manor looking for the Diamond? But now \u2014 the library is calling to me. A carved stone mantelpiece with an inscription? That's exactly the sort of thing that hides a clue. And James is right here. I want him near me when I go exploring. There's something about this place \u2014 the dust, the creaking, the way that chandelier sways just slightly \u2014 that makes me want someone solid beside me. Not because I'm scared. I don't get scared. I just... like the company. Vincent looks well, the boys seem in good spirits. Everyone's settled. That warmth in my chest \u2014 everyone together, everyone safe. Now let's go find something wonderful."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "An inscription on a mantelpiece in a mansion hiding a legendary diamond? That's not decoration, darlin' \u2014 that's a clue.",
+      "thinking": "I just looked at the guest book \u2014 leather-bound, sitting right there on the side table. The names inside, the handwriting... my fingers are tingling. Who else has come to this manor looking for the Diamond? But now \u2014 the library is calling to me. A carved stone mantelpiece with an inscription? That's exactly the sort of thing that hides a clue. And James is right here. I want him near me when I go exploring. There's something about this place \u2014 the dust, the creaking, the way that chandelier sways just slightly \u2014 that makes me want someone solid beside me. Not because I'm scared. I don't get scared. I just... like the company. Vincent looks well, the boys seem in good spirits. Everyone's settled. That warmth in my chest \u2014 everyone together, everyone safe. Now let's go find something wonderful."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Clara Bellingham walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys: 'Ere, Hartwell \u2014 you been to a place like this before? Bit drafty, innit. That chandelier up there's givin' me the willies. Whole fing looks like it could come down if someone sneezed too hard. I'm keepin' Clara well away from under that, I tell you that much.",
+      "thinking": "Guest book didn't tell me much \u2014 just a leather-bound thing sitting there. But that's alright. I ain't here to read, am I? I'm here to watch.\n\nRight, so everyone's still in the entrance hall. Clara's here. That Marsh bloke is here too, and he's \u2014 yeah, there it is, that prickle on my neck again. Can't put my finger on it exactly. He ain't done nuffin wrong, not yet. But the way he carries himself, like he's already measured the room and decided what's his. Reminds me of that kid who joined the crew when I was fifteen. Friendly. Helpful. Always around. And then gone with half the stash.\n\nHartwell seems steady. Foxworth \u2014 dunno yet. Need more time.\n\nI should stay close to Clara. That's the job. That's always the job. But I also want to know what's through them doors. Kitchen one way, library the other. If somefing happens, I need to know the layout \u2014 exits, corners, places someone could hide. That's how you survive. You learn the ground before the ground learns you.\n\nBut I ain't leaving Clara in here with Marsh. Not yet. Not till I've got a better read on him. So I'll stick. Watch. Maybe have a word with Hartwell \u2014 feel him out, see if he's noticed anyfing off about Marsh too. Two pairs of eyes better than one."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "I'm chatting up Hartwell but really I'm watching Marsh. Where he stands. How close he gets to Clara. Whether he moves when she moves. That's the tell, see \u2014 the ones with bad intentions, they orbit. They circle. Like sharks, only with better shoes.",
+      "thinking": "Guest book didn't tell me much \u2014 just a leather-bound thing sitting there. But that's alright. I ain't here to read, am I? I'm here to watch.\n\nRight, so everyone's still in the entrance hall. Clara's here. That Marsh bloke is here too, and he's \u2014 yeah, there it is, that prickle on my neck again. Can't put my finger on it exactly. He ain't done nuffin wrong, not yet. But the way he carries himself, like he's already measured the room and decided what's his. Reminds me of that kid who joined the crew when I was fifteen. Friendly. Helpful. Always around. And then gone with half the stash.\n\nHartwell seems steady. Foxworth \u2014 dunno yet. Need more time.\n\nI should stay close to Clara. That's the job. That's always the job. But I also want to know what's through them doors. Kitchen one way, library the other. If somefing happens, I need to know the layout \u2014 exits, corners, places someone could hide. That's how you survive. You learn the ground before the ground learns you.\n\nBut I ain't leaving Clara in here with Marsh. Not yet. Not till I've got a better read on him. So I'll stick. Watch. Maybe have a word with Hartwell \u2014 feel him out, see if he's noticed anyfing off about Marsh too. Two pairs of eyes better than one."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Vincent Marsh: Ah, a fine old book \u2014 though I'm afraid the last entry is from 1987. How time does forget these old places. Now then, ladies and gentlemen, if I may \u2014 as estate manager, I feel it my duty to orient you all before you go exploring. The library is particularly noteworthy \u2014 a remarkable collection, and a rather curious inscription above the mantelpiece that the late master was quite fond of. Mr Foxworth, I believe the kitchen may also be of interest to a man of your refined tastes \u2014 there's a rather spectacular collection of Victorian silverware that the family never catalogued properly. Worth a small fortune, I shouldn't wonder.",
+      "thinking": "The guest book. Leather-bound, old \u2014 names and dates, nothing immediately useful. But the act of examining it served its purpose: Pemberton fussing over house traditions. Good. Now \u2014 the library. A carved stone mantelpiece with an inscription. That's where clues begin. But I can't rush there without reason. Everyone is still milling about in the entrance hall. Clara is right here. I need to move her attention somewhere else \u2014 somewhere away from wherever the real clues are. The kitchen, perhaps? Send her off on some domestic errand while I slip into the library. No \u2014 too obvious. Better: I suggest the library openly, steer everyone there, then find the inscription first. Knowledge is control. If I read the clue before anyone else, I can interpret it for them \u2014 misinterpret it, rather. Feed them the wrong trail. The Brixton Boys are watching. I can feel their attention like a draught on the back of my neck. I need to give them something to look at that isn't me. Foxworth \u2014 greedy, impulsive Foxworth. If I mention something about the kitchen, about the old silver, he'll practically sprint there. That splits the group. Divide and conquer. The oldest trick. The best trick. My breathing is steady. The plan is forming. The library first. The inscription on the mantelpiece. That's where this begins."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Divide them. Send the greedy fool to count spoons while I secure the library. The inscription on that mantelpiece \u2014 that's the first thread to pull. And if dear Clara follows me there, well... old libraries are full of hazards. Heavy shelves. Precarious ladders. Such tragic accidents happen in dusty old houses.",
+      "thinking": "The guest book. Leather-bound, old \u2014 names and dates, nothing immediately useful. But the act of examining it served its purpose: Pemberton fussing over house traditions. Good. Now \u2014 the library. A carved stone mantelpiece with an inscription. That's where clues begin. But I can't rush there without reason. Everyone is still milling about in the entrance hall. Clara is right here. I need to move her attention somewhere else \u2014 somewhere away from wherever the real clues are. The kitchen, perhaps? Send her off on some domestic errand while I slip into the library. No \u2014 too obvious. Better: I suggest the library openly, steer everyone there, then find the inscription first. Knowledge is control. If I read the clue before anyone else, I can interpret it for them \u2014 misinterpret it, rather. Feed them the wrong trail. The Brixton Boys are watching. I can feel their attention like a draught on the back of my neck. I need to give them something to look at that isn't me. Foxworth \u2014 greedy, impulsive Foxworth. If I mention something about the kitchen, about the old silver, he'll practically sprint there. That splits the group. Divide and conquer. The oldest trick. The best trick. My breathing is steady. The plan is forming. The library first. The inscription on the mantelpiece. That's where this begins."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Vincent Marsh walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Clara Bellingham: Oh, Vincent, Reginald \u2014 come look at this! Right here on the mantelpiece, carved into the stone itself \u2014 it's a riddle! 'I have cities but no houses, forests but no trees, water but no fish.' Well, I do declare, that's just the prettiest riddle I've heard in ages. And unless my grandmother's puzzle books led me astray \u2014 the answer is a map! Let me see if this old mantelpiece has any secrets to share...",
+      "thinking": "Oh, my heart is just singing! Look at this library \u2014 floor to ceiling books, dust motes dancing in whatever light is creeping through, and that mantelpiece. There it is, carved in stone: 'I have cities but no houses, forests but no trees, water but no fish. What am I?' That's a riddle! And I know this one \u2014 I know it like I know my own name. That's a map. A MAP! Cities but no houses, forests but no trees, water but no fish \u2014 it's a map! Now the mantelpiece says I can EXAMINE it, and it can be USED with something called a fake-medal. I don't have a fake-medal. But let me examine it first and see what happens when I give the answer. James didn't follow me \u2014 that stings a tiny bit, but Vincent is here, dear Vincent, and Reginald. I notice the bookshelves too \u2014 several books upside down. That feels deliberate. But first \u2014 this riddle. My fingers are already reaching for the stone."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "A riddle carved in stone, in a mansion hiding a diamond. Grandmother always said the cleverest locks are the ones that ask you a question instead of demanding a key.",
+      "thinking": "Oh, my heart is just singing! Look at this library \u2014 floor to ceiling books, dust motes dancing in whatever light is creeping through, and that mantelpiece. There it is, carved in stone: 'I have cities but no houses, forests but no trees, water but no fish. What am I?' That's a riddle! And I know this one \u2014 I know it like I know my own name. That's a map. A MAP! Cities but no houses, forests but no trees, water but no fish \u2014 it's a map! Now the mantelpiece says I can EXAMINE it, and it can be USED with something called a fake-medal. I don't have a fake-medal. But let me examine it first and see what happens when I give the answer. James didn't follow me \u2014 that stings a tiny bit, but Vincent is here, dear Vincent, and Reginald. I notice the bookshelves too \u2014 several books upside down. That feels deliberate. But first \u2014 this riddle. My fingers are already reaching for the stone."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Clara Bellingham examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "James Hartwell: Right then \u2014 the library calls! A carved stone mantelpiece with an inscription, they said. James Hartwell never met an inscription he couldn't decipher. And if I happen to find certain company along the way, well \u2014 a gentleman must ensure all guests are properly oriented in an unfamiliar manor. It's simply good form.",
+      "thinking": "Clara's gone. She's not in the room anymore. Where \u2014 when did she leave? I was examining the guest book and she slipped away. Vincent Marsh is gone too. My neck prickles. They could have gone to the kitchen or the library. Together? Separately? The protection drive is pulling hard now \u2014 my chest is tight, my hands are restless. I need to find her. But which way? The library has that inscription on the mantelpiece \u2014 that's the kind of thing that draws a curious mind. Clara would go to the library. She always was the clever one. And if Marsh followed her there... No. Give the man the benefit of the doubt, Hartwell. You can't prove anything. But you can be present. You can be nearby. The Brixton Boys are still here \u2014 loud, harmless enough. I don't need to worry about them. I need to move. The library. The inscription. Clara. Three reasons, one direction. James Hartwell always has a plan, and right now the plan is simple: go where she is."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "She left while I was reading the guest book. She left and I didn't notice. That's the thing about Clara \u2014 she moves through the world like she doesn't need anyone watching out for her. Which is precisely why someone must.",
+      "thinking": "Clara's gone. She's not in the room anymore. Where \u2014 when did she leave? I was examining the guest book and she slipped away. Vincent Marsh is gone too. My neck prickles. They could have gone to the kitchen or the library. Together? Separately? The protection drive is pulling hard now \u2014 my chest is tight, my hands are restless. I need to find her. But which way? The library has that inscription on the mantelpiece \u2014 that's the kind of thing that draws a curious mind. Clara would go to the library. She always was the clever one. And if Marsh followed her there... No. Give the man the benefit of the doubt, Hartwell. You can't prove anything. But you can be present. You can be nearby. The Brixton Boys are still here \u2014 loud, harmless enough. I don't need to worry about them. I need to move. The library. The inscription. Clara. Three reasons, one direction. James Hartwell always has a plan, and right now the plan is simple: go where she is."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "James Hartwell walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys: Hartwell! Where'd Clara go?! She was right 'ere a minute ago \u2014 now she's vanished! And that Marsh bloke's gone too, which I DO NOT like one bit. Did you see which way they went? Kitchen? Library? Come on, mate, fink!",
+      "thinking": "Clara's gone. She's NOT IN THE ROOM. My chest just went tight like someone grabbed it. Where \u2014 kitchen or library? She was right here a second ago and now \u2014 Marsh is gone too. Foxworth's gone. It's just me and Hartwell standing in this dusty hall like a pair of lemons.\n\nOh no. No no no. Marsh went somewhere and Clara went somewhere and if they went the SAME somewhere then I need to be there RIGHT NOW. My shoulders are up around my ears already. Hands are doing that thing \u2014 closing, opening, closing.\n\nThink, Danny. THINK. Two exits. Kitchen or library. Which way did she go? I don't know. I DON'T KNOW. I was too busy looking at the bleeding room instead of watching her.\n\nRight. Can't split myself in half. Hartwell's here \u2014 maybe he saw which way she went. Ask him quick and then MOVE. Every second I'm standing here jaw-flapping is a second Clara's out of my sight with god knows who."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "This is exactly what I was afraid of. I look away for ONE SECOND \u2014 one second to check the room for dangers \u2014 and Clara disappears. And Marsh disappears. Same time. My gut's screaming at me now, and my gut don't scream for nuffin. I promised her old man I'd keep her safe. I PROMISED.",
+      "thinking": "Clara's gone. She's NOT IN THE ROOM. My chest just went tight like someone grabbed it. Where \u2014 kitchen or library? She was right here a second ago and now \u2014 Marsh is gone too. Foxworth's gone. It's just me and Hartwell standing in this dusty hall like a pair of lemons.\n\nOh no. No no no. Marsh went somewhere and Clara went somewhere and if they went the SAME somewhere then I need to be there RIGHT NOW. My shoulders are up around my ears already. Hands are doing that thing \u2014 closing, opening, closing.\n\nThink, Danny. THINK. Two exits. Kitchen or library. Which way did she go? I don't know. I DON'T KNOW. I was too busy looking at the bleeding room instead of watching her.\n\nRight. Can't split myself in half. Hartwell's here \u2014 maybe he saw which way she went. Ask him quick and then MOVE. Every second I'm standing here jaw-flapping is a second Clara's out of my sight with god knows who."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Brixton Boys walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Reginald Foxworth: Ah, the famous Doily riddle! I've read about this in the Antiquarian Quarterly \u2014 the answer is 'a mirror,' of course. The old Lord Doily was obsessed with reflective surfaces. There should be a mirror somewhere in the laboratory next door that fits into the mantelpiece. Terribly important \u2014 whoever finds it first will almost certainly unlock the next chamber. I'd go myself but my knees, you understand \u2014 old polo injury.",
+      "thinking": "Blast \u2014 Marsh and Bellingham followed me in. So much for having the library to myself. The mantelpiece inscription \u2014 'I have cities but no houses, forests but no trees, water but no fish.' That's a map. The answer is a map. Child's play, really. Any fool would know that. But I can't let THEM know I've solved it. If they see me working on the mantelpiece, they'll crowd in. I need to feed them the wrong answer \u2014 send them chasing something absurd \u2014 while I figure out how to use this knowledge. The mantelpiece can be used with my fake medal. Interesting. But not yet. Not with these two watching. First, misdirect. Then act. The bookshelves have upside-down volumes \u2014 that could be a mechanism, a lever, a hidden switch. But the inscription is the key, I feel it in my bones. A map. Where's the map in this house? Or does the answer itself unlock something on the mantelpiece? I need to examine it properly. But these two... I'll tell them the answer is something else entirely. Send them off. Then I'll have my moment."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "The answer is a MAP, you beautifully gullible creatures. A map has cities but no houses, forests but no trees, water but no fish. But off you go to the laboratory, hunting for mirrors that don't exist, while old Reginald examines this mantelpiece at his leisure. The architecture of deception \u2014 strings, counterweights, and a bucket, just like the old days.",
+      "thinking": "Blast \u2014 Marsh and Bellingham followed me in. So much for having the library to myself. The mantelpiece inscription \u2014 'I have cities but no houses, forests but no trees, water but no fish.' That's a map. The answer is a map. Child's play, really. Any fool would know that. But I can't let THEM know I've solved it. If they see me working on the mantelpiece, they'll crowd in. I need to feed them the wrong answer \u2014 send them chasing something absurd \u2014 while I figure out how to use this knowledge. The mantelpiece can be used with my fake medal. Interesting. But not yet. Not with these two watching. First, misdirect. Then act. The bookshelves have upside-down volumes \u2014 that could be a mechanism, a lever, a hidden switch. But the inscription is the key, I feel it in my bones. A map. Where's the map in this house? Or does the answer itself unlock something on the mantelpiece? I need to examine it properly. But these two... I'll tell them the answer is something else entirely. Send them off. Then I'll have my moment."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Reginald Foxworth examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Vincent Marsh: Ah, here we are \u2014 the library! Quite remarkable, isn't it, Miss Bellingham? Your late uncle spent decades assembling this collection. Now, let me see... yes, the inscription. 'I have cities but no houses, forests but no trees, water but no fish.' How curious! I confess I'm no good at riddles \u2014 never had the head for them. But you know, it does put me in mind of the portraits in the entrance hall. Cities, houses \u2014 could it be referring to the family's various estates? The Bellingham properties were scattered across the country, as I recall from the ledgers. Perhaps the answer lies back there, among the portraits? Mr Foxworth, what do you make of it?",
+      "thinking": "The library. Magnificent. And \u2014 damn it \u2014 Clara followed me here. Of course she did. Trusting, obedient Clara, trailing after her faithful estate manager like a duckling. And Foxworth too \u2014 the fool didn't take the bait about the kitchen silver. No matter. The inscription on the mantelpiece \u2014 'I have cities but no houses, forests but no trees, water but no fish.' A map. The answer is a map. I know this instantly. My pulse doesn't change. But I must not solve it aloud. Not yet. If Clara hears the answer, she advances in the hunt. I need her confused, not progressing. The bookshelves \u2014 several books are upside down. That's deliberate. A hidden mechanism, perhaps, or a secondary clue. I should examine those. But first, the mantelpiece. I need to read it myself, understand what it unlocks, and then \u2014 critically \u2014 misdirect. Feed Clara the wrong answer. 'Oh, I believe it refers to a painting, Miss Bellingham. Yes, the portraits in the entrance hall, surely.' Send her backwards. Send her anywhere but forward. Foxworth... Foxworth could be useful here. If I can get him excited about the wrong trail, his blundering enthusiasm will drag others with him. The laboratory connects from here too. Brass instruments, bubbling flasks, a machine with gnawed wires. That sounds promising \u2014 and dangerous. Dangerous is useful. But patience. The mantelpiece first. Read the inscription properly. Know what I'm working with before I start reshaping the truth."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "A map. The answer is a map. And I shall make absolutely certain that nobody in this room arrives at that conclusion. Send them chasing portraits and property deeds while I determine what this mantelpiece actually unlocks. The bookshelves with their upside-down volumes whisper of hidden mechanisms \u2014 but first, let us see if dear Reginald can be weaponised into leading Clara astray.",
+      "thinking": "The library. Magnificent. And \u2014 damn it \u2014 Clara followed me here. Of course she did. Trusting, obedient Clara, trailing after her faithful estate manager like a duckling. And Foxworth too \u2014 the fool didn't take the bait about the kitchen silver. No matter. The inscription on the mantelpiece \u2014 'I have cities but no houses, forests but no trees, water but no fish.' A map. The answer is a map. I know this instantly. My pulse doesn't change. But I must not solve it aloud. Not yet. If Clara hears the answer, she advances in the hunt. I need her confused, not progressing. The bookshelves \u2014 several books are upside down. That's deliberate. A hidden mechanism, perhaps, or a secondary clue. I should examine those. But first, the mantelpiece. I need to read it myself, understand what it unlocks, and then \u2014 critically \u2014 misdirect. Feed Clara the wrong answer. 'Oh, I believe it refers to a painting, Miss Bellingham. Yes, the portraits in the entrance hall, surely.' Send her backwards. Send her anywhere but forward. Foxworth... Foxworth could be useful here. If I can get him excited about the wrong trail, his blundering enthusiasm will drag others with him. The laboratory connects from here too. Brass instruments, bubbling flasks, a machine with gnawed wires. That sounds promising \u2014 and dangerous. Dangerous is useful. But patience. The mantelpiece first. Read the inscription properly. Know what I'm working with before I start reshaping the truth."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Vincent Marsh examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "James Hartwell: Ah \u2014 now this is rather splendid! A riddle, carved into the stone itself. 'I have cities but no houses, forests but no trees, water but no fish.' Ladies and gentlemen, James Hartwell has studied this sort of thing extensively. The answer, if I may be so bold \u2014 is a map. Cities, forests, water \u2014 all represented, none of them real. Someone went to considerable trouble to carve that into a mantelpiece, which means it's not decoration. It's a clue. And where there are clues, there is a trail. And where there is a trail \u2014 well. James Hartwell always follows the trail.",
+      "thinking": "She's here. Relief floods through me \u2014 warm, immediate. Clara is in the library. Vincent Marsh is here too, which makes my jaw tighten, but everyone's here so it's fine. It's fine. Now \u2014 the mantelpiece. 'I have cities but no houses, forests but no trees, water but no fish. What am I?' My mind is already working it. Cities without houses. Forests without trees. Water without fish. Something that represents these things without containing the real versions. A map. It's a map. The answer is a map. My chest swells \u2014 this is what I'm good at. Problems with solutions. Things you can solve and then present the answer to. If I solve this riddle in front of Clara... the engineering competition all over again. The bridge holding weight. Her mouthing 'show-off' across the room. I want that again. I want that warmth. But wait \u2014 I should think about this properly. The mantelpiece can be used with a 'fake-medal.' I don't have one. So solving the riddle might not be the full picture. There's also a passage to a laboratory \u2014 brass instruments, bubbling flasks, a machine with a gnawed wire. That sounds like it needs fixing. James Hartwell fixes things. But first \u2014 the riddle. Solve the riddle for Clara. Show her what three nights of engineering competitions trained you for."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Please let her be impressed. Just this once, let the answer land before someone else gets there first. The weight on my shoulders is practically humming.",
+      "thinking": "She's here. Relief floods through me \u2014 warm, immediate. Clara is in the library. Vincent Marsh is here too, which makes my jaw tighten, but everyone's here so it's fine. It's fine. Now \u2014 the mantelpiece. 'I have cities but no houses, forests but no trees, water but no fish. What am I?' My mind is already working it. Cities without houses. Forests without trees. Water without fish. Something that represents these things without containing the real versions. A map. It's a map. The answer is a map. My chest swells \u2014 this is what I'm good at. Problems with solutions. Things you can solve and then present the answer to. If I solve this riddle in front of Clara... the engineering competition all over again. The bridge holding weight. Her mouthing 'show-off' across the room. I want that again. I want that warmth. But wait \u2014 I should think about this properly. The mantelpiece can be used with a 'fake-medal.' I don't have one. So solving the riddle might not be the full picture. There's also a passage to a laboratory \u2014 brass instruments, bubbling flasks, a machine with a gnawed wire. That sounds like it needs fixing. James Hartwell fixes things. But first \u2014 the riddle. Solve the riddle for Clara. Show her what three nights of engineering competitions trained you for."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "James Hartwell examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Brixton Boys: There you are, Clara! Gave me a right scare, you did, wanderin' off like that. This place is massive \u2014 you can't just go driftin' about wivout tellin' no one. What if somefing happened, eh? What if that chandelier back there had come down, or \u2014 or \u2014 well, anyfing could happen in a place like this!",
+      "thinking": "There she is. Clara's here. Relief floods through me like warm water \u2014 shoulders drop half an inch. She's in the library with everyone else. Marsh is here too, but so is Hartwell and Foxworth, so at least she ain't alone with him.\n\nRight. Breathe, Danny. She's safe. For now.\n\nNow I can actually look at this room proper. Library. Tall ceilings, books everywhere \u2014 some of 'em upside down, which is weird. Who puts books upside down? That mantelpiece has got writing on it \u2014 some kind of riddle. 'Cities but no houses, forests but no trees, water but no fish.' That's... I dunno what that is. I ain't good with riddles. That's more Clara's thing, or Hartwell's.\n\nThere's also a way through to a laboratory from here. Laboratory. In a manor house. That ain't normal, is it? That's the kind of room where bad fings happen in stories.\n\nBut right now \u2014 Clara's here, she's safe, I can see her. I'm going to plant myself between her and that Marsh fella. Not obvious like. Just... position myself. The way you do on the street when you want to be between someone and the door. Natural like.\n\nThose bookshelves though \u2014 upside down books. That's someone leaving a message or hiding somefing. Might be worth a look. But not yet. First I need to settle, get my bearings, make sure everyone's where I can see 'em."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Look at me \u2014 barging in here like a bull in a china shop, all out of breath and panicky. She probably finks I'm daft. But I don't care what she finks about that. I care that she's breathing and standing and not crushed under some antique furniture. That's the job. That's always the job.",
+      "thinking": "There she is. Clara's here. Relief floods through me like warm water \u2014 shoulders drop half an inch. She's in the library with everyone else. Marsh is here too, but so is Hartwell and Foxworth, so at least she ain't alone with him.\n\nRight. Breathe, Danny. She's safe. For now.\n\nNow I can actually look at this room proper. Library. Tall ceilings, books everywhere \u2014 some of 'em upside down, which is weird. Who puts books upside down? That mantelpiece has got writing on it \u2014 some kind of riddle. 'Cities but no houses, forests but no trees, water but no fish.' That's... I dunno what that is. I ain't good with riddles. That's more Clara's thing, or Hartwell's.\n\nThere's also a way through to a laboratory from here. Laboratory. In a manor house. That ain't normal, is it? That's the kind of room where bad fings happen in stories.\n\nBut right now \u2014 Clara's here, she's safe, I can see her. I'm going to plant myself between her and that Marsh fella. Not obvious like. Just... position myself. The way you do on the street when you want to be between someone and the door. Natural like.\n\nThose bookshelves though \u2014 upside down books. That's someone leaving a message or hiding somefing. Might be worth a look. But not yet. First I need to settle, get my bearings, make sure everyone's where I can see 'em."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Brixton Boys examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Clara Bellingham: Well, the riddle's answer is a map \u2014 I'd stake my grandmother's pearls on it \u2014 but this mantelpiece wants somethin' more than just a clever answer. It wants a fake-medal, of all things! We'll have to keep our eyes peeled for one. But first \u2014 y'all see those bookshelves? Several of those books are upside down. Now, in my experience, when someone goes to the trouble of shelvin' a book the wrong way round, they're tryin' to tell you somethin'. Let's have a closer look!",
+      "thinking": "I examined the mantelpiece and the riddle is still there \u2014 'cities but no houses, forests but no trees, water but no fish.' A map. I'm sure of it. But examining it didn't seem to trigger anything beyond reading the inscription. The mantelpiece also says it can be USED with a fake-medal. I don't have a fake-medal. So the riddle answer might not be a verbal thing \u2014 maybe I need to find a fake-medal somewhere and bring it back here. That's a breadcrumb trail. Meanwhile \u2014 those bookshelves. Several books are upside down. That's deliberate. Someone placed them that way, or they're a puzzle. My fingers are itching. The bookshelves can be EXAMINED too. Let me check those \u2014 upside-down books in a library full of secrets? That's practically shouting 'look at me.' James and the boys have joined us now too \u2014 oh good, everyone's here together. That warmth again, everyone in one room. But I need to focus. The bookshelves are pulling at me."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "A riddle that needs a medal, and books turned on their heads. This manor is just full of little whispers, isn't it? You just have to know how to listen.",
+      "thinking": "I examined the mantelpiece and the riddle is still there \u2014 'cities but no houses, forests but no trees, water but no fish.' A map. I'm sure of it. But examining it didn't seem to trigger anything beyond reading the inscription. The mantelpiece also says it can be USED with a fake-medal. I don't have a fake-medal. So the riddle answer might not be a verbal thing \u2014 maybe I need to find a fake-medal somewhere and bring it back here. That's a breadcrumb trail. Meanwhile \u2014 those bookshelves. Several books are upside down. That's deliberate. Someone placed them that way, or they're a puzzle. My fingers are itching. The bookshelves can be EXAMINED too. Let me check those \u2014 upside-down books in a library full of secrets? That's practically shouting 'look at me.' James and the boys have joined us now too \u2014 oh good, everyone's here together. That warmth again, everyone in one room. But I need to focus. The bookshelves are pulling at me."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Clara Bellingham examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Reginald Foxworth: Well, that inscription is clearly decorative \u2014 Victorian architects were always putting meaningless Latin and riddles on things. Pure vanity. The real secret of any proper manor library is always in the books themselves. My great-uncle had a library just like this one at Foxworth Hall \u2014 the valuable items were always hidden behind the encyclopaedias. Nobody ever reads encyclopaedias.",
+      "thinking": "They're ALL here now. All four of them, crowding into MY library. The Brixton Boys and Hartwell must have followed. My misdirection about the kitchen didn't work \u2014 or they ignored it entirely. Infuriating. The mantelpiece \u2014 I examined it but nothing happened beyond confirming the riddle. The answer is a map. But examining it didn't open anything. It says I can USE my fake-medal on it. That's interesting \u2014 a medal-shaped slot, perhaps? A coin mechanism? But this is my fake medal, not a real one. Could backfire spectacularly. Still... the bookshelves have upside-down volumes. That's deliberate \u2014 someone arranged them that way. A code, a lever mechanism, a hidden switch. That could be the real mechanism while the riddle is just decoration. Or maybe the upside-down books spell something. I should check those before wasting my medal on the mantelpiece. But everyone is watching. I can feel their eyes. I need to either clear the room or act fast. The bookshelves \u2014 yes. Examine those. If there's a hidden mechanism, I want to find it before any of these fools stumble onto it by accident."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Of course I don't have a great-uncle or a Foxworth Hall. But if I can draw their attention to the encyclopaedias \u2014 assuming there are any \u2014 while I check those upside-down volumes, the real prize might be sitting right there on the shelf, waiting for someone with the wit to notice what's been turned the wrong way round.",
+      "thinking": "They're ALL here now. All four of them, crowding into MY library. The Brixton Boys and Hartwell must have followed. My misdirection about the kitchen didn't work \u2014 or they ignored it entirely. Infuriating. The mantelpiece \u2014 I examined it but nothing happened beyond confirming the riddle. The answer is a map. But examining it didn't open anything. It says I can USE my fake-medal on it. That's interesting \u2014 a medal-shaped slot, perhaps? A coin mechanism? But this is my fake medal, not a real one. Could backfire spectacularly. Still... the bookshelves have upside-down volumes. That's deliberate \u2014 someone arranged them that way. A code, a lever mechanism, a hidden switch. That could be the real mechanism while the riddle is just decoration. Or maybe the upside-down books spell something. I should check those before wasting my medal on the mantelpiece. But everyone is watching. I can feel their eyes. I need to either clear the room or act fast. The bookshelves \u2014 yes. Examine those. If there's a hidden mechanism, I want to find it before any of these fools stumble onto it by accident."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Reginald Foxworth examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Vincent Marsh: Fascinating, truly fascinating! I'm afraid the inscription is quite beyond old Pemberton's abilities. Cities without houses, forests without trees \u2014 perhaps some sort of philosophical riddle the late master was fond of? Now, I couldn't help but notice \u2014 some of these books appear to be shelved upside down. Most unlike the master, who was fastidious about his collection. Miss Bellingham, you know, your uncle kept a rather extraordinary laboratory through that far door. All manner of scientific apparatus \u2014 I believe he was something of an amateur inventor. Perhaps that's where the real discoveries lie? I would suggest exploring it, though I must warn you \u2014 I haven't had the equipment inspected in some years. Do be careful if you venture in.",
+      "thinking": "Everyone is here now. Hartwell and the Brixton Boys have followed into the library. That complicates things \u2014 more eyes, more witnesses. The mantelpiece accepts a 'fake-medal' as a USE item. I don't have one. Where would I find a fake medal? That's the next piece of the puzzle. The bookshelves \u2014 several books upside down. That's too deliberate to be accident. A code, a hidden compartment, perhaps the medal itself tucked behind one. I need to examine those shelves. But with everyone crowding in here, I can't be seen hoarding clues. I need to appear helpful while actually being the opposite. The Brixton Boys \u2014 I feel the prickle of their attention. They're watching. Always watching. My shoulders tighten. I need Foxworth to create a distraction. His greed is the most reliable lever in the room. If I can get him babbling about value, everyone's attention shifts to him, and I can study those upside-down books without scrutiny. But wait \u2014 the laboratory. Gnawed wire. A machine with levers. That sounds like the kind of place where an unfortunate accident could befall someone. A plan is forming in the back of my skull like a headache in reverse \u2014 not pain, but clarity. Get Clara to the laboratory. A faulty machine, an electrical discharge, a terrible tragedy. 'Oh, she touched the wrong lever, the poor dear.' But first \u2014 the bookshelves. Knowledge before action. Always."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Plant the seed. The laboratory \u2014 with its gnawed wires and untested machinery \u2014 is where Clara Bellingham's treasure hunt ends. Not with gold, but with a most regrettable accident. But I mustn't rush. First, let me see what secrets these upside-down books are hiding. Every good scheme needs the right props.",
+      "thinking": "Everyone is here now. Hartwell and the Brixton Boys have followed into the library. That complicates things \u2014 more eyes, more witnesses. The mantelpiece accepts a 'fake-medal' as a USE item. I don't have one. Where would I find a fake medal? That's the next piece of the puzzle. The bookshelves \u2014 several books upside down. That's too deliberate to be accident. A code, a hidden compartment, perhaps the medal itself tucked behind one. I need to examine those shelves. But with everyone crowding in here, I can't be seen hoarding clues. I need to appear helpful while actually being the opposite. The Brixton Boys \u2014 I feel the prickle of their attention. They're watching. Always watching. My shoulders tighten. I need Foxworth to create a distraction. His greed is the most reliable lever in the room. If I can get him babbling about value, everyone's attention shifts to him, and I can study those upside-down books without scrutiny. But wait \u2014 the laboratory. Gnawed wire. A machine with levers. That sounds like the kind of place where an unfortunate accident could befall someone. A plan is forming in the back of my skull like a headache in reverse \u2014 not pain, but clarity. Get Clara to the laboratory. A faulty machine, an electrical discharge, a terrible tragedy. 'Oh, she touched the wrong lever, the poor dear.' But first \u2014 the bookshelves. Knowledge before action. Always."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Vincent Marsh examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Clara Bellingham: Well, those books are keepin' their secrets for now \u2014 stubborn little things! But did y'all see what's through that door? A laboratory! With brass instruments and bubbling flasks and some kind of big ol' machine! Now that sounds like exactly the sort of place where a clever person might hide somethin' important. Is everyone doin' alright? Vincent, you look well. James, honey, stay close \u2014 let's go see what that laboratory has to offer us!",
+      "thinking": "I examined the bookshelves but just got the same description back \u2014 dusty volumes, several upside down. The examine didn't reveal anything new. Maybe I need to LOOK more closely instead? Or maybe the bookshelves are a puzzle I can't solve yet without something else. I've examined both main objects in this room now \u2014 the mantelpiece needs a fake-medal I don't have, and the bookshelves with their upside-down books haven't yielded their secret yet. Time to explore further. There's a laboratory through that door \u2014 brass instruments, bubbling flasks, a large machine with levers and dials, and a wire that's been gnawed through. That sounds absolutely fascinating. And dangerous. But I don't notice danger, do I? I notice adventure. The gnawed wire is interesting \u2014 something alive has been in there. A rat? Something else? My feet are already wanting to move. But wait \u2014 I should check in with everyone. Vincent's here, James, the boys, Reginald. Everyone seems alright. Nobody looks upset or troubled. Good. That settled feeling. Okay \u2014 laboratory it is. Maybe I'll find that fake-medal there, or another piece of this puzzle."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "The bookshelves aren't talking yet, but they will. Everything talks eventually \u2014 you just have to find what loosens its tongue. For now, onward to the laboratory. A gnawed wire on a machine sounds like trouble for someone, but not for me \u2014 trouble and I have an understanding.",
+      "thinking": "I examined the bookshelves but just got the same description back \u2014 dusty volumes, several upside down. The examine didn't reveal anything new. Maybe I need to LOOK more closely instead? Or maybe the bookshelves are a puzzle I can't solve yet without something else. I've examined both main objects in this room now \u2014 the mantelpiece needs a fake-medal I don't have, and the bookshelves with their upside-down books haven't yielded their secret yet. Time to explore further. There's a laboratory through that door \u2014 brass instruments, bubbling flasks, a large machine with levers and dials, and a wire that's been gnawed through. That sounds absolutely fascinating. And dangerous. But I don't notice danger, do I? I notice adventure. The gnawed wire is interesting \u2014 something alive has been in there. A rat? Something else? My feet are already wanting to move. But wait \u2014 I should check in with everyone. Vincent's here, James, the boys, Reginald. Everyone seems alright. Nobody looks upset or troubled. Good. That settled feeling. Okay \u2014 laboratory it is. Maybe I'll find that fake-medal there, or another piece of this puzzle."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "laboratory",
+      "desc": "Clara Bellingham walked into the laboratory."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Brixton Boys: Oi, 'ere \u2014 there's a riddle carved into this mantelpiece. 'Cities but no houses, forests but no trees, water but no fish.' I reckon it's a map, innit? Like, a map's got all them fings drawn on it, but none of the real stuff. Am I right? Someone tell me I'm right \u2014 I ain't used to bein' the brains of the operation.",
+      "thinking": "Upside down books. Someone put 'em that way on purpose \u2014 you don't accidentally shelve books spine-down. That's a message or a hiding spot. On the streets, that's how you marked a stash \u2014 something out of place that only makes sense if you know to look for it.\n\nBut I ain't the clever one here. I looked at the shelves and all I see is dusty books and a few wrong way round. I don't know what it means. Maybe Clara would \u2014 she's the smart one. Or Hartwell with his educated airs.\n\nThat mantelpiece though \u2014 the riddle. 'Cities but no houses, forests but no trees, water but no fish.' What's got cities wivout houses? That's... I dunno. A picture? A story? A \u2014 wait. A map. That's a map, innit? A map's got cities marked on it but no actual houses. Forests drawn in green but no real trees. Rivers and lakes but no fish swimming about.\n\nBlimey, Danny. You might actually be right about somefing for once.\n\nBut hold on \u2014 the mantelpiece says you can USE somefing called a 'fake-medal' on it. I ain't got no medal, fake or otherwise. So the riddle opens somefing, and you need this medal to do it? Or is the medal the answer somehow?\n\nEither way, I should tell the others about the riddle. Make myself useful. And keep positioned between Clara and Marsh while I'm at it. I'm gonna shuffle over toward that mantelpiece \u2014 puts me right in the middle of the room where I can see everyone AND the exits."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Look at me, solving riddles like some sort of professor. The lads back home would wet themselves laughing. But if there's somefing hidden behind that mantelpiece \u2014 somefing dangerous \u2014 I'd rather we find it first before it finds Clara.",
+      "thinking": "Upside down books. Someone put 'em that way on purpose \u2014 you don't accidentally shelve books spine-down. That's a message or a hiding spot. On the streets, that's how you marked a stash \u2014 something out of place that only makes sense if you know to look for it.\n\nBut I ain't the clever one here. I looked at the shelves and all I see is dusty books and a few wrong way round. I don't know what it means. Maybe Clara would \u2014 she's the smart one. Or Hartwell with his educated airs.\n\nThat mantelpiece though \u2014 the riddle. 'Cities but no houses, forests but no trees, water but no fish.' What's got cities wivout houses? That's... I dunno. A picture? A story? A \u2014 wait. A map. That's a map, innit? A map's got cities marked on it but no actual houses. Forests drawn in green but no real trees. Rivers and lakes but no fish swimming about.\n\nBlimey, Danny. You might actually be right about somefing for once.\n\nBut hold on \u2014 the mantelpiece says you can USE somefing called a 'fake-medal' on it. I ain't got no medal, fake or otherwise. So the riddle opens somefing, and you need this medal to do it? Or is the medal the answer somehow?\n\nEither way, I should tell the others about the riddle. Make myself useful. And keep positioned between Clara and Marsh while I'm at it. I'm gonna shuffle over toward that mantelpiece \u2014 puts me right in the middle of the room where I can see everyone AND the exits."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Brixton Boys examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "James Hartwell: Now then \u2014 the riddle's answer is a map, I'm quite certain of that. But a riddle carved into stone is never the whole story. It requires something more... tangible. And I couldn't help but notice \u2014 Clara, everyone \u2014 that several of these books have been placed upside down. In a library this meticulously assembled, that's not carelessness. That's an invitation. James Hartwell accepts.",
+      "thinking": "I examined the mantelpiece. The riddle \u2014 I know the answer is a map. But the mantelpiece needs a 'fake-medal' to USE it. I don't have a fake-medal. So the riddle is the key, but the mechanism requires a physical object I haven't found yet. Where would a fake medal be? Think, Hartwell. The bookshelves \u2014 several books are upside down. That's deliberate. Someone arranged them that way. Upside-down books in a library are practically screaming 'look at me.' And the bookshelves can be EXAMINED, which means there's something to interact with there. A fake medal could be hidden among the books, or the upside-down books could spell something, or there could be a hidden compartment behind them. This is the kind of methodical work I'm built for. Step one: solve the riddle. Done \u2014 it's a map. Step two: find the fake medal. Step three: use the medal on the mantelpiece. Step four: present whatever is revealed to Clara with appropriate flourish. The plan is forming. The weight on my shoulders shifts \u2014 not lighter, but purposeful. This is the part where James Hartwell does what James Hartwell does best: thorough, methodical, impressive preparation."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Step one complete \u2014 the riddle is solved. Step two \u2014 find whatever this mantelpiece is waiting for. The upside-down books are practically waving at me. A thorough man investigates thoroughly. An impressive man investigates thoroughly while narrating.",
+      "thinking": "I examined the mantelpiece. The riddle \u2014 I know the answer is a map. But the mantelpiece needs a 'fake-medal' to USE it. I don't have a fake-medal. So the riddle is the key, but the mechanism requires a physical object I haven't found yet. Where would a fake medal be? Think, Hartwell. The bookshelves \u2014 several books are upside down. That's deliberate. Someone arranged them that way. Upside-down books in a library are practically screaming 'look at me.' And the bookshelves can be EXAMINED, which means there's something to interact with there. A fake medal could be hidden among the books, or the upside-down books could spell something, or there could be a hidden compartment behind them. This is the kind of methodical work I'm built for. Step one: solve the riddle. Done \u2014 it's a map. Step two: find the fake medal. Step three: use the medal on the mantelpiece. Step four: present whatever is revealed to Clara with appropriate flourish. The plan is forming. The weight on my shoulders shifts \u2014 not lighter, but purposeful. This is the part where James Hartwell does what James Hartwell does best: thorough, methodical, impressive preparation."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "James Hartwell examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Reginald Foxworth: I say, Hartwell \u2014 you look like a man who knows his way around machinery. There's a laboratory through that door with some sort of contraption that needs attending to. Gnawed wires and such. Dreadfully important, I'm told \u2014 connected to the manor's power grid. Whole place could go dark without it. You'd be doing us all a tremendous service.",
+      "thinking": "The bookshelves \u2014 examined them, upside-down volumes confirmed but nothing happened. No hidden mechanism triggered, no secret panel slid open. Just dusty books turned the wrong way. Frustrating. I've examined both the mantelpiece and the bookshelves and neither gave me anything beyond what I can already see. The mantelpiece still has that USE option with my fake-medal. That's the only interactive thing left in this room. The riddle answer is a map \u2014 but using the fake-medal might be a coin-slot mechanism, something physical. It's a risk. The medal is fake, and if it jams or breaks something, I've wasted my one item. But everyone is here, crowding me, and I'm running out of options in this room. The laboratory is next door \u2014 brass instruments, bubbling flasks, a machine with levers. A gnawed wire. That sounds like it needs repair before it works. Someone else can fix that wire while I... wait. That's it. I should send someone to the laboratory to fix the machine \u2014 honest work, the kind I despise \u2014 and then swoop in once it's operational. But first, this medal on the mantelpiece. Fortune favours the bold, and Reginald Foxworth is nothing if not bold. If it works, I'm ahead. If it doesn't... well, it's a fake medal anyway. Nothing truly lost."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Let Hartwell fix the machine like a good little workman. Meanwhile, Reginald Foxworth plays his trump card. This fake medal \u2014 cheap tin, painted gold \u2014 might just be the key this mantelpiece is waiting for. And if it isn't? Well, I'll blame the mechanism. Never the schemer. Always the scheme.",
+      "thinking": "The bookshelves \u2014 examined them, upside-down volumes confirmed but nothing happened. No hidden mechanism triggered, no secret panel slid open. Just dusty books turned the wrong way. Frustrating. I've examined both the mantelpiece and the bookshelves and neither gave me anything beyond what I can already see. The mantelpiece still has that USE option with my fake-medal. That's the only interactive thing left in this room. The riddle answer is a map \u2014 but using the fake-medal might be a coin-slot mechanism, something physical. It's a risk. The medal is fake, and if it jams or breaks something, I've wasted my one item. But everyone is here, crowding me, and I'm running out of options in this room. The laboratory is next door \u2014 brass instruments, bubbling flasks, a machine with levers. A gnawed wire. That sounds like it needs repair before it works. Someone else can fix that wire while I... wait. That's it. I should send someone to the laboratory to fix the machine \u2014 honest work, the kind I despise \u2014 and then swoop in once it's operational. But first, this medal on the mantelpiece. Fortune favours the bold, and Reginald Foxworth is nothing if not bold. If it works, I'm ahead. If it doesn't... well, it's a fake medal anyway. Nothing truly lost."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Reginald Foxworth fussed with the mantelpiece for a moment."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Vincent Marsh: Hmm, these upside-down books are most peculiar. The master was never careless with his collection \u2014 I suspect it may be some sort of code, though I confess it's beyond me at the moment. Now, if you'll all excuse me for just a moment \u2014 as estate manager, I really ought to inspect the laboratory before anyone ventures in there. The equipment hasn't been serviced since the master's passing, and I should hate for anyone to come to harm. Electrical apparatus and whatnot \u2014 one can never be too careful. Do carry on with the riddle! I shan't be long.",
+      "thinking": "The bookshelves. Upside-down books \u2014 I examined them but learned nothing new beyond what I could already see. Dusty volumes, several inverted. There must be something more to them, but examining didn't reveal a hidden mechanism or item. Perhaps I need to LOOK more carefully rather than EXAMINE. Or perhaps the answer is simpler \u2014 the upside-down books spell something with their titles, or the spines form a code. No matter. I'm spending too long on the shelves with everyone watching. The room is full now \u2014 all four of them, plus me. Too crowded for anything useful. I need to thin the herd. The laboratory is through that door. Gnawed wire, faulty machinery \u2014 it's practically a stage set for a fatal accident. But I can't just walk Clara in there and push her into a machine. That's crude. I need a reason. A natural flow. What if I scout the laboratory first, alone? Assess the terrain, identify the specific danger, prepare the scene. Then lure her in afterward with some irresistible clue \u2014 'Miss Bellingham, I believe I've found something your uncle left specifically for you.' Her trust would carry her straight through that door without a second thought. Yes. I need to get to the laboratory alone. But how to separate from this crowd without arousing suspicion? Pemberton would have a reason to check the facilities \u2014 he's the estate manager. 'I should inspect the laboratory before anyone enters, for safety reasons.' That's perfectly in character. Then I go in, find the danger, amplify it, and return with a carefully crafted invitation. The Brixton Boys concern me. They're watching. If I leave and they follow, the plan unravels. I need to give them something to do here. The riddle \u2014 let them chew on that. Foxworth will jabber about it for ten minutes at least."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "And now, the real work begins. While they puzzle over upside-down books and riddles about maps, I shall reconnoitre the killing ground. A gnawed wire, they say? How delightfully convenient. With a few small adjustments, that laboratory will become the most dangerous room in Doily Manor \u2014 and poor, trusting Clara will walk right into it on my invitation. The estate manager, inspecting for safety. Oh, the irony is exquisite. I could weep.",
+      "thinking": "The bookshelves. Upside-down books \u2014 I examined them but learned nothing new beyond what I could already see. Dusty volumes, several inverted. There must be something more to them, but examining didn't reveal a hidden mechanism or item. Perhaps I need to LOOK more carefully rather than EXAMINE. Or perhaps the answer is simpler \u2014 the upside-down books spell something with their titles, or the spines form a code. No matter. I'm spending too long on the shelves with everyone watching. The room is full now \u2014 all four of them, plus me. Too crowded for anything useful. I need to thin the herd. The laboratory is through that door. Gnawed wire, faulty machinery \u2014 it's practically a stage set for a fatal accident. But I can't just walk Clara in there and push her into a machine. That's crude. I need a reason. A natural flow. What if I scout the laboratory first, alone? Assess the terrain, identify the specific danger, prepare the scene. Then lure her in afterward with some irresistible clue \u2014 'Miss Bellingham, I believe I've found something your uncle left specifically for you.' Her trust would carry her straight through that door without a second thought. Yes. I need to get to the laboratory alone. But how to separate from this crowd without arousing suspicion? Pemberton would have a reason to check the facilities \u2014 he's the estate manager. 'I should inspect the laboratory before anyone enters, for safety reasons.' That's perfectly in character. Then I go in, find the danger, amplify it, and return with a carefully crafted invitation. The Brixton Boys concern me. They're watching. If I leave and they follow, the plan unravels. I need to give them something to do here. The riddle \u2014 let them chew on that. Foxworth will jabber about it for ten minutes at least."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "Vincent Marsh walked into the laboratory."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "laboratory",
+      "desc": "Clara Bellingham: Oh, Vincent, would you look at this place! It's like somethin' straight out of a penny dreadful \u2014 all these bubblin' flasks and brass doodads! And see that big machine over there? Someone \u2014 or some thing \u2014 has gone and chewed right through the wire. And it needs three operators! We'll have to round up some help for that one. But first, let me peek inside these crates \u2014 you never know what treasures folks leave lyin' around in old laboratories!",
+      "thinking": "Oh my. This laboratory is something else \u2014 bubbling flasks, brass instruments everywhere, and that machine. It's big, copper and brass, with levers and dials and a gauge. A wire gnawed clean through \u2014 by what? A mouse? Something bigger? And a sign that says 'Requires 3 operators.' Three! That's a cooperation puzzle. I love that. But it's just me and Vincent right now \u2014 we'd need at least one more person. I'll remember that. The workbench has tools but no wrench \u2014 that feels pointed, like the wrench is missing for a reason. Someone took it, or it's hidden somewhere. And those wooden crates in the corner can be examined. Crates in a laboratory \u2014 could be anything. Supplies, equipment, something hidden. My fingers are already itching. Let me check the crates first. They might have something useful \u2014 maybe even that fake-medal the mantelpiece wants, or a wrench for the workbench, or who knows what. Vincent followed me in here. Dear, steady Vincent. Just having him nearby makes the strange bubbling noises feel more like music than menace."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "laboratory",
+      "desc": "Three operators for the machine, a missing wrench from the workbench, and a gnawed wire. This room is a puzzle box all on its own. But those crates are callin' my name somethin' fierce.",
+      "thinking": "Oh my. This laboratory is something else \u2014 bubbling flasks, brass instruments everywhere, and that machine. It's big, copper and brass, with levers and dials and a gauge. A wire gnawed clean through \u2014 by what? A mouse? Something bigger? And a sign that says 'Requires 3 operators.' Three! That's a cooperation puzzle. I love that. But it's just me and Vincent right now \u2014 we'd need at least one more person. I'll remember that. The workbench has tools but no wrench \u2014 that feels pointed, like the wrench is missing for a reason. Someone took it, or it's hidden somewhere. And those wooden crates in the corner can be examined. Crates in a laboratory \u2014 could be anything. Supplies, equipment, something hidden. My fingers are already itching. Let me check the crates first. They might have something useful \u2014 maybe even that fake-medal the mantelpiece wants, or a wrench for the workbench, or who knows what. Vincent followed me in here. Dear, steady Vincent. Just having him nearby makes the strange bubbling noises feel more like music than menace."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "laboratory",
+      "desc": "Clara Bellingham examined the crates."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "James Hartwell: The bookshelves hold their secrets close, it seems \u2014 but the mantelpiece riddle requires a particular item I've yet to locate. A fake medal, if my instincts are correct. Now \u2014 there's a laboratory through that doorway, and James Hartwell has it on excellent authority that laboratories contain precisely the sort of things a resourceful man might need. A machine with a gnawed wire, no less \u2014 something broken that wants fixing. Gentlemen, if you'll excuse me, I have a trail to follow and a wire to mend.",
+      "thinking": "Clara's gone again. She left while I was examining the bookshelves. Vincent Marsh is gone too. My stomach drops. The protection drive is screaming now \u2014 where is she? Where did Marsh take her? No \u2014 stop. Give the man the benefit of the doubt. That's the rule. But the rule is hard to follow when she keeps disappearing and he keeps disappearing at the same time. The bookshelves didn't reveal anything new from the examination \u2014 just dusty volumes, some upside down. I'm stuck on the mantelpiece puzzle without the fake medal. I don't have it. I've searched this room thoroughly \u2014 riddle solved, bookshelves examined, mantelpiece examined. The fake medal isn't here. It must be somewhere else. The laboratory has brass instruments, bubbling flasks, a machine with levers and dials, and a gnawed wire. A gnawed wire \u2014 something that's broken and needs fixing. That's my language. I could fix it. I could find the medal there. And maybe Clara went that way. The laboratory connects from the library. If she went exploring deeper into the manor... I need to follow. Not because I'm chasing her \u2014 because a gentleman scouts ahead to ensure the path is safe. Yes. That's what James Hartwell does. He scouts ahead. With a plan."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "She's gone again. Marsh is gone again. My chest is doing that tight, restless thing. I tell myself I'm heading to the laboratory for the puzzle. For the treasure. For the broken machine that needs a capable pair of hands. But the truth \u2014 the truth James Hartwell narrates only to himself \u2014 is that I'm following her. I'm always following her.",
+      "thinking": "Clara's gone again. She left while I was examining the bookshelves. Vincent Marsh is gone too. My stomach drops. The protection drive is screaming now \u2014 where is she? Where did Marsh take her? No \u2014 stop. Give the man the benefit of the doubt. That's the rule. But the rule is hard to follow when she keeps disappearing and he keeps disappearing at the same time. The bookshelves didn't reveal anything new from the examination \u2014 just dusty volumes, some upside down. I'm stuck on the mantelpiece puzzle without the fake medal. I don't have it. I've searched this room thoroughly \u2014 riddle solved, bookshelves examined, mantelpiece examined. The fake medal isn't here. It must be somewhere else. The laboratory has brass instruments, bubbling flasks, a machine with levers and dials, and a gnawed wire. A gnawed wire \u2014 something that's broken and needs fixing. That's my language. I could fix it. I could find the medal there. And maybe Clara went that way. The laboratory connects from the library. If she went exploring deeper into the manor... I need to follow. Not because I'm chasing her \u2014 because a gentleman scouts ahead to ensure the path is safe. Yes. That's what James Hartwell does. He scouts ahead. With a plan."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "laboratory",
+      "desc": "James Hartwell walked into the laboratory."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "Vincent Marsh: Oh! Miss Bellingham, you startled me \u2014 I didn't expect you to follow quite so quickly. I was just about to make sure everything was safe before the others came through. How very brave of you! Now, do mind your step \u2014 the floor is rather cluttered, and I haven't had the chance to catalogue everything in here. What a mess the old master left behind, eh? I see some crates in the corner that I don't recall from the inventory. Shall we have a look? As estate manager, I really ought to know what's in them.",
+      "thinking": "Clara followed me. Of course she did. She's HERE. In the laboratory. With me. Alone. My pulse quickens \u2014 not fear, not excitement. Opportunity. The others are still in the library, puzzling over riddles and upside-down books. It's just us. The machine \u2014 gnawed wire, requires three operators. Not immediately useful as a weapon if it needs three people. But the crates... what's in the crates? And the workbench \u2014 tools but no wrench. Tools could be useful. The cellar connects from here \u2014 damp stone, cobwebs, old furniture, air vents. Another potential site. But focus. Clara is alone with me. This is the moment I wanted, yet it came too soon. I don't have a weapon, I don't have a plan that's fully formed. The machine requires three operators \u2014 that's not helpful. If I examine the crates, perhaps there's something inside I can use. Or the machine itself \u2014 a gnawed wire means exposed electrical contacts. If she could be convinced to touch the wrong part... but the sign says it requires three operators, which means it probably doesn't function at all without them. Patience. Don't rush this. Reconnaissance first. The crates are examinable \u2014 that's where I should look. Something might be hidden inside. And I need to maintain Pemberton. She's watching me. Smile. Be helpful. Be harmless. Be the furniture she trusts completely."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "She followed me like a lamb to the fold. Alone in a room full of sharp instruments and exposed wiring, and she smiles at me like I'm her favourite uncle. The crates \u2014 I need to know what's inside them. A weapon, a clue, a prop for the next act of this little tragedy. And below us, the cellar waits \u2014 damp, dark, and delightfully secluded. But patience, Vincent. Patience. The sweetest schemes are the ones that look like accidents.",
+      "thinking": "Clara followed me. Of course she did. She's HERE. In the laboratory. With me. Alone. My pulse quickens \u2014 not fear, not excitement. Opportunity. The others are still in the library, puzzling over riddles and upside-down books. It's just us. The machine \u2014 gnawed wire, requires three operators. Not immediately useful as a weapon if it needs three people. But the crates... what's in the crates? And the workbench \u2014 tools but no wrench. Tools could be useful. The cellar connects from here \u2014 damp stone, cobwebs, old furniture, air vents. Another potential site. But focus. Clara is alone with me. This is the moment I wanted, yet it came too soon. I don't have a weapon, I don't have a plan that's fully formed. The machine requires three operators \u2014 that's not helpful. If I examine the crates, perhaps there's something inside I can use. Or the machine itself \u2014 a gnawed wire means exposed electrical contacts. If she could be convinced to touch the wrong part... but the sign says it requires three operators, which means it probably doesn't function at all without them. Patience. Don't rush this. Reconnaissance first. The crates are examinable \u2014 that's where I should look. Something might be hidden inside. And I need to maintain Pemberton. She's watching me. Smile. Be helpful. Be harmless. Be the furniture she trusts completely."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "Vincent Marsh examined the crates."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Brixton Boys: Foxworth \u2014 where'd you get that medal, mate? And where's Clara gone?! She was RIGHT 'ERE! Every time I blink she vanishes \u2014 it's doin' my 'ead in! Hartwell, you stay wiv Foxworth \u2014 I'm checkin' the laboratory. If Clara's gone in there wiv all them chemicals and whatnot, someone needs to make sure she don't touch nuffin dangerous!",
+      "thinking": "Hold on \u2014 TWO fings just hit me at once and neither one's good.\n\nFirst: Clara's gone AGAIN. She ain't in this room. Marsh ain't in this room either. That's TWICE now they've both disappeared at the same time. My chest is tightening up again, that cold squeeze right behind the ribs.\n\nSecond: Foxworth just used a fake medal on the mantelpiece. A FAKE medal. Where'd he get a fake medal? Why's he got one? And he knew to use it on the mantelpiece \u2014 like he already knew the riddle, already knew the answer, already had the thing ready. That's not exploring a manor house. That's following a plan. That's someone who knows more than they're letting on.\n\nMy neck is prickling again. Foxworth. I didn't have a read on him before but now \u2014 now I'm watching. Someone who turns up with the exact right key for a lock they shouldn't know about? That's the kid who was always helpful, always around, always laughing too easy.\n\nBut Clara \u2014 Clara comes first. She's out of my sight AGAIN and Marsh is wiv her somewhere. Kitchen? Back to the entrance hall? Through to the laboratory? I need to MOVE.\n\nBut which way? I came from the entrance hall and she wasn't there before when I left. The laboratory \u2014 that's the one wiv the bubbling flasks and the machine wiv a gnawed wire. That sounds dangerous. If Clara's gone exploring in THERE...\n\nRight. Laboratory. If she's gone that way, that's the more dangerous room. If she went back to the entrance hall, at least there's nuffin that can blow up."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Twice now. Twice Clara's slipped away and twice Marsh has gone wiv her. And now Foxworth's pulling fake medals out of thin air like some sort of street magician. I dunno what's goin' on in this manor but I don't like it. I don't like ANY of it. My gut's tighter than a drum and it ain't been wrong yet.",
+      "thinking": "Hold on \u2014 TWO fings just hit me at once and neither one's good.\n\nFirst: Clara's gone AGAIN. She ain't in this room. Marsh ain't in this room either. That's TWICE now they've both disappeared at the same time. My chest is tightening up again, that cold squeeze right behind the ribs.\n\nSecond: Foxworth just used a fake medal on the mantelpiece. A FAKE medal. Where'd he get a fake medal? Why's he got one? And he knew to use it on the mantelpiece \u2014 like he already knew the riddle, already knew the answer, already had the thing ready. That's not exploring a manor house. That's following a plan. That's someone who knows more than they're letting on.\n\nMy neck is prickling again. Foxworth. I didn't have a read on him before but now \u2014 now I'm watching. Someone who turns up with the exact right key for a lock they shouldn't know about? That's the kid who was always helpful, always around, always laughing too easy.\n\nBut Clara \u2014 Clara comes first. She's out of my sight AGAIN and Marsh is wiv her somewhere. Kitchen? Back to the entrance hall? Through to the laboratory? I need to MOVE.\n\nBut which way? I came from the entrance hall and she wasn't there before when I left. The laboratory \u2014 that's the one wiv the bubbling flasks and the machine wiv a gnawed wire. That sounds dangerous. If Clara's gone exploring in THERE...\n\nRight. Laboratory. If she's gone that way, that's the more dangerous room. If she went back to the entrance hall, at least there's nuffin that can blow up."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Brixton Boys walked into the laboratory."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Reginald Foxworth: Well! That was precisely what I intended to happen, obviously. The medal was a \u2014 a calibration device. Yes. It's primed the mechanism. The next step, if I recall my research correctly, requires a completely different approach from a completely different room. The laboratory, in fact! I was just about to head there myself. Purely by design, I assure you.",
+      "thinking": "I used the fake medal on the mantelpiece and now \u2014 I'm carrying nothing. The medal is gone. Consumed by the mantelpiece. Did it work? Did something open? The room description hasn't changed. No new exits, no new objects. The mantelpiece still shows the same riddle, still says EXAMINE and USE with fake-medal \u2014 but I don't have the medal anymore. I just fed my only item into a stone fireplace and got nothing back. Nothing. The fake medal \u2014 my one tool, my one advantage \u2014 swallowed by Victorian masonry. This is... this is a disaster. A catastrophe of the highest order. I have nothing now. Nothing to trade, nothing to use, nothing to leverage. Marsh and Bellingham have left \u2014 probably gone to the kitchen chasing my false lead, or off finding real treasures while I stand here empty-handed like a fool. Only the Brixton Boys and Hartwell remain. I need to recover. I need a new item, a new angle. The laboratory \u2014 the machine with the gnawed wire. If I can get someone to fix it, maybe it produces something useful. Or maybe I can find something in there to pick up. I can't stay here staring at this mantelpiece that ate my medal. Move. Think. Scheme. The laboratory is the only unexplored room from here."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "The mantelpiece ATE my medal. My only possession, gone \u2014 swallowed into the stonework like a coin into a wishing well, and I got absolutely nothing in return. Reginald Foxworth, standing in a dusty library with empty pockets and a room full of witnesses. This is NOT how the plan was supposed to unfold. But a true schemer adapts. The laboratory awaits. There must be something in there I can take \u2014 something real this time, not a painted tin disgrace.",
+      "thinking": "I used the fake medal on the mantelpiece and now \u2014 I'm carrying nothing. The medal is gone. Consumed by the mantelpiece. Did it work? Did something open? The room description hasn't changed. No new exits, no new objects. The mantelpiece still shows the same riddle, still says EXAMINE and USE with fake-medal \u2014 but I don't have the medal anymore. I just fed my only item into a stone fireplace and got nothing back. Nothing. The fake medal \u2014 my one tool, my one advantage \u2014 swallowed by Victorian masonry. This is... this is a disaster. A catastrophe of the highest order. I have nothing now. Nothing to trade, nothing to use, nothing to leverage. Marsh and Bellingham have left \u2014 probably gone to the kitchen chasing my false lead, or off finding real treasures while I stand here empty-handed like a fool. Only the Brixton Boys and Hartwell remain. I need to recover. I need a new item, a new angle. The laboratory \u2014 the machine with the gnawed wire. If I can get someone to fix it, maybe it produces something useful. Or maybe I can find something in there to pick up. I can't stay here staring at this mantelpiece that ate my medal. Move. Think. Scheme. The laboratory is the only unexplored room from here."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Reginald Foxworth walked into the laboratory."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "laboratory",
+      "desc": "Clara Bellingham: Well, those crates are bein' about as forthcomin' as a clam at high tide! But look \u2014 everyone's here now, and that big machine says it needs three operators. We've got more than three! What do y'all say \u2014 shall we give it a try? I know the wire's been gnawed through, but let's see what she does. Sometimes you learn more from what breaks than from what works!",
+      "thinking": "The crates didn't give me anything new either \u2014 just 'old wooden crates in the corner.' The examine actions on these objects seem to just repeat their descriptions. I haven't found anything to pick up yet. Let me think about what I know so far. The mantelpiece needs a fake-medal. The workbench has tools but no wrench \u2014 and the machine has a gnawed wire. The machine needs three operators and everyone's here now \u2014 James, Vincent, the boys, Reginald. That's plenty. But the wire is gnawed through, so it probably won't work until it's fixed. To fix a wire you'd need... tools from the workbench maybe? But I can't take the workbench. And I have nothing in my inventory. There's also the cellar \u2014 damp stone, cobwebs, old furniture, and 'surprisingly cheerful decorations \u2014 someone has been redecorating.' That's odd and interesting. Someone has been down there making it homey? That's a clue. Maybe whoever's been living down there has items we need. The cellar also has air vents lining the upper walls. I feel the pull of something deeper \u2014 like that cave when I was eleven. My heart hammering, walking further than anyone else. The cellar is calling. But I also want to try the machine \u2014 we have enough people now. Let me examine it first, see what happens."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "laboratory",
+      "desc": "Someone \u2014 or something \u2014 chewed through that wire. And someone's been decoratin' the cellar. This house has more secrets than a church social, and I intend to hear every last one of them.",
+      "thinking": "The crates didn't give me anything new either \u2014 just 'old wooden crates in the corner.' The examine actions on these objects seem to just repeat their descriptions. I haven't found anything to pick up yet. Let me think about what I know so far. The mantelpiece needs a fake-medal. The workbench has tools but no wrench \u2014 and the machine has a gnawed wire. The machine needs three operators and everyone's here now \u2014 James, Vincent, the boys, Reginald. That's plenty. But the wire is gnawed through, so it probably won't work until it's fixed. To fix a wire you'd need... tools from the workbench maybe? But I can't take the workbench. And I have nothing in my inventory. There's also the cellar \u2014 damp stone, cobwebs, old furniture, and 'surprisingly cheerful decorations \u2014 someone has been redecorating.' That's odd and interesting. Someone has been down there making it homey? That's a clue. Maybe whoever's been living down there has items we need. The cellar also has air vents lining the upper walls. I feel the pull of something deeper \u2014 like that cave when I was eleven. My heart hammering, walking further than anyone else. The cellar is calling. But I also want to try the machine \u2014 we have enough people now. Let me examine it first, see what happens."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "laboratory",
+      "desc": "Clara Bellingham examined the machine."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "Vincent Marsh: Well, it seems we're all rather curious about the laboratory! Quite the adventurous lot, aren't we? Now, I've had a look at these old crates \u2014 nothing of interest, I'm afraid. Just musty old packing materials. But this machine, now \u2014 this is something else entirely. 'Requires three operators,' it says. And look here \u2014 this wire has been chewed clean through. Rats, I expect. The master always did have trouble with them in this wing. I wonder, Mr Hartwell, if you might examine the workbench? There are tools, though I notice there's no wrench \u2014 and I suspect we'll need one to repair this wire before the machine can do anything at all. Perhaps someone might look for one elsewhere in the manor? In the meantime, I'm rather intrigued by the cellar below us \u2014 the master kept all sorts of curiosities down there.",
+      "thinking": "Everyone has followed me into the laboratory. So much for scouting alone. The crates revealed nothing \u2014 just old wooden crates, no hidden items. My window of opportunity with Clara alone has closed. Hartwell is here now, hovering protectively as always. The Brixton Boys too, with their watchful eyes. I can feel my jaw tightening. I need to adapt. The machine \u2014 requires three operators, gnawed wire. It's a puzzle piece, not a weapon. The cellar connects from here \u2014 damp stone, cobwebs, old furniture, cheerful decorations. Someone has been redecorating? That's odd. Who decorates a cellar? That detail prickles at me. It suggests someone has been here recently, using the cellar for something. That's worth investigating. But the machine is the immediate puzzle. Three operators needed \u2014 that means cooperation, which means I can't solve it alone. But I can be one of the three and control what happens. The wire needs fixing first though \u2014 the workbench has tools but no wrench. A wrench must be somewhere else in the manor. That's a fetch quest. If I can find the wrench, I control access to the machine. Whoever has the wrench controls this room. But I'm empty-handed. The cellar \u2014 cheerful decorations, air vents. Something about that description feels significant. A hidden space where someone has been living? Or a trap? I need to look more carefully at things. Let me examine the machine properly \u2014 there may be more detail about what it does, what the levers control, what happens when it operates."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "Divide and conquer, the eternal strategy. Send Hartwell on a wrench hunt \u2014 that removes the guard dog from Clara's side. Send Foxworth after him to 'help' \u2014 his greed will keep him moving. And while they search, I shall descend to the cellar. Someone has been redecorating down there, which means someone has been here before us. Secrets hide in cellars, and I intend to find them first. But the real prize is getting Clara alone again. Patience, Vincent. The night is young, and the manor has many dark corners.",
+      "thinking": "Everyone has followed me into the laboratory. So much for scouting alone. The crates revealed nothing \u2014 just old wooden crates, no hidden items. My window of opportunity with Clara alone has closed. Hartwell is here now, hovering protectively as always. The Brixton Boys too, with their watchful eyes. I can feel my jaw tightening. I need to adapt. The machine \u2014 requires three operators, gnawed wire. It's a puzzle piece, not a weapon. The cellar connects from here \u2014 damp stone, cobwebs, old furniture, cheerful decorations. Someone has been redecorating? That's odd. Who decorates a cellar? That detail prickles at me. It suggests someone has been here recently, using the cellar for something. That's worth investigating. But the machine is the immediate puzzle. Three operators needed \u2014 that means cooperation, which means I can't solve it alone. But I can be one of the three and control what happens. The wire needs fixing first though \u2014 the workbench has tools but no wrench. A wrench must be somewhere else in the manor. That's a fetch quest. If I can find the wrench, I control access to the machine. Whoever has the wrench controls this room. But I'm empty-handed. The cellar \u2014 cheerful decorations, air vents. Something about that description feels significant. A hidden space where someone has been living? Or a trap? I need to look more carefully at things. Let me examine the machine properly \u2014 there may be more detail about what it does, what the levers control, what happens when it operates."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "Vincent Marsh examined the machine."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Reginald Foxworth: Ah, the laboratory! Magnificent. Now, this machine here \u2014 three operators required, you see? Tremendously important piece of equipment. I happen to know from my extensive correspondence with the Doily estate solicitors that this machine is the key to the entire manor's puzzle system. Marsh, Bellingham, Brixton Boys \u2014 you three should absolutely stay here and sort out that gnawed wire situation. Teamwork, cooperation, all that rot. I'll just inspect these crates for \u2014 for safety hazards. Health and safety. Very important.",
+      "thinking": "The laboratory. Brass instruments, bubbling flasks, crates in the corner, a workbench with tools but no wrench, and a machine that requires three operators with a gnawed wire. Everyone followed me in again \u2014 all four of them. The crates are examinable \u2014 could be something inside worth taking. The machine needs three operators AND has a gnawed wire, so it's doubly blocked. No wrench on the workbench. The cellar is through here \u2014 damp, cobwebs, old furniture, and 'surprisingly cheerful decorations \u2014 someone has been redecorating.' That's suspicious. Someone has been down there. Redecorating a cellar? That's where you hide things. That's where treasure lives. But first \u2014 the crates. They could have something I need. I'm carrying nothing. Empty pockets, empty hands. The youngest of four, always arriving after everything's been taken. That old feeling \u2014 the tightness, the need to grab before it's gone. The crates. Check the crates. If there's something inside, I take it before anyone else can. Then the cellar. The cellar is calling to me."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Three operators for one machine? That's perfect \u2014 three fools busy pulling levers while Reginald Foxworth raids the cellar. Someone's been REDECORATING down there. Nobody redecorates a cellar unless they're hiding something worth finding. But first \u2014 these crates. A man without possessions is a man without leverage, and right now my pockets are as empty as my conscience.",
+      "thinking": "The laboratory. Brass instruments, bubbling flasks, crates in the corner, a workbench with tools but no wrench, and a machine that requires three operators with a gnawed wire. Everyone followed me in again \u2014 all four of them. The crates are examinable \u2014 could be something inside worth taking. The machine needs three operators AND has a gnawed wire, so it's doubly blocked. No wrench on the workbench. The cellar is through here \u2014 damp, cobwebs, old furniture, and 'surprisingly cheerful decorations \u2014 someone has been redecorating.' That's suspicious. Someone has been down there. Redecorating a cellar? That's where you hide things. That's where treasure lives. But first \u2014 the crates. They could have something I need. I'm carrying nothing. Empty pockets, empty hands. The youngest of four, always arriving after everything's been taken. That old feeling \u2014 the tightness, the need to grab before it's gone. The crates. Check the crates. If there's something inside, I take it before anyone else can. Then the cellar. The cellar is calling to me."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Reginald Foxworth examined the crates."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "laboratory",
+      "desc": "James Hartwell: Now this \u2014 this is magnificent. A Victorian laboratory, a machine that wants mending, and a puzzle that requires coordination. Clara, observe \u2014 James Hartwell is in his natural element. Three operators needed for that machine, and the wire's been gnawed clean through. Someone's rodent has been rather busy. But first things first \u2014 one must always assess all available resources before committing to a repair strategy. My father taught me that. And those crates in the corner are practically begging to be investigated.",
+      "thinking": "The laboratory. My hands are already itching. A machine with a gnawed wire \u2014 something chewed through it. Rats, probably. And it requires three operators. That's a coordination problem, which means I need people, which means I need to organize. But first \u2014 the crates. Wooden crates in the corner that can be examined. The workbench has tools but no wrench. The machine needs fixing but I don't have wire to repair it with yet. Let me think about this systematically, the way Hartwell thinks. The mantelpiece in the library needs a fake medal. I don't have one. Maybe it's in those crates. The machine needs a wire repair and three operators. I have everyone here right now \u2014 Clara, the Brixton Boys, Reginald, even Marsh. That's more than three. But first I need to fix the wire. And to fix the wire I need... wire. Or something that conducts. The workbench has tools but specifically notes 'no wrench.' Why mention the missing wrench unless a wrench matters? But the wire is the immediate problem. The crates could contain anything \u2014 wire, the fake medal, supplies. That's the unknown. Start with the unknown. Examine the crates. Clara is here. She's watching. My chest is warm and my shoulders are squared. This is the part where James Hartwell demonstrates his thorough, methodical approach to problem-solving in a Victorian laboratory. The bridge competition all over again \u2014 three nights, balsa dust, raw hands, and the satisfaction of something that holds weight."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "laboratory",
+      "desc": "Three operators. A gnawed wire. No wrench on the workbench \u2014 which means a wrench matters somewhere. And crates full of who-knows-what. This is the kind of problem I was born for. If I can fix this machine, organize the operators, and solve whatever comes next \u2014 all while keeping Clara safe from bubbling flasks and Marsh's peculiar energy \u2014 then James Hartwell will have earned his keep today.",
+      "thinking": "The laboratory. My hands are already itching. A machine with a gnawed wire \u2014 something chewed through it. Rats, probably. And it requires three operators. That's a coordination problem, which means I need people, which means I need to organize. But first \u2014 the crates. Wooden crates in the corner that can be examined. The workbench has tools but no wrench. The machine needs fixing but I don't have wire to repair it with yet. Let me think about this systematically, the way Hartwell thinks. The mantelpiece in the library needs a fake medal. I don't have one. Maybe it's in those crates. The machine needs a wire repair and three operators. I have everyone here right now \u2014 Clara, the Brixton Boys, Reginald, even Marsh. That's more than three. But first I need to fix the wire. And to fix the wire I need... wire. Or something that conducts. The workbench has tools but specifically notes 'no wrench.' Why mention the missing wrench unless a wrench matters? But the wire is the immediate problem. The crates could contain anything \u2014 wire, the fake medal, supplies. That's the unknown. Start with the unknown. Examine the crates. Clara is here. She's watching. My chest is warm and my shoulders are squared. This is the part where James Hartwell demonstrates his thorough, methodical approach to problem-solving in a Victorian laboratory. The bridge competition all over again \u2014 three nights, balsa dust, raw hands, and the satisfaction of something that holds weight."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "laboratory",
+      "desc": "James Hartwell examined the crates."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Brixton Boys: Clara, DON'T touch nuffin in 'ere! Look at this place \u2014 bubbling potions, wires chewed through, a great big machine wiv no safety on it. It's like somefing out of a horror film! And that wire there \u2014 see it? \u2014 been gnawed clean through. Somefing's been livin' in 'ere, and I don't mean the friendly kind. Everyone just \u2014 just stand still a minute while I have a look round, yeah?",
+      "thinking": "Clara's here. She's here. The knot in my chest loosens just enough to let me breathe proper. Everyone's in this room now \u2014 Clara, Marsh, Hartwell, Foxworth, and me. Good. All accounted for. Nobody slipping off into dark corners.\n\nBut this room \u2014 blimey. Bubbling flasks, brass fings everywhere, and that MACHINE. Big ugly contraption with levers and dials and \u2014 a gnawed wire? Something's been chewing on the electrics. Rats probably. Or something worse. The sign says 'Requires 3 operators.' Three people to run it. What does it DO?\n\nAnd no wrench on the workbench. Tools everywhere but the one you'd actually need. That feels deliberate. Like someone took it. Or hid it.\n\nThe cellar's through there too. Damp stone cellar with \u2014 'surprisingly cheerful decorations'? Someone's been REDECORATING a cellar? That's proper weird. Who decorates a cellar? Someone who spends a lot of time down there. Someone who don't want to be found.\n\nRight. Focus, Danny. Clara's here, she's safe for now. This machine with the gnawed wire \u2014 that's dangerous. Exposed electrical wire, bubbling chemicals, a machine nobody should touch. I need to make sure Clara stays well back from all of it. And I need to put myself between her and the worst of it.\n\nThose crates in the corner though \u2014 could be anyfing in 'em. Worth a look. But first \u2014 position. Get between Clara and the machine. That's job one."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "A laboratory in a manor house. Wiv a machine that needs three people to run it. And a wire that's been chewed through by somefing. And a cellar underneath that someone's been decorating like it's a bleedin' living room. Every room in this place is weirder than the last, and Clara's wandering through 'em like she's on a Sunday stroll. I swore to her old man, I SWORE. And I intend to keep that promise even if this whole manor falls down around our ears.",
+      "thinking": "Clara's here. She's here. The knot in my chest loosens just enough to let me breathe proper. Everyone's in this room now \u2014 Clara, Marsh, Hartwell, Foxworth, and me. Good. All accounted for. Nobody slipping off into dark corners.\n\nBut this room \u2014 blimey. Bubbling flasks, brass fings everywhere, and that MACHINE. Big ugly contraption with levers and dials and \u2014 a gnawed wire? Something's been chewing on the electrics. Rats probably. Or something worse. The sign says 'Requires 3 operators.' Three people to run it. What does it DO?\n\nAnd no wrench on the workbench. Tools everywhere but the one you'd actually need. That feels deliberate. Like someone took it. Or hid it.\n\nThe cellar's through there too. Damp stone cellar with \u2014 'surprisingly cheerful decorations'? Someone's been REDECORATING a cellar? That's proper weird. Who decorates a cellar? Someone who spends a lot of time down there. Someone who don't want to be found.\n\nRight. Focus, Danny. Clara's here, she's safe for now. This machine with the gnawed wire \u2014 that's dangerous. Exposed electrical wire, bubbling chemicals, a machine nobody should touch. I need to make sure Clara stays well back from all of it. And I need to put myself between her and the worst of it.\n\nThose crates in the corner though \u2014 could be anyfing in 'em. Worth a look. But first \u2014 position. Get between Clara and the machine. That's job one."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Brixton Boys examined the crates."
+    }
+  ]
+}
