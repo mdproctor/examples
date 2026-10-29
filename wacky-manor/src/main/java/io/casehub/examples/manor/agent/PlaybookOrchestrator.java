@@ -318,8 +318,8 @@ public class PlaybookOrchestrator {
         // mindMapStore writes contend with renderCognitiveSections() reads via synchronized
 
         try {
-            consolidationScheduler.setSessionPipeline(sessionPipeline);
             if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
+                consolidationScheduler.setSessionPipeline(sessionPipeline);
                 for (var entry : world.characters().entrySet()) {
                     if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
                     sessionPipeline.openSession(entry.getKey(),
