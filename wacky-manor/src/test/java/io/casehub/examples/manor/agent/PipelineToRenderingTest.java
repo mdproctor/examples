@@ -450,6 +450,122 @@ class PipelineToRenderingTest {
     }
 
 
+    // --- Golden prose rendering pattern tests ---
+
+    @Test
+    void bodyLocationAnchors_presentForEachDrive() {
+        seedDrive("gallantry", 0.9, "g");
+        seedDrive("proving-worth", 0.7, "pw");
+        seedGenerated("gallantry", "Heat pools behind sternum, hands reach before deciding");
+        seedGenerated("proving-worth", "Weight settles in shoulders, jaw clenches on its own");
+
+        var content = renderWhatPulls();
+
+        assertThat(content).contains("**hands, chest warmth** — GALLANTRY");
+        assertThat(content).contains("**shoulders, jaw, grip** — PROVING WORTH");
+    }
+
+    @Test
+    void bodyLocationAnchors_eachDriveGetsUniqueTerritoryLabel() {
+        seedDrive("gallantry", 0.9, "g");
+        seedDrive("protection", 0.6, "p");
+        seedGenerated("gallantry", "Warmth in hands");
+        seedGenerated("protection", "Weight drops to legs");
+
+        var content = renderWhatPulls();
+
+        assertThat(content).contains("**hands, chest warmth**");
+        assertThat(content).contains("**legs, neck, positioning**");
+        assertThat(content).as("Different drives have different body territories")
+                .satisfies(c -> {
+                    int gallantryIdx = c.indexOf("**hands, chest warmth**");
+                    int protectionIdx = c.indexOf("**legs, neck, positioning**");
+                    assertThat(gallantryIdx).isNotEqualTo(protectionIdx);
+                });
+    }
+
+    @Test
+    void paragraphStructure_drivesAreSeparatedByDoubleNewline() {
+        seedDrive("gallantry", 0.9, "g");
+        seedDrive("proving-worth", 0.7, "pw");
+        seedGenerated("gallantry", "Heat pools behind sternum");
+        seedGenerated("proving-worth", "Weight settles in shoulders");
+
+        var content = renderWhatPulls();
+
+        assertThat(content).contains("\n\n");
+        String[] paragraphs = content.split("\n\n");
+        assertThat(paragraphs.length).as("Multiple paragraphs separated by \\n\\n").isGreaterThanOrEqualTo(2);
+    }
+
+    @Test
+    void driveDescriptions_appearsOnNewLineAfterLabel() {
+        seedDrive("gallantry", 0.9, "g");
+        seedGenerated("gallantry", "Your palms open before you have decided to help");
+
+        var content = renderWhatPulls();
+
+        assertThat(content).contains("GALLANTRY (0.9)\nYour palms open");
+    }
+
+    @Test
+    void barrettInstruction_includesStructuralGuidance() {
+        var config = ManorSocialConfigLoader.loadForProfile("generic").getOrDefault(AGENT, SocialConfig.empty());
+        var cognition = new CharacterCognition(AGENT, null, null, config, List.of(),
+                null, new ManorContextStrategy(), null, null,
+                TENANT, store, null, null, false);
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(AGENT, AGENT, "room", 0.0, List.of()),
+                List.of(), Map.of());
+
+        var howToFeel = sections.stream()
+                                .filter(s -> "How to Feel".equals(s.header()))
+                                .findFirst().orElseThrow();
+        var content = ((ObservationSection.TextBlock) howToFeel).content();
+
+        assertThat(content).contains("STRUCTURE IN YOUR ASIDE");
+        assertThat(content).contains("bold body-location anchor");
+        assertThat(content).contains("discovery verbs");
+        assertThat(content).contains("subordinate clause");
+    }
+
+    @Test
+    void hoodedClawDrives_renderWithCorrectBodyLocations() {
+        var hcStore = new InMemoryMindMapStore();
+        var hcSgId = hcStore.createSubgraph(
+                new SubgraphInput("cognitive-hooded-claw", SubgraphTypes.COGNITIVE, null), TENANT);
+
+        hcStore.addNode(NodeInput.of("scheming", hcSgId)
+                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", "hooded-claw",
+                        "drive-type", "scheming", "intensity", "0.9", "description", "s")), TENANT);
+        hcStore.addNode(NodeInput.of("gloating", hcSgId)
+                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", "hooded-claw",
+                        "drive-type", "gloating", "intensity", "0.7", "description", "g")), TENANT);
+
+        hcStore.addNode(NodeInput.of("drive-description-scheming", hcSgId)
+                .withTraits(Set.of("DriveDescriptionGenerated"))
+                .withProperties(Map.of("agent-id", "hooded-claw", "drive-type", "scheming",
+                        "generated-description", "Your fingertips trace possibilities before your eyes confirm them")), TENANT);
+        hcStore.addNode(NodeInput.of("drive-description-gloating", hcSgId)
+                .withTraits(Set.of("DriveDescriptionGenerated"))
+                .withProperties(Map.of("agent-id", "hooded-claw", "drive-type", "gloating",
+                        "generated-description", "Behind your sternum, warmth pools — a private heat")), TENANT);
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var config = configs.getOrDefault("hooded-claw", SocialConfig.empty());
+        var cognition = new CharacterCognition("hooded-claw", null, null, config, List.of(),
+                null, new ManorContextStrategy(), null, null,
+                TENANT, hcStore, null, null, true);
+        var section = cognition.renderInternalState(List.of(), "");
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+
+        assertThat(content).contains("**fingertips, periphery, visual field** — SCHEMING");
+        assertThat(content).contains("**sternum, breastbone** — GLOATING");
+        assertThat(content).as("Scheming uses fingertips territory, not sternum")
+                .satisfies(c -> assertThat(c.indexOf("fingertips, periphery")).isLessThan(c.indexOf("fingertips trace")));
+    }
+
     private void seedDrive(String type, double intensity, String description) {
         store.addNode(NodeInput.of(type, sgId)
             .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", AGENT,
