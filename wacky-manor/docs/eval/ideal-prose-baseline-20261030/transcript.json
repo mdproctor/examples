@@ -1,0 +1,76 @@
+{
+  "complete": true,
+  "reason": "DAWN",
+  "events": [
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Vincent Marsh: Welcome, welcome to Doily Manor! Oh my, do mind the chandelier — it's older than all of us combined, I'm afraid. Please, please, sign the guest book, make yourselves comfortable.",
+      "thinking": "The foyer. My foyer. The chandelier casts a pattern on the floor that I've memorised over twenty years of polishing beneath it. My chest settles into that architectural stillness — the one that arrived the night I mapped the inheritance redirect, and stayed. Clara is here. My attention inventories her without deciding to: position near the door, weight on her left foot, handbag held close. Trusting. Open. My hands stay loose at my sides — Pemberton's hands, warm and helpful. Not yet. Hartwell is two metres to her left and already scanning the room like a man who reads floor plans for pleasure. My weight shifts slightly, redistributing without conscious instruction — his competence is a wall I'll need to route around, not through. The Brixton Boys cluster near the entrance, watching. I feel their attention as a low prickle along the back of my neck. Foxworth is admiring the chandelier with that acquisitive tilt of the head. Useful."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Twenty years of polishing banisters and balancing ledgers. Twenty years of performed warmth. But patience has its own warmth — the quiet, narcotic certainty that every piece is exactly where it needs to be.",
+      "thinking": "The settling deepens. Every person in this room is a piece I've already begun to position. Clara signs the guest book with that open, trusting flourish — my chest fills with something warm and unhurried, the private knowledge of how completely she doesn't see what's behind Pemberton's smile. My shoulders drop. My jaw loosens. The warmth pools behind my sternum and stays. Hartwell hovers near her, protective and predictable — my jaw sets just enough to hold the Pemberton smile while something colder maps the angles between him, her, and the library door. The inscription on that mantelpiece pulls at the edge of my attention. The library is twenty paces and one locked door away. My body is already angling toward the corridor, but the performance matters. Pemberton fusses over guest books. He adjusts cushions. He worries about the chandelier. That is what they see."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Reginald Foxworth: Ah, Doily Manor! What a magnificent establishment. I was personally invited, you know — the Countess herself wrote to me. We're old friends. Very old friends. The oldest of friends, in fact.",
+      "thinking": "The chandelier catches the light and my chest tightens — that familiar incompleteness, the hollow behind the navel that opens whenever value sits just out of reach. Gold. Crystal. Age. Money. My fingers curl inward, a reflex the body learned before the mind gave it permission. The guest book — a prop, nothing more, but Pemberton is hovering over it like a mother hen and I need to establish authority before anyone else claims the room. I sign with a flourish. Nobody checks signatures. The medal on my lapel catches the light when I move — I notice it before they do, and angle slightly to ensure they notice it second. Hartwell is already cataloguing the room with that military precision that makes my stomach tighten. He's doing MY routine. The competence display that should be mine. My jaw sets. Clara Bellingham — her eyes sweep the room and land on things I haven't noticed yet. Dangerous. But distracted by her own enthusiasm. The library. Mantelpiece. Inscription. I can feel the trajectory before I've planned it — my body is already calculating the angle between Pemberton's attention and the corridor."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "None of that was true, naturally. I found the invitation in someone else's post box. But confidence is nine-tenths of the law, and the other tenth is timing.",
+      "thinking": "The lie landed perfectly — I felt it connect the way a pickpocket feels the wallet leave the pocket, that small loosening in the room's attention, everyone's certainty shifting half a degree toward believing I belong here. The warmth of that spreads through my chest and into my hands. Recognition. My spine straightens. I belong here more than any of them — I recognised the value of this place within four seconds of entering while they were busy admiring ceilings. My attention snags on the inscription above the mantelpiece — I can't read it from here but the shape of it pulls at something in my gut. That's where the treasure starts. But Hartwell is already moving toward the library. My body tenses — time compressing, the window between his attention and the corridor shrinking. I need a diversion. Foxworth doesn't scheme — Foxworth redirects. Send the Brixton Boys toward the kitchen with a story about loose flagstones. That buys three minutes, maybe four."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Clara Bellingham: Well, I do declare — would you just look at this place! It's like stepping into a storybook! Oh my, that chandelier must have a thousand stories to tell.",
+      "thinking": "The hall opens around me like a held breath and my whole chest expands with it — the dust, the light, the sheer dramatic weight of this place settling onto my skin like warm rain. My eyes sweep upward to the chandelier and something behind them widens, the room reorganising itself into possibilities. Doors. Corridors. Hidden panels, maybe. My fingers trace the guest book's leather binding — cool, cracked, old — and the texture sends a small shiver of anticipation up my forearm. Somewhere in this house is a diamond. Somewhere in this house is an adventure. The thought pulls my weight forward onto my toes before I've decided to move. James Hartwell is nearby — solid, earnest, already examining the structure of the place. Something in me settles when he's close, the way a compass needle settles near north. Mr Pemberton is hovering with that warm, worried smile — I do like him. Everyone seems so interesting."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "My heart is absolutely hammering. A real mansion with a real hidden diamond — this is exactly the kind of adventure I've been dreaming about.",
+      "thinking": "The puzzle is already forming itself in my head — the guest book, the inscription Mr Pemberton mentioned, the way the rooms branch off from this central hall like spokes from a wheel. My attention fans outward, pulling at details: the dust patterns on the floor suggesting which doors are opened often, the way the corridor to the left curves slightly — hiding what? My chest feels light and full at the same time, that fizzing quality that comes when everything is new and nothing is solved yet. The chandelier creaks overhead and I notice it without alarm — it's part of the atmosphere, like the smell of old wood and beeswax. James is already making notes. The Brixton Boys are watching the shadows with those sharp eyes of theirs. I feel a small tug of warmth toward all of them — we're in this together, and together is my favourite way to be anywhere."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "James Hartwell: Right then — structural assessment first. Load-bearing walls, viable exits, potential hazards. Miss Bellingham, might I suggest you stand just slightly to the left? That chandelier's mounting bracket doesn't inspire confidence.",
+      "thinking": "The entrance hall. Large, dusty, structurally compromised. The chandelier mounting bracket is corroded — I noticed it before I noticed anything else, the same way I notice exit signs in restaurants, the same way my body orients to the nearest danger before my mind names it. Clara is standing directly beneath it. My weight shifts forward before I've decided to speak — the words are already forming, the plan already assembling: move her left, establish a perimeter, assess the load-bearing walls. My hands want to hold things — blueprints, tools, something solid. They settle for the guest book. Pemberton is watching me with that helpful, anxious smile. Something about him tugs at my attention — not wrong exactly, but slightly too rehearsed, like a man who has practised being harmless. I file the observation and dismiss it. Give people the benefit of the doubt. That's what you do. The guest book yields nothing remarkable, but the library — visible through the corridor, shelved floor to ceiling — that is where answers live."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "James Hartwell — gallantry reconnaissance specialist. Objective: ensure Miss Bellingham's safety while maintaining structural awareness of all viable escape routes.",
+      "thinking": "Clara is safe. That's the first assessment and it settles something deep in my chest — a loosening I didn't know was tight. The chandelier mounting bracket needs attention, but she's moved left, she's clear of the drop zone. Good. My breathing evens out. Now — the library. The inscription on the mantelpiece is visible from here, carved deep into stone, and something about it pulls at me the way maps do, the way locked doors do. My hands are already planning — the guest book didn't yield, but architecture does. Load-bearing walls. Hidden rooms. Passages behind the panelling. My body knows this rhythm: protect, prepare, discover. In that order. Always in that order. The Brixton Boys are positioned near the entrance — good tactical instinct, whether they know it or not. Foxworth is admiring the chandelier with entirely the wrong kind of attention. Pemberton is helpful but there's something — I let it go. Trust first. Suspicion is a tool I use reluctantly."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Brixton Boys: Blimey, what a gaff this is. Oi, Danny, that chandelier's 'anging by a thread, innit? Keep an eye on Miss Bellingham, lads — this place gives me the willies.",
+      "thinking": "The hall is too big and too quiet. My shoulders bunch up near my ears — old habit, the body remembering alleyways and narrow exits. The chandelier above Miss Bellingham swings slightly in a draft that shouldn't exist and my weight drops into my legs, ready to move. Tommy nudges my elbow and tips his chin toward Pemberton. I follow the look. The estate manager is smiling at Clara with that warm, careful attention — but his hands are still. Too still. When a man's face is warm and his hands are cold, something's wrong. I don't know what. I can't name it. But my body knows — the same prickling alertness that used to fire when a deal smelled wrong on the Mile End Road. Foxworth is admiring the silverware with sticky fingers and a big mouth. Hartwell is measuring doorframes with his eyes. And Clara — Clara is smiling at everyone like the sun came out, and that tightens something in my chest because she doesn't know what she doesn't see. We stay near the door. We watch."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "I don't like this place. Too many shadows, too many doors. And that Pemberton bloke — something's off. Can't put my finger on it, but the lads feel it too.",
+      "thinking": "Dodger's got his back to the wall. Sparks is counting exits. Knuckles is watching Pemberton without blinking. None of us said a word but we're all doing the same thing — the body's playbook for places that feel wrong. Miss Bellingham just signed the guest book like it was a birthday card, and the warmth of that hits me somewhere behind the ribs, the fierce, protective ache that I can never quite explain. She trusts everybody. Everybody. And that is the most dangerous thing about her, because the world is full of people who count on exactly that. Pemberton's smile never reaches his hands. I notice because Danny notices hands — it's where you see the lie before the voice gives it away. His hands are positioned. Rehearsed. My fingers tighten around nothing. Tommy shifts his weight and I feel the alignment — six of us, a wall of grubby East London instinct, positioned between Clara and whatever that smile is hiding."
+    }
+  ]
+}
