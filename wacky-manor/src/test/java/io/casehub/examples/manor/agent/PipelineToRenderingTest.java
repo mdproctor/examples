@@ -566,6 +566,66 @@ class PipelineToRenderingTest {
                 .satisfies(c -> assertThat(c.indexOf("fingertips, periphery")).isLessThan(c.indexOf("fingertips trace")));
     }
 
+    @Test
+    void goldenProse_hcGloating_descriptionRendersWithSternum() {
+        var hcStore = new InMemoryMindMapStore();
+        var hcSg = hcStore.createSubgraph(
+                new SubgraphInput("cognitive-hooded-claw", SubgraphTypes.COGNITIVE, null), TENANT);
+
+        hcStore.addNode(NodeInput.of("gloating", hcSg)
+                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", "hooded-claw",
+                        "drive-type", "gloating", "intensity", "0.7", "description", "g")), TENANT);
+        hcStore.addNode(NodeInput.of("scheming", hcSg)
+                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", "hooded-claw",
+                        "drive-type", "scheming", "intensity", "0.9", "description", "s")), TENANT);
+
+        // Golden-prose-quality description: sternum territory, contrast against scheming,
+        // discovery verbs, warmth sensation
+        hcStore.addNode(NodeInput.of("drive-description-gloating", hcSg)
+                .withTraits(Set.of("DriveDescriptionGenerated"))
+                .withProperties(Map.of("agent-id", "hooded-claw", "drive-type", "gloating",
+                        "generated-description",
+                        "Behind your sternum, warmth pools — not the fingertip clarity of " +
+                        "tracking a plan, not the spine's territorial straightening. This is " +
+                        "slower, heavier: a private heat that settles when the pieces click " +
+                        "into place and no one else sees it yet. Your jaw loosens. Your " +
+                        "shoulders drop. Time stretches around the knowing.")), TENANT);
+        hcStore.addNode(NodeInput.of("drive-description-scheming", hcSg)
+                .withTraits(Set.of("DriveDescriptionGenerated"))
+                .withProperties(Map.of("agent-id", "hooded-claw", "drive-type", "scheming",
+                        "generated-description",
+                        "Your fingertips trace possibilities before your eyes confirm them. " +
+                        "Peripheral vision sharpens — exits, sight lines, who is watching whom. " +
+                        "Not the sternum warmth of savouring. This is colder, faster: attention " +
+                        "that maps the room the way other people hum a song.")), TENANT);
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var config = configs.getOrDefault("hooded-claw", SocialConfig.empty());
+        var cognition = new CharacterCognition("hooded-claw", null, null, config, List.of(),
+                null, new ManorContextStrategy(), null, null,
+                TENANT, hcStore, null, null, true);
+        var section = cognition.renderInternalState(List.of(), "");
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+
+        // Gloating renders with sternum body-location anchor
+        assertThat(content).contains("**sternum, breastbone** — GLOATING");
+
+        // Gloating description includes contrast against scheming territory
+        assertThat(content).contains("not the fingertip clarity");
+
+        // Scheming renders with fingertips body-location anchor
+        assertThat(content).contains("**fingertips, periphery, visual field** — SCHEMING");
+
+        // Scheming description includes contrast against gloating territory
+        assertThat(content).contains("Not the sternum warmth");
+
+        // Both descriptions use discovery verbs
+        assertThat(content).contains("pools");
+        assertThat(content).contains("settles");
+        assertThat(content).contains("trace");
+    }
+
     private void seedDrive(String type, double intensity, String description) {
         store.addNode(NodeInput.of(type, sgId)
             .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", AGENT,
