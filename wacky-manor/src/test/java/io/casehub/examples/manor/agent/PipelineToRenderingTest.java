@@ -806,6 +806,110 @@ class PipelineToRenderingTest {
 
     }
 
+
+    /**
+     * Golden prose target: HC dialogue event 5 — entrance hall, Brixton Boys confrontation.
+     * <p>
+     * Tests self-preservation under direct threat: cornered near staircase, maintaining
+     * Pemberton mask while body prepares for escape. Same drives and P22 descriptions,
+     * different lastActionResult reflecting the confrontation.
+     * <p>
+     * Golden target (event 5 thinking):
+     * "The Brixton Boys have cornered me near the staircase and every nerve fires —
+     * the flat, total alertness that empties the world of everything except the
+     * threat and the exits..."
+     */
+    @Test
+    void goldenScenario_hcConfrontation_entranceHall_fullPromptDump() {
+        var hcStore = new InMemoryMindMapStore();
+        var hcSg = hcStore.createSubgraph(
+                new SubgraphInput("cognitive-hooded-claw", SubgraphTypes.COGNITIVE, null), TENANT);
+
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "scheming", 0.9);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "self-preservation", 0.7);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "dominance", 0.6);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "gloating", 0.7);
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "scheming",
+                        "Your fingertips trace possibilities before your eyes confirm them — " +
+                        "peripheral vision sharpening to map exits, sight lines, who watches whom. " +
+                        "Not the sternum's slow warmth, not the spine's territorial weight. " +
+                        "This is faster, colder: attention that inventories a room the way other " +
+                        "people hum a song. Time compresses around the mapping. Your hands stay " +
+                        "loose at your sides but your body is already three moves ahead.");
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "gloating",
+                        "Behind your sternum, warmth pools — not the fingertip clarity of tracking " +
+                        "a plan, not the spine's territorial straightening. This is slower, heavier: " +
+                        "a private heat that settles when the pieces click into place and no one else " +
+                        "sees it yet. Your jaw loosens. Your shoulders drop. Time stretches around " +
+                        "the knowing, and you want to stay inside it.");
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "dominance",
+                        "Your spine finds its vertical before you have decided to stand straight — " +
+                        "not the fingertips' scheming alertness, not the sternum's private warmth. " +
+                        "This is structural: jaw level, feet planted, weight even. The room should " +
+                        "organise around you. When it doesn't, something old tightens in the jaw, " +
+                        "a correction that predates Pemberton by decades.");
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "self-preservation",
+                        "Your ears read the room before your eyes do — not the fingertips' " +
+                        "scheming geometry, not the spine's ownership. A change in someone's " +
+                        "posture, a question asked too casually, and your hearing sharpens to " +
+                        "track it. The fine hairs on your forearms lift. Being watched doesn't " +
+                        "alarm you. What alarms you is not knowing who is watching.");
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var config  = configs.getOrDefault("hooded-claw", SocialConfig.empty());
+
+        var cognition = new CharacterCognition("hooded-claw", null, null, config, List.of(),
+                                               null, new ManorContextStrategy(), null, null,
+                                               TENANT, hcStore, null, null, false);
+
+        var nearbyAgents = List.of("ant-hill-mob");
+        var agentNames   = Map.of("ant-hill-mob", "The Brixton Boys");
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "hooded-claw", "Vincent Marsh", "entrance-hall", 0.0, List.of());
+        // Event 5: Brixton Boys have cornered HC near the staircase
+        character.setLastActionResult(
+                "The Brixton Boys have moved to block the corridor. Danny is staring at you steadily. " +
+                "Tommy is positioned near the servants' passage. Sparks leans against the wall near the drawing room door. " +
+                "You are near the staircase. Clara and the others are not present.");
+
+        var sections = cognition.renderCognitiveSections(character, nearbyAgents, agentNames);
+
+        var fullPrompt = new StringBuilder();
+        for (var section : sections) {
+            fullPrompt.append("--- ").append(section.header()).append(" ---\n");
+            if (section instanceof ObservationSection.TextBlock tb) {
+                fullPrompt.append(tb.content());
+            } else if (section instanceof ObservationSection.ItemList il) {
+                for (var item : il.items()) {
+                    fullPrompt.append("• ").append(item).append("\n");
+                }
+            }
+            fullPrompt.append("\n\n");
+        }
+        System.out.println("\n========== HC CONFRONTATION EVENT 5 — ENTRANCE HALL — FULL PROMPT ==========");
+        System.out.println(fullPrompt);
+        System.out.println("=============================================================================\n");
+
+        var prompt = fullPrompt.toString();
+
+        assertThat(prompt).as("Barrett instruction present")
+                          .contains("STRUCTURE IN YOUR ASIDE");
+
+        assertThat(prompt).as("Body-location anchor for self-preservation")
+                          .contains("**ears, hearing, peripheral awareness** — SELF PRESERVATION");
+
+        assertThat(prompt).as("Body-location anchor for scheming")
+                          .contains("**fingertips, periphery, visual field** — SCHEMING");
+
+        assertThat(prompt).as("Self-preservation description includes forearm reference")
+                          .contains("fine hairs on your forearms");
+    }
+
     @Test
     void goldenProse_hcGloating_descriptionRendersWithSternum() {
         var hcStore = new InMemoryMindMapStore();
