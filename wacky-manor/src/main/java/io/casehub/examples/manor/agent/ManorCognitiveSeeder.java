@@ -55,9 +55,27 @@ public final class ManorCognitiveSeeder {
         int overlayCount = 0;
         for (var entry : allConfigs.entrySet()) {
             String observerId = entry.getKey();
-            for (var rel : entry.getValue().relationships()) {
+            SocialConfig config = entry.getValue();
+            for (var rel : config.relationships()) {
                 String targetNodeId = personNodeIds.get(rel.targetAgentId());
                 if (targetNodeId == null) {continue;}
+
+                var props = new HashMap<String, String>();
+                props.put(OverlayRef.AGENT_ID, observerId);
+
+                config.relationalSchemas().stream()
+                      .filter(rs -> rel.targetAgentId().equals(rs.target()))
+                      .findFirst()
+                      .ifPresent(rs -> {
+                          props.put("rel.target-id", rel.targetAgentId());
+                          props.put("rel.role", rs.role());
+                          props.put("rel.trust", String.valueOf(rs.trust()));
+                          props.put("rel.intimacy", String.valueOf(rs.intimacy()));
+                          props.put("rel.utility", String.valueOf(rs.utility()));
+                          if (!rs.description().isEmpty()) {
+                              props.put("rel.description", rs.description());
+                          }
+                      });
 
                 mindMapStore.addNode(
                         NodeInput.of(observerId + "-sees-" + rel.targetAgentId(), subgraphId)
@@ -65,7 +83,7 @@ public final class ManorCognitiveSeeder {
                                  .withProvenance("manor-seed")
                                  .withTraits(Set.of("overlay"))
                                  .withRefs(Set.of(OverlayRef.of(targetNodeId)))
-                                 .withProperties(Map.of(OverlayRef.AGENT_ID, observerId))
+                                 .withProperties(Map.copyOf(props))
                                  .withPad(rel.pleasure(), rel.arousal(), rel.dominance())
                                  .withPrincipalId(PrincipalId.agent(observerId)),
                         tenantId);
@@ -171,6 +189,28 @@ public final class ManorCognitiveSeeder {
                                      }))),
                     tenantId);
             timestamps.put("need:" + tier.name(), now);
+        }
+
+        for (var schema : config.relationalSchemas()) {
+            var schemaProps = new HashMap<String, String>();
+            schemaProps.put("cognitiveKind", "relational-schema");
+            schemaProps.put("agent-id", agentId);
+            schemaProps.put("rel.target-id", schema.target());
+            schemaProps.put("rel.role", schema.role());
+            schemaProps.put("rel.trust", String.valueOf(schema.trust()));
+            schemaProps.put("rel.intimacy", String.valueOf(schema.intimacy()));
+            schemaProps.put("rel.utility", String.valueOf(schema.utility()));
+            if (schema.description() != null && !schema.description().isEmpty()) {
+                schemaProps.put("rel.description", schema.description());
+            }
+            mindMapStore.addNode(
+                    NodeInput.of("rel-" + agentId + "-" + schema.target(), subgraphId)
+                             .withConfidence(Confidence.stated(0.8, now))
+                             .withProvenance("manor-seed")
+                             .withProperties(Map.copyOf(schemaProps))
+                             .withPrincipalId(PrincipalId.agent(agentId)),
+                    tenantId);
+            timestamps.put("rel:" + schema.target(), now);
         }
 
         return new SeedResult(subgraphId, Map.copyOf(timestamps));}
