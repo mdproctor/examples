@@ -234,11 +234,17 @@ public final class CharacterCognition {
                     "shifts when they move or speak.\n\n" +
                     "The physical space matters — cold contracts muscles, warmth loosens them, " +
                     "darkness sharpens hearing, enclosed spaces compress the chest.\n\n" +
-                    "When multiple drives activate, they blend into one composite texture. " +
-                    "Notice the blend, not separate feelings.\n\n" +
+                    "STRUCTURE IN YOUR ASIDE\n" +
+                    "Each pull below has a body territory marked in **bold**. In your aside, " +
+                    "give each active pull its own paragraph starting with its bold " +
+                    "body-location anchor. Use discovery verbs — arrives, settles, pools, " +
+                    "fizzes, shifts, tightens — not analytical verbs like calculates, " +
+                    "assesses, determines.\n\n" +
+                    "If a pull runs constantly (like vigilance), weave it as a subordinate " +
+                    "clause within other pulls' paragraphs — not as its own section.\n\n" +
                     "Your body state may be ambiguous. Racing heart could be excitement or " +
-                    "fear. Tightness could be grief or fury. You do not always know what you " +
-                    "feel. Stay with the uncertainty — do not resolve it.\n\n" +
+                    "fear. Tightness could be grief or fury. Stay with the uncertainty — " +
+                    "do not resolve it.\n\n" +
                     "Do not conclude. Do not explain. Discover."));
         }
 
