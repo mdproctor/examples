@@ -25,6 +25,40 @@ public final class ManorCognitiveSeeder {
 
     public static final String PEOPLE_SUBGRAPH = "people";
 
+    // Golden prose rendering methodology (era5): each drive owns a unique body territory
+    private static final Map<String, String> BODY_LOCATIONS = Map.ofEntries(
+            Map.entry("scheming", "fingertips, periphery, visual field"),
+            Map.entry("gloating", "sternum, breastbone"),
+            Map.entry("greed", "gut, navel, ribs"),
+            Map.entry("recognition", "upper chest, spine"),
+            Map.entry("dominance", "spine, jaw, feet"),
+            Map.entry("self-preservation", "ears, hearing, peripheral awareness"),
+            Map.entry("protection", "legs, neck, positioning"),
+            Map.entry("gallantry", "hands, chest warmth"),
+            Map.entry("proving-worth", "shoulders, jaw, grip"),
+            Map.entry("loyalty", "chest ache, alignment"),
+            Map.entry("suspicion", "neck prickling, gut knowing"),
+            Map.entry("curiosity", "fingertips tracing, chest fizzing"),
+            Map.entry("social-harmony", "chest settling, jaw softening")
+    );
+
+    // Barrett (2017) channel emphasis per drive — primary 2 of 4 channels
+    private static final Map<String, String> CHANNEL_EMPHASIS = Map.ofEntries(
+            Map.entry("scheming", "attention + action-readiness"),
+            Map.entry("gloating", "body + time"),
+            Map.entry("greed", "body + attention"),
+            Map.entry("recognition", "body + time"),
+            Map.entry("dominance", "body + attention"),
+            Map.entry("self-preservation", "attention + body"),
+            Map.entry("protection", "action-readiness + attention"),
+            Map.entry("gallantry", "action-readiness + body"),
+            Map.entry("proving-worth", "body + time"),
+            Map.entry("loyalty", "body + action-readiness"),
+            Map.entry("suspicion", "attention + body"),
+            Map.entry("curiosity", "attention + action-readiness"),
+            Map.entry("social-harmony", "body + attention")
+    );
+
     public PeopleSeedResult seedPeople(Map<String, SocialConfig> allConfigs, String tenantId) {
         Set<String> allAgentIds = allConfigs.keySet();
         if (allAgentIds.isEmpty()) {
@@ -129,17 +163,23 @@ public final class ManorCognitiveSeeder {
         }
 
         for (var drive : config.drives()) {
+            var driveProps = new HashMap<String, String>();
+            driveProps.put("cognitiveKind", "drive-intensity");
+            driveProps.put("agent-id", agentId);
+            driveProps.put("drive-type", drive.type());
+            driveProps.put("intensity", String.valueOf(drive.intensity()));
+            driveProps.put("initial-intensity", String.valueOf(drive.intensity()));
+            driveProps.put("description", drive.description());
+            String bodyLoc = BODY_LOCATIONS.get(drive.type());
+            if (bodyLoc != null) { driveProps.put("body-location", bodyLoc); }
+            String channel = CHANNEL_EMPHASIS.get(drive.type());
+            if (channel != null) { driveProps.put("channel-emphasis", channel); }
+
             mindMapStore.addNode(
                     NodeInput.of(drive.type(), subgraphId)
                              .withConfidence(Confidence.stated(0.8, now))
                              .withProvenance("drive-adaptation")
-                             .withProperties(Map.of(
-                                     "cognitiveKind", "drive-intensity",
-                                     "agent-id", agentId,
-                                     "drive-type", drive.type(),
-                                     "intensity", String.valueOf(drive.intensity()),
-                                     "initial-intensity", String.valueOf(drive.intensity()),
-                                     "description", drive.description())),
+                             .withProperties(Map.copyOf(driveProps)),
                     tenantId);
             timestamps.put("drive:" + drive.type(), now);
         }

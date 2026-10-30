@@ -491,8 +491,8 @@ class CharacterCognitionTest {
         store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("The girl from school was in trouble — you stepped in", sgId).withProperties(Map.of("cognitiveKind", "formative-experience", "agent-id", agent, "situation-types", "formation,adolescence,gallantry")), tenant);
         store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-gallantry", sgId).withTraits(java.util.Set.of("DriveProfileInferred")).withProperties(Map.of("agent-id", agent, "drive-type", "gallantry", "inferred-inputs", "acceptance:0.7,sharing:0.5")), tenant);
         io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> {
-            if (desc.contains("welcomed")) return List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.8));
-            return List.of();
+            if (desc.contains("welcomed")) return new io.casehub.neocortex.caps.ClassificationResult(List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.8)));
+            return new io.casehub.neocortex.caps.ClassificationResult(List.of());
         };
         var cognition = new CharacterCognition(agent, null, null, ppConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier, true);
         var section = cognition.renderInternalState(List.of("gallantry"), "Penelope smiled and welcomed Peter into the drawing room");
@@ -520,7 +520,7 @@ class CharacterCognitionTest {
         var tenant  = "no-overlap-test";
         var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
         store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-scheming", sgId).withTraits(java.util.Set.of("DriveProfileInferred")).withProperties(Map.of("agent-id", agent, "drive-type", "scheming", "inferred-inputs", "dominance:0.8")), tenant);
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.9));
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> new io.casehub.neocortex.caps.ClassificationResult(List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.9)));
         var drives = List.of(new SocialConfig.Drive("scheming", 0.5, "Plans spinning"));
         var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
         var cognition = new CharacterCognition(agent, null, null, socialConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier, true);
@@ -624,7 +624,7 @@ class CharacterCognitionTest {
     @Test
     void classifySituation_returnsContextFromClassifier() {
         io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) ->
-                                                                           List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.9));
+                                                                           new io.casehub.neocortex.caps.ClassificationResult(List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.9)));
         var cognition = new CharacterCognition("test-agent",
                                                null, null, SocialConfig.empty(), List.of(),
                                                null, new ManorContextStrategy(), null, null, "test-tenant",
@@ -727,12 +727,12 @@ class CharacterCognitionTest {
 
         io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> {
             if (desc.contains("struggling") || desc.contains("door")) {
-                return List.of(
+                return new io.casehub.neocortex.caps.ClassificationResult(List.of(
                     new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6),
                     new io.casehub.neocortex.caps.SituationActivation("sharing", 0.5),
-                    new io.casehub.neocortex.caps.SituationActivation("mastery", 0.4));
+                    new io.casehub.neocortex.caps.SituationActivation("mastery", 0.4)));
             }
-            return List.of();
+            return new io.casehub.neocortex.caps.ClassificationResult(List.of());
         };
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
@@ -841,9 +841,9 @@ class CharacterCognitionTest {
 
         // Classifier returns acceptance (gallantry) + mastery (proving-worth) but NOT physical_threat
         // So gallantry and proving-worth are active; protection is NOT active
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> List.of(
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> new io.casehub.neocortex.caps.ClassificationResult(List.of(
                 new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.7),
-                new io.casehub.neocortex.caps.SituationActivation("mastery", 0.6));
+                new io.casehub.neocortex.caps.SituationActivation("mastery", 0.6)));
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
@@ -889,7 +889,7 @@ class CharacterCognitionTest {
                                                                                    "inferred-inputs", "acceptance:0.8,exclusion:0.7")), tenant);
 
         io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) ->
-                                                                           List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6));
+                                                                           new io.casehub.neocortex.caps.ClassificationResult(List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6)));
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
@@ -981,8 +981,8 @@ class CharacterCognitionTest {
                 "inferred-inputs", "physical_threat:0.8,secure_attachment:0.7")), tenant);
 
         // Classifier returns acceptance (for gallantry) but NOT physical_threat (for protection)
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> List.of(
-                new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.7));
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> new io.casehub.neocortex.caps.ClassificationResult(List.of(
+                new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.7)));
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),

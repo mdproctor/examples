@@ -131,9 +131,11 @@ class TickExecutorTest {
         var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
         io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> {
             if (desc.contains("stole")) {
-                return List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.8));
+                return new io.casehub.neocortex.caps.ClassificationResult(
+                        List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.8)));
             }
-            return List.of(new io.casehub.neocortex.caps.SituationActivation("punishment", 0.5));
+            return new io.casehub.neocortex.caps.ClassificationResult(
+                    List.of(new io.casehub.neocortex.caps.SituationActivation("punishment", 0.5)));
         };
 
         var cognitions = java.util.Map.of(
@@ -160,7 +162,7 @@ class TickExecutorTest {
 
         io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> {
             try {Thread.sleep(5000);} catch (InterruptedException e) {Thread.currentThread().interrupt();}
-            return List.of();
+            return new io.casehub.neocortex.caps.ClassificationResult(List.of());
         };
         var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
         var cognitions = java.util.Map.of(

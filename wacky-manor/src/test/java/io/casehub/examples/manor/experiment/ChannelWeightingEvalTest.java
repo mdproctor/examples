@@ -59,14 +59,15 @@ class ChannelWeightingEvalTest {
         String systemPrompt = buildClassifierPrompt(topology, validNodeIds);
 
         return (description, metadata, classCtx) -> {
-            if (description == null || description.isBlank()) return List.of();
+            if (description == null || description.isBlank())
+                return new io.casehub.neocortex.caps.ClassificationResult(List.of());
             String result = provider.invoke(AgentSessionConfig.of(systemPrompt,
                     "Classify this situation:\n" + description, Duration.ofSeconds(60)))
                     .filter(e -> e instanceof AgentEvent.TextDelta)
                     .map(e -> ((AgentEvent.TextDelta) e).text())
                     .collect().with(Collectors.joining())
                     .await().atMost(Duration.ofSeconds(120));
-            return parseActivations(result, validNodeIds);
+            return new io.casehub.neocortex.caps.ClassificationResult(parseActivations(result, validNodeIds));
         };
     }
 
