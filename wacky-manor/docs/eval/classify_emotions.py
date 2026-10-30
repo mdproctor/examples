@@ -37,7 +37,7 @@ SOCIAL_CONFIG = os.path.join(PROJECT_ROOT, "src/main/resources/META-INF/eidos/so
 
 VERTEX_PROJECT = os.environ.get("ANTHROPIC_VERTEX_PROJECT_ID", "itpc-gcp-cp-pe-eng-claude")
 VERTEX_REGION = os.environ.get("CLOUD_ML_REGION", "us-east5")
-MODEL = "claude-haiku-4-5@20251001"
+MODEL = os.environ.get("CLASSIFY_MODEL", "claude-haiku-4-5@20251001")
 
 # Temporal windowing
 DEFAULT_N_WINDOWS = 10
