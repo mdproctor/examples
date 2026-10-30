@@ -910,6 +910,116 @@ class PipelineToRenderingTest {
                           .contains("fine hairs on your forearms");
     }
 
+    /**
+     * Golden prose target: HC aside event 2 — library, alone.
+     * <p>
+     * HC alone in the library. Pemberton mask drops. Body claims room via
+     * shelves/books memory. Inscription on mantelpiece sharpens into focus.
+     * Exposure awareness — if someone entered, they'd see him studying it.
+     * <p>
+     * No threat scenario — gloating is legitimate here (alone, private
+     * satisfaction of territorial claim and plan's first thread).
+     * <p>
+     * Golden target (event 2 thinking):
+     * "Alone. The library door closes behind me and the Pemberton mask drops...
+     * My shoulders settle into a different alignment — wider, claiming more
+     * of the doorframe than Pemberton would..."
+     */
+    @Test
+    void goldenScenario_hcAside_library_fullPromptDump() {
+        var hcStore = new InMemoryMindMapStore();
+        var hcSg = hcStore.createSubgraph(
+                new SubgraphInput("cognitive-hooded-claw", SubgraphTypes.COGNITIVE, null), TENANT);
+
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "scheming", 0.9);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "self-preservation", 0.7);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "dominance", 0.6);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "gloating", 0.7);
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "scheming",
+                        "Your fingertips trace possibilities before your eyes confirm them — " +
+                        "peripheral vision sharpening to map exits, sight lines, who watches whom. " +
+                        "Not the sternum's slow warmth, not the spine's territorial weight. " +
+                        "This is faster, colder: attention that inventories a room the way other " +
+                        "people hum a song. Time compresses around the mapping. Your hands stay " +
+                        "loose at your sides but your body is already three moves ahead.");
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "gloating",
+                        "Behind your sternum, warmth pools — not the fingertip clarity of tracking " +
+                        "a plan, not the spine's territorial straightening. This is slower, heavier: " +
+                        "a private heat that settles when the pieces click into place and no one else " +
+                        "sees it yet. Your jaw loosens. Your shoulders drop. Time stretches around " +
+                        "the knowing, and you want to stay inside it.");
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "dominance",
+                        "Your spine finds its vertical before you have decided to stand straight — " +
+                        "not the fingertips' scheming alertness, not the sternum's private warmth. " +
+                        "This is structural: jaw level, feet planted, weight even. The room should " +
+                        "organise around you. When it doesn't, something old tightens in the jaw, " +
+                        "a correction that predates Pemberton by decades.");
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "self-preservation",
+                        "Your ears read the room before your eyes do — not the fingertips' " +
+                        "scheming geometry, not the spine's ownership. A change in someone's " +
+                        "posture, a question asked too casually, and your hearing sharpens to " +
+                        "track it. The fine hairs on your forearms lift. Being watched doesn't " +
+                        "alarm you. What alarms you is not knowing who is watching.");
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var config  = configs.getOrDefault("hooded-claw", SocialConfig.empty());
+
+        var cognition = new CharacterCognition("hooded-claw", null, null, config, List.of(),
+                                               null, new ManorContextStrategy(), null, null,
+                                               TENANT, hcStore, null, null, false);
+
+        // HC is alone in the library
+        var nearbyAgents = List.<String>of();
+        var agentNames   = Map.<String, String>of();
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "hooded-claw", "Vincent Marsh", "library", 0.0, List.of());
+        // Event 2: HC enters library alone, discovers inscription on mantelpiece
+        character.setLastActionResult(
+                "You enter the library alone. The door closes behind you. Tall ceilings and shelves climbing " +
+                "toward them. Leather chairs, dust motes in the light. On the mantelpiece above the fireplace, " +
+                "an inscription is carved into the stone — partially obscured by age but legible.");
+
+        var sections = cognition.renderCognitiveSections(character, nearbyAgents, agentNames);
+
+        var fullPrompt = new StringBuilder();
+        for (var section : sections) {
+            fullPrompt.append("--- ").append(section.header()).append(" ---\n");
+            if (section instanceof ObservationSection.TextBlock tb) {
+                fullPrompt.append(tb.content());
+            } else if (section instanceof ObservationSection.ItemList il) {
+                for (var item : il.items()) {
+                    fullPrompt.append("• ").append(item).append("\n");
+                }
+            }
+            fullPrompt.append("\n\n");
+        }
+        System.out.println("\n========== HC ASIDE EVENT 2 — LIBRARY (ALONE) — FULL PROMPT ==========");
+        System.out.println(fullPrompt);
+        System.out.println("=======================================================================\n");
+
+        var prompt = fullPrompt.toString();
+
+        assertThat(prompt).as("Barrett instruction present")
+                          .contains("STRUCTURE IN YOUR THINKING");
+
+        assertThat(prompt).as("Body-location anchor for dominance")
+                          .contains("**spine, jaw, feet** — DOMINANCE");
+
+        assertThat(prompt).as("Body-location anchor for scheming")
+                          .contains("**fingertips, periphery, visual field** — SCHEMING");
+
+        assertThat(prompt).as("Body-location anchor for gloating")
+                          .contains("**sternum, breastbone** — GLOATING");
+
+        assertThat(prompt).as("Dominance description includes Pemberton reference")
+                          .contains("correction that predates Pemberton");
+    }
+
     @Test
     void goldenProse_hcGloating_descriptionRendersWithSternum() {
         var hcStore = new InMemoryMindMapStore();
