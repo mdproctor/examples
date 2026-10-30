@@ -57,6 +57,15 @@ TREND_ARROWS = {
 }
 
 
+GENERIC_ID_MAP = {
+    "vincent-marsh": "hooded-claw",
+    "clara-bellingham": "penelope-pitstop",
+    "james-hartwell": "peter-perfect",
+    "reginald-foxworth": "dick-dastardly",
+    "the-brixton-boys": "ant-hill-mob",
+}
+
+
 def load_drives(config_path):
     with open(config_path) as f:
         data = yaml.safe_load(f)
@@ -64,6 +73,9 @@ def load_drives(config_path):
     for char_id, char_data in data.items():
         if isinstance(char_data, dict) and "drives" in char_data:
             drives_by_char[char_id] = char_data["drives"]
+    for generic_id, original_id in GENERIC_ID_MAP.items():
+        if original_id in drives_by_char and generic_id not in drives_by_char:
+            drives_by_char[generic_id] = drives_by_char[original_id]
     return drives_by_char
 
 
