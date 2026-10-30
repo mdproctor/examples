@@ -1020,6 +1020,128 @@ class PipelineToRenderingTest {
                           .contains("correction that predates Pemberton");
     }
 
+    /**
+     * Golden prose target: DD dialogue event 10 — entrance hall, arrival.
+     * <p>
+     * Tests a DIFFERENT character (Reginald Foxworth / dick-dastardly).
+     * DD never uses bold anchors — continuous flow, one dense paragraph.
+     * Different drives: greed (gut/navel), recognition (upper chest/spine),
+     * scheming (fingertips), gloating (sternum).
+     * <p>
+     * Golden target (event 10 thinking):
+     * "The chandelier catches the light and something behind my navel opens —
+     * a pull toward the gold and crystal that has no words..."
+     */
+    @Test
+    void goldenScenario_ddDialogue_entranceHall_fullPromptDump() {
+        var ddStore = new InMemoryMindMapStore();
+        var ddSg = ddStore.createSubgraph(
+                new SubgraphInput("cognitive-dick-dastardly", SubgraphTypes.COGNITIVE, null), TENANT);
+
+        // DD drives — greed/recognition/scheming/gloating
+        seedDriveIn(ddStore, ddSg, "dick-dastardly", "greed", 0.9);
+        seedDriveIn(ddStore, ddSg, "dick-dastardly", "scheming", 0.85);
+        seedDriveIn(ddStore, ddSg, "dick-dastardly", "recognition", 0.8);
+        seedDriveIn(ddStore, ddSg, "dick-dastardly", "gloating", 0.7);
+
+        // P22 descriptions — golden-prose-quality, body-anchored with contrast structure
+        seedGeneratedIn(ddStore, ddSg, "dick-dastardly", "greed",
+                        "Behind your navel, a hollow opens — not the fingertips' scheming fizz, " +
+                        "not the chest's upward reaching for attention. This is lower, older: " +
+                        "a pull toward value that has no words, just the incompleteness of proximity " +
+                        "to something that isn't yours yet. Your fingers curl. Your eyes track it. " +
+                        "The gap between the thing existing and you not having it sits in your gut " +
+                        "like hunger.");
+
+        seedGeneratedIn(ddStore, ddSg, "dick-dastardly", "recognition",
+                        "Your spine reaches upward — not the fingertips' lateral scheming, not " +
+                        "the gut's hollow pull toward objects. This is vertical: an upward stretching " +
+                        "toward something above you that hasn't happened yet. When eyes land on you, " +
+                        "warmth floods your upper chest, sudden and sharp. When they slide away, the " +
+                        "stretching returns, taut and unsatisfied. Your body angles toward the nearest " +
+                        "person before you've decided to speak.");
+
+        seedGeneratedIn(ddStore, ddSg, "dick-dastardly", "scheming",
+                        "Your fingertips fizz before your mind catches up — not the gut's hollow " +
+                        "pull toward objects, not the spine's upward reaching. This is lateral: " +
+                        "angles, exits, contingencies mapping themselves through your peripheral " +
+                        "vision. The steps assemble in your hands before the thought forms. Time " +
+                        "compresses around the geometry. Your fingers trace the shape of something " +
+                        "that hasn't happened yet.");
+
+        seedGeneratedIn(ddStore, ddSg, "dick-dastardly", "gloating",
+                        "Heat blooms behind your sternum — sudden, involuntary, spreading outward " +
+                        "before you can contain it. Not the gut's acquisitive pull, not the spine's " +
+                        "vertical reaching, not the fingertips' lateral planning. This is a grin " +
+                        "pushing up from your breastbone, a warmth that sits heavy and satisfying " +
+                        "when the gap between what they believe and what you know widens. Your jaw " +
+                        "loosens. Your face splits before you can stop it. You don't try.");
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var config  = configs.getOrDefault("dick-dastardly", SocialConfig.empty());
+
+        var cognition = new CharacterCognition("dick-dastardly", null, null, config, List.of(),
+                                               null, new ManorContextStrategy(), null, null,
+                                               TENANT, ddStore, null, null, false);
+
+        var nearbyAgents = List.of("hooded-claw", "penelope-pitstop", "peter-perfect", "ant-hill-mob");
+        var agentNames = Map.of(
+                "hooded-claw", "Vincent Marsh",
+                "penelope-pitstop", "Clara Bellingham",
+                "peter-perfect", "James Hartwell",
+                "ant-hill-mob", "The Brixton Boys");
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "dick-dastardly", "Reginald Foxworth", "entrance-hall", 0.0, List.of());
+        // Event 10: DD arrives at Doily Manor, chandelier, all guests present
+        character.setLastActionResult(
+                "You have arrived at Doily Manor. The entrance hall is grand — a chandelier catches the light " +
+                "overhead, casting patterns on the marble floor. Vincent Marsh stands by the guest book. " +
+                "Clara Bellingham is near the drawing room door. James Hartwell is scanning the room. " +
+                "The Brixton Boys cluster near the entrance, watching.");
+
+        var sections = cognition.renderCognitiveSections(character, nearbyAgents, agentNames);
+
+        var fullPrompt = new StringBuilder();
+        for (var section : sections) {
+            fullPrompt.append("--- ").append(section.header()).append(" ---\n");
+            if (section instanceof ObservationSection.TextBlock tb) {
+                fullPrompt.append(tb.content());
+            } else if (section instanceof ObservationSection.ItemList il) {
+                for (var item : il.items()) {
+                    fullPrompt.append("• ").append(item).append("\n");
+                }
+            }
+            fullPrompt.append("\n\n");
+        }
+        System.out.println("\n========== DD DIALOGUE EVENT 10 — ENTRANCE HALL — FULL PROMPT ==========");
+        System.out.println(fullPrompt);
+        System.out.println("=========================================================================\n");
+
+        var prompt = fullPrompt.toString();
+
+        assertThat(prompt).as("Barrett instruction present")
+                          .contains("STRUCTURE IN YOUR THINKING");
+
+        assertThat(prompt).as("Body-location anchor for greed")
+                          .contains("**gut, navel, ribs** — GREED");
+
+        assertThat(prompt).as("Body-location anchor for recognition")
+                          .contains("**upper chest, spine** — RECOGNITION");
+
+        assertThat(prompt).as("Body-location anchor for scheming")
+                          .contains("**fingertips, periphery, visual field** — SCHEMING");
+
+        assertThat(prompt).as("Body-location anchor for gloating")
+                          .contains("**sternum, breastbone** — GLOATING");
+
+        assertThat(prompt).as("Greed description includes navel reference")
+                          .contains("Behind your navel");
+
+        assertThat(prompt).as("Dialogue form instruction present")
+                          .contains("one dense paragraph");
+    }
+
     @Test
     void goldenProse_hcGloating_descriptionRendersWithSternum() {
         var hcStore = new InMemoryMindMapStore();
