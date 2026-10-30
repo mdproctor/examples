@@ -25,6 +25,7 @@ Example:
 import argparse
 import json
 import os
+import subprocess
 import sys
 import time
 import yaml
@@ -223,21 +224,20 @@ No other text. Just the JSON."""
 # LLM classification
 # ---------------------------------------------------------------------------
 
-def classify_event(client, system_prompt, event, max_tokens=500):
+CLI_MODEL = os.environ.get("CLASSIFY_CLI_MODEL", "opus")
+
+
+def _build_user_content(event):
     desc = event.get("desc", "")
     thinking = event.get("thinking", "")
-
     user_content = f"Event type: {event['type']}\nCharacter output: {desc}"
     if thinking:
         user_content += f"\nInternal thinking: {thinking}"
+    return user_content
 
-    response = client.messages.create(
-        model=MODEL,
-        max_tokens=max_tokens,
-        system=system_prompt,
-        messages=[{"role": "user", "content": user_content}],
-    )
-    text = response.content[0].text.strip()
+
+def _parse_llm_response(text):
+    text = text.strip()
     if text.startswith("```"):
         text = text.split("\n", 1)[1] if "\n" in text else text
         if text.endswith("```"):
@@ -246,6 +246,29 @@ def classify_event(client, system_prompt, event, max_tokens=500):
         return json.loads(text)
     except json.JSONDecodeError:
         return {"_raw": text, "_error": "Failed to parse JSON"}
+
+
+def classify_event(client, system_prompt, event, max_tokens=500):
+    user_content = _build_user_content(event)
+    response = client.messages.create(
+        model=MODEL,
+        max_tokens=max_tokens,
+        system=system_prompt,
+        messages=[{"role": "user", "content": user_content}],
+    )
+    return _parse_llm_response(response.content[0].text)
+
+
+def classify_event_cli(system_prompt, event):
+    user_content = _build_user_content(event)
+    prompt = system_prompt + "\n\n" + user_content
+    result = subprocess.run(
+        ["claude", "-p", "--agent", "drive-classifier", prompt],
+        capture_output=True, text=True, timeout=120,
+    )
+    if result.returncode != 0:
+        return {"_error": result.stderr.strip()}
+    return _parse_llm_response(result.stdout)
 
 
 # ---------------------------------------------------------------------------
@@ -647,6 +670,8 @@ def main():
     parser.add_argument("--output", "-o", help="Write results JSON to this file")
     parser.add_argument("--mode", "-m", choices=["flat", "relevance", "full"], default="full",
                         help="Eval mode: flat | relevance | full (default: full)")
+    parser.add_argument("--backend", "-b", choices=["vertex", "cli"], default="vertex",
+                        help="LLM backend: vertex (Haiku via Vertex API) | cli (Opus via claude CLI)")
     args = parser.parse_args()
 
     drives_by_char = load_drives(SOCIAL_CONFIG)
@@ -670,9 +695,10 @@ def main():
         prompt_builder = build_flat_prompt
         max_tokens = 500
 
-    print(f"Classifying {len(classifiable)} events (mode={mode})", file=sys.stderr)
+    use_cli = args.backend == "cli"
+    print(f"Classifying {len(classifiable)} events (mode={mode}, backend={args.backend})", file=sys.stderr)
 
-    client = AnthropicVertex(project_id=VERTEX_PROJECT, region=VERTEX_REGION)
+    client = None if use_cli else AnthropicVertex(project_id=VERTEX_PROJECT, region=VERTEX_REGION)
     prompts_by_char = {}
     results = []
     errors = 0
@@ -688,7 +714,8 @@ def main():
 
         system_prompt = prompts_by_char[char_id]
         try:
-            scores = classify_event(client, system_prompt, event, max_tokens=max_tokens)
+            scores = (classify_event_cli(system_prompt, event) if use_cli
+                      else classify_event(client, system_prompt, event, max_tokens=max_tokens))
         except Exception as ex:
             print(f"  Error classifying event {i}: {ex}", file=sys.stderr)
             errors += 1
