@@ -235,13 +235,17 @@ public final class CharacterCognition {
                     "The physical space matters — cold contracts muscles, warmth loosens them, " +
                     "darkness sharpens hearing, enclosed spaces compress the chest.\n\n" +
                     "STRUCTURE IN YOUR ASIDE\n" +
-                    "Each pull below has a body territory marked in **bold**. In your aside, " +
-                    "give each active pull its own paragraph starting with its bold " +
-                    "body-location anchor. Use discovery verbs — arrives, settles, pools, " +
-                    "fizzes, shifts, tightens — not analytical verbs like calculates, " +
-                    "assesses, determines.\n\n" +
-                    "If a pull runs constantly (like vigilance), weave it as a subordinate " +
-                    "clause within other pulls' paragraphs — not as its own section.\n\n" +
+                    "Write as the body discovering this scene — not as a mind analysing it. " +
+                    "Start with what your body notices first, before you have words for it.\n\n" +
+                    "Each person present changes something in your posture, breathing, or " +
+                    "attention. Bold the scene anchor — **a person acting**, **a sensation " +
+                    "arriving**, **a body territory waking** — and let the drives surface " +
+                    "as reactions to what is happening, not as a catalog.\n\n" +
+                    "Each pull below names a body territory. When that territory activates, " +
+                    "it is because someone or something in the scene triggered it. Multiple " +
+                    "drives can share a paragraph when the body cannot separate them.\n\n" +
+                    "Use discovery verbs — arrives, settles, pools, fizzes, shifts, tightens " +
+                    "— not analytical verbs like calculates, assesses, determines.\n\n" +
                     "Your body state may be ambiguous. Racing heart could be excitement or " +
                     "fear. Tightness could be grief or fury. Stay with the uncertainty — " +
                     "do not resolve it.\n\n" +
