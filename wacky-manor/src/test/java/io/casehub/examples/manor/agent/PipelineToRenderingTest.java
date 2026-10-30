@@ -523,7 +523,7 @@ class PipelineToRenderingTest {
                                 .findFirst().orElseThrow();
         var content = ((ObservationSection.TextBlock) howToFeel).content();
 
-        assertThat(content).contains("STRUCTURE IN YOUR ASIDE");
+        assertThat(content).contains("STRUCTURE IN YOUR THINKING");
         assertThat(content).contains("bold body-location anchor");
         assertThat(content).contains("discovery verbs");
         assertThat(content).contains("subordinate clause");
@@ -662,7 +662,7 @@ class PipelineToRenderingTest {
         var prompt = fullPrompt.toString();
 
         assertThat(prompt).as("Barrett instruction present")
-                .contains("STRUCTURE IN YOUR ASIDE");
+                .contains("STRUCTURE IN YOUR THINKING");
 
         assertThat(prompt).as("Body-location anchor for scheming")
                 .contains("**fingertips, periphery, visual field** — SCHEMING");
@@ -790,7 +790,7 @@ class PipelineToRenderingTest {
         var prompt = fullPrompt.toString();
 
         assertThat(prompt).as("Barrett instruction present")
-                          .contains("STRUCTURE IN YOUR ASIDE");
+                          .contains("STRUCTURE IN YOUR THINKING");
 
         assertThat(prompt).as("Body-location anchor for scheming")
                           .contains("**fingertips, periphery, visual field** — SCHEMING");
@@ -898,7 +898,7 @@ class PipelineToRenderingTest {
         var prompt = fullPrompt.toString();
 
         assertThat(prompt).as("Barrett instruction present")
-                          .contains("STRUCTURE IN YOUR ASIDE");
+                          .contains("STRUCTURE IN YOUR THINKING");
 
         assertThat(prompt).as("Body-location anchor for self-preservation")
                           .contains("**ears, hearing, peripheral awareness** — SELF PRESERVATION");

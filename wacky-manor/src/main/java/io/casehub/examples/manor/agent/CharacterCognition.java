@@ -234,22 +234,27 @@ public final class CharacterCognition {
                     "shifts when they move or speak.\n\n" +
                     "The physical space matters — cold contracts muscles, warmth loosens them, " +
                     "darkness sharpens hearing, enclosed spaces compress the chest.\n\n" +
-                    "STRUCTURE IN YOUR ASIDE\n" +
+                    "STRUCTURE IN YOUR THINKING\n" +
                     "Write as the body discovering this scene — not as a mind analysing it. " +
                     "Start with what your body notices first, before you have words for it.\n\n" +
-                    "Each person present changes something in your posture, breathing, or " +
-                    "attention. Bold the scene anchor — **a person acting**, **a sensation " +
-                    "arriving**, **a body territory waking** — and let the drives surface " +
-                    "as reactions to what is happening, not as a catalog.\n\n" +
-                    "Each pull below names a body territory. When that territory activates, " +
-                    "it is because someone or something in the scene triggered it. Multiple " +
-                    "drives can share a paragraph when the body cannot separate them.\n\n" +
+                    "When reflecting, you may bold scene anchors — **a person acting**, " +
+                    "**a sensation arriving** — and let each anchor gather the drives it " +
+                    "triggers. When speaking, one continuous paragraph, no anchors — the " +
+                    "body doesn't pause while the mouth moves.\n\n" +
+                    "Your body does not experience one drive at a time. When your spine " +
+                    "straightens and your sternum warms and your ears track a footstep, " +
+                    "that is one moment — blend what the body blends.\n\n" +
+                    "The drive descriptions below name body territories. Use them as a " +
+                    "palette — the location, the quality — but find your own words for " +
+                    "this moment. Do not echo them back.\n\n" +
+                    "Show the sensation, not the label. 'My chest compresses half an inch' " +
+                    "— not 'self-preservation activates.' Never name what you feel.\n\n" +
                     "Use discovery verbs — arrives, settles, pools, fizzes, shifts, tightens " +
                     "— not analytical verbs like calculates, assesses, determines.\n\n" +
-                    "Your body state may be ambiguous. Racing heart could be excitement or " +
-                    "fear. Tightness could be grief or fury. Stay with the uncertainty — " +
-                    "do not resolve it.\n\n" +
-                    "Do not conclude. Do not explain. Discover."));
+                    "Your body state may be ambiguous. Stay with the uncertainty — do not " +
+                    "resolve it.\n\n" +
+                    "Do not conclude. 'She is furniture I maintain' is a conclusion. 'My " +
+                    "breathing doesn't change for her' is a discovery."));
         }
 
         var internalState = cognitiveObservation.renderInternalState(
