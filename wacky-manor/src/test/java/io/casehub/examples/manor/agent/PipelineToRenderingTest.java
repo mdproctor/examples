@@ -691,6 +691,121 @@ class PipelineToRenderingTest {
                         "generated-description", desc)), TENANT);
     }
 
+
+    /**
+     * Golden prose target: HC dialogue event 0 — entrance hall, welcoming guests.
+     * <p>
+     * Tests whether Barrett v3 scene-discovery instruction generalises to DIALOGUE
+     * (event 1 proved it for aside). Same drives and P22 descriptions, different
+     * lastActionResult reflecting the arrival scene.
+     * <p>
+     * Golden target (event 0 thinking):
+     * "The foyer. My foyer. The chandelier casts a familiar pattern on the floor
+     * and my chest settles into that architectural stillness... My spine finds
+     * its vertical before I've decided to stand straight..."
+     */
+    @Test
+    void goldenScenario_hcDialogue_entranceHall_fullPromptDump() {
+        var hcStore = new InMemoryMindMapStore();
+        var hcSg = hcStore.createSubgraph(
+                new SubgraphInput("cognitive-hooded-claw", SubgraphTypes.COGNITIVE, null), TENANT);
+
+        // HC drives — same as golden prose scenario
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "scheming", 0.9);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "self-preservation", 0.7);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "dominance", 0.6);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "gloating", 0.7);
+
+        // P22 descriptions — same golden-prose-quality descriptions
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "scheming",
+                        "Your fingertips trace possibilities before your eyes confirm them — " +
+                        "peripheral vision sharpening to map exits, sight lines, who watches whom. " +
+                        "Not the sternum's slow warmth, not the spine's territorial weight. " +
+                        "This is faster, colder: attention that inventories a room the way other " +
+                        "people hum a song. Time compresses around the mapping. Your hands stay " +
+                        "loose at your sides but your body is already three moves ahead.");
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "gloating",
+                        "Behind your sternum, warmth pools — not the fingertip clarity of tracking " +
+                        "a plan, not the spine's territorial straightening. This is slower, heavier: " +
+                        "a private heat that settles when the pieces click into place and no one else " +
+                        "sees it yet. Your jaw loosens. Your shoulders drop. Time stretches around " +
+                        "the knowing, and you want to stay inside it.");
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "dominance",
+                        "Your spine finds its vertical before you have decided to stand straight — " +
+                        "not the fingertips' scheming alertness, not the sternum's private warmth. " +
+                        "This is structural: jaw level, feet planted, weight even. The room should " +
+                        "organise around you. When it doesn't, something old tightens in the jaw, " +
+                        "a correction that predates Pemberton by decades.");
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "self-preservation",
+                        "Your ears read the room before your eyes do — not the fingertips' " +
+                        "scheming geometry, not the spine's ownership. A change in someone's " +
+                        "posture, a question asked too casually, and your hearing sharpens to " +
+                        "track it. The fine hairs on your forearms lift. Being watched doesn't " +
+                        "alarm you. What alarms you is not knowing who is watching.");
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var config  = configs.getOrDefault("hooded-claw", SocialConfig.empty());
+
+        var cognition = new CharacterCognition("hooded-claw", null, null, config, List.of(),
+                                               null, new ManorContextStrategy(), null, null,
+                                               TENANT, hcStore, null, null, false);
+
+        var nearbyAgents = List.of("penelope-pitstop", "peter-perfect", "dick-dastardly", "ant-hill-mob");
+        var agentNames = Map.of(
+                "penelope-pitstop", "Clara Bellingham",
+                "peter-perfect", "James Hartwell",
+                "dick-dastardly", "Reginald Foxworth",
+                "ant-hill-mob", "The Brixton Boys");
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "hooded-claw", "Vincent Marsh", "entrance-hall", 0.0, List.of());
+        // Event 0: guests arriving — HC is the estate manager welcoming them
+        character.setLastActionResult(
+                "All guests have arrived in the Entrance Hall. The chandelier casts patterns on the marble floor. " +
+                "Clara Bellingham stands near the door. James Hartwell scans the room. The Brixton Boys cluster near the entrance.");
+
+        var sections = cognition.renderCognitiveSections(character, nearbyAgents, agentNames);
+
+        // Dump the FULL prompt for inspection
+        var fullPrompt = new StringBuilder();
+        for (var section : sections) {
+            fullPrompt.append("--- ").append(section.header()).append(" ---\n");
+            if (section instanceof ObservationSection.TextBlock tb) {
+                fullPrompt.append(tb.content());
+            } else if (section instanceof ObservationSection.ItemList il) {
+                for (var item : il.items()) {
+                    fullPrompt.append("• ").append(item).append("\n");
+                }
+            }
+            fullPrompt.append("\n\n");
+        }
+        System.out.println("\n========== HC DIALOGUE EVENT 0 — ENTRANCE HALL — FULL PROMPT ==========");
+        System.out.println(fullPrompt);
+        System.out.println("========================================================================\n");
+
+        // Structural assertions — same pipeline, dialogue context
+        var prompt = fullPrompt.toString();
+
+        assertThat(prompt).as("Barrett instruction present")
+                          .contains("STRUCTURE IN YOUR ASIDE");
+
+        assertThat(prompt).as("Body-location anchor for scheming")
+                          .contains("**fingertips, periphery, visual field** — SCHEMING");
+
+        assertThat(prompt).as("Body-location anchor for dominance")
+                          .contains("**spine, jaw, feet** — DOMINANCE");
+
+        assertThat(prompt).as("Body-location anchor for self-preservation")
+                          .contains("**ears, hearing, peripheral awareness** — SELF PRESERVATION");
+
+        assertThat(prompt).as("Contrast in dominance description")
+                          .contains("not the fingertips' scheming alertness");
+
+    }
+
     @Test
     void goldenProse_hcGloating_descriptionRendersWithSternum() {
         var hcStore = new InMemoryMindMapStore();
