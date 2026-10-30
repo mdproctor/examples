@@ -235,26 +235,30 @@ public final class CharacterCognition {
                     "The physical space matters — cold contracts muscles, warmth loosens them, " +
                     "darkness sharpens hearing, enclosed spaces compress the chest.\n\n" +
                     "STRUCTURE IN YOUR THINKING\n" +
-                    "Write as the body discovering this scene — not as a mind analysing it. " +
-                    "Start with what your body notices first, before you have words for it.\n\n" +
-                    "When reflecting, you may bold scene anchors — **a person acting**, " +
-                    "**a sensation arriving** — and let each anchor gather the drives it " +
-                    "triggers. When speaking, one continuous paragraph, no anchors — the " +
-                    "body doesn't pause while the mouth moves.\n\n" +
-                    "Your body does not experience one drive at a time. When your spine " +
-                    "straightens and your sternum warms and your ears track a footstep, " +
-                    "that is one moment — blend what the body blends.\n\n" +
-                    "The drive descriptions below name body territories. Use them as a " +
-                    "palette — the location, the quality — but find your own words for " +
-                    "this moment. Do not echo them back.\n\n" +
-                    "Show the sensation, not the label. 'My chest compresses half an inch' " +
-                    "— not 'self-preservation activates.' Never name what you feel.\n\n" +
-                    "Use discovery verbs — arrives, settles, pools, fizzes, shifts, tightens " +
-                    "— not analytical verbs like calculates, assesses, determines.\n\n" +
-                    "Your body state may be ambiguous. Stay with the uncertainty — do not " +
-                    "resolve it.\n\n" +
-                    "Do not conclude. 'She is furniture I maintain' is a conclusion. 'My " +
-                    "breathing doesn't change for her' is a discovery."));
+                    "Body discovers. Mind doesn't analyse. What does the body notice " +
+                    "before you have words for it?\n\n" +
+                    "FORM\n" +
+                    "Reflecting: you may bold scene anchors and break into paragraphs.\n" +
+                    "Speaking: one dense paragraph. No anchors, no breaks — the body " +
+                    "doesn't pause while the mouth moves.\n\n" +
+                    "Blend drives. The body does not feel one at a time. When spine " +
+                    "straightens and sternum warms and ears track, that is one moment " +
+                    "— not three paragraphs.\n\n" +
+                    "Own words. The drive descriptions below are a palette. Do not echo " +
+                    "them back.\n\n" +
+                    "Show the sensation, never name it. 'My chest compresses half an " +
+                    "inch' — not 'self-preservation activates.'\n\n" +
+                    "Never state what others think, know, or fail to see. 'They have " +
+                    "no idea whose house this is' is you in their heads, not in your " +
+                    "body. Stay in the body.\n\n" +
+                    "When performing a face that doesn't match what the body wants, " +
+                    "notice the cost — the muscles holding the smile, the hands staying " +
+                    "open when they want to close.\n\n" +
+                    "Not every drive activates in every moment. If a territory is quiet, " +
+                    "it is simply not there.\n\n" +
+                    "Discovery verbs: arrives, settles, pools, fizzes, shifts, tightens " +
+                    "— not calculates, assesses, determines.\n\n" +
+                    "Ambiguity. Stay with the uncertainty. Do not resolve it."));
         }
 
         var internalState = cognitiveObservation.renderInternalState(
