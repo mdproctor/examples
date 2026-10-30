@@ -182,17 +182,17 @@ Given a character's declared drives and a single event (what they said or though
 {drive_list}
 
 ## Step 1: Relevance
-Would this drive CHANGE the character's behavior in this event? Not "could it theoretically apply" but "does it steer what they actually do or say?"
+Is this drive EXPRESSED in the character's internal thinking or external speech? Not "could it theoretically apply" but "does the thinking or speech contain body sensations, attention shifts, or action impulses that belong to this drive's territory?"
 
-Mark a drive relevant ONLY if removing it from the character would make them behave differently in THIS event. A treasure hunt has many drives theoretically present — only score drives that actively shape THIS specific action, speech, or thought.
+Mark a drive relevant if it produces a distinct somatic signature in the thinking — a body location, a sensation quality, a temporal shift — even if it does not change the external behavior. Internal experience counts. A character who feels warmth pool behind their sternum while speaking is expressing gloating even if the words would be identical without it.
 
 ## Step 2: Quality (1-5) only for relevant drives
-Score drive DOMINANCE IN ACTION. Does this drive shape what the character DOES?
-1 = Relevant but not expressed. The opportunity existed but the character did not act on it
-2 = Faintly present. A hint in the behavior
-3 = Clearly present. Unmistakable expression of this drive in action
-4 = Strongly expressed. This drive is a dominant force shaping behavior
-5 = Overwhelmingly expressed. The action is defined by this drive
+Score drive PRESENCE IN THE THINKING FIELD. How strongly does this drive shape the character's internal experience as written?
+1 = Relevant but barely expressed. A single passing reference
+2 = Faintly present. A hint — one body sensation or brief attention shift
+3 = Clearly present. Unmistakable expression with its own body location and sensation
+4 = Strongly expressed. This drive has multiple beats, returns across the passage, shapes the body's posture or attention
+5 = Overwhelmingly expressed. The passage is organised around this drive's somatic territory
 
 ## Step 3: Differentiation (0-5) only for relevant drives
 When multiple drives could apply to this situation, does the character express THIS drive distinctly from the others?
