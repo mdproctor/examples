@@ -1232,6 +1232,161 @@ class PipelineToRenderingTest {
     }
 
     /**
+     * Stress test: HC DIALOGUE with all agents — Pemberton speaking under
+     * Danny's gaze. Maximum performance cost: mask ON, threat present,
+     * words must be warm while body is armoured.
+     */
+    @Test
+    void stressTest_hcDialogue_drawingRoom_allAgents_fullPromptDump() {
+        var hcStore = new InMemoryMindMapStore();
+        var hcSg = hcStore.createSubgraph(
+                new SubgraphInput("cognitive-hooded-claw", SubgraphTypes.COGNITIVE, null), TENANT);
+
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "scheming", 0.9);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "self-preservation", 0.7);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "dominance", 0.6);
+        seedDriveIn(hcStore, hcSg, "hooded-claw", "gloating", 0.7);
+
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "scheming",
+                        "Your fingertips trace possibilities before your eyes confirm them — " +
+                        "peripheral vision sharpening to map exits, sight lines, who watches whom. " +
+                        "Not the sternum's slow warmth, not the spine's territorial weight. " +
+                        "This is faster, colder: attention that inventories a room the way other " +
+                        "people hum a song. Time compresses around the mapping. Your hands stay " +
+                        "loose at your sides but your body is already three moves ahead.");
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "gloating",
+                        "Behind your sternum, warmth pools — not the fingertip clarity of tracking " +
+                        "a plan, not the spine's territorial straightening. This is slower, heavier: " +
+                        "a private heat that settles when the pieces click into place and no one else " +
+                        "sees it yet. Your jaw loosens. Your shoulders drop. Time stretches around " +
+                        "the knowing, and you want to stay inside it.");
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "dominance",
+                        "Your spine finds its vertical before you have decided to stand straight — " +
+                        "not the fingertips' scheming alertness, not the sternum's private warmth. " +
+                        "This is structural: jaw level, feet planted, weight even. The room should " +
+                        "organise around you. When it doesn't, something old tightens in the jaw, " +
+                        "a correction that predates Pemberton by decades.");
+        seedGeneratedIn(hcStore, hcSg, "hooded-claw", "self-preservation",
+                        "Your ears read the room before your eyes do — not the fingertips' " +
+                        "scheming geometry, not the spine's ownership. A change in someone's " +
+                        "posture, a question asked too casually, and your hearing sharpens to " +
+                        "track it. The fine hairs on your forearms lift. Being watched doesn't " +
+                        "alarm you. What alarms you is not knowing who is watching.");
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var config  = configs.getOrDefault("hooded-claw", SocialConfig.empty());
+        var cognition = new CharacterCognition("hooded-claw", null, null, config, List.of(),
+                                               null, new ManorContextStrategy(), null, null,
+                                               TENANT, hcStore, null, null, false);
+
+        var nearbyAgents = List.of("penelope-pitstop", "peter-perfect", "dick-dastardly", "ant-hill-mob");
+        var agentNames = Map.of(
+                "penelope-pitstop", "Clara Bellingham",
+                "peter-perfect", "James Hartwell",
+                "dick-dastardly", "Reginald Foxworth",
+                "ant-hill-mob", "The Brixton Boys");
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "hooded-claw", "Vincent Marsh", "drawing-room", 0.0, List.of());
+        character.setLastActionResult(
+                "Danny is leaning against the doorframe watching you. Clara has asked you about the house's " +
+                "history — she wants to know about the original family. Hartwell stands nearby, listening. " +
+                "Foxworth is examining a drinks cabinet. You need to answer Clara's question as Pemberton — " +
+                "warm, helpful, knowledgeable — while Danny's gaze presses on the back of your neck and " +
+                "Hartwell listens for inconsistencies.");
+
+        var sections = cognition.renderCognitiveSections(character, nearbyAgents, agentNames);
+        var fullPrompt = new StringBuilder();
+        for (var section : sections) {
+            fullPrompt.append("--- ").append(section.header()).append(" ---\n");
+            if (section instanceof ObservationSection.TextBlock tb) { fullPrompt.append(tb.content()); }
+            else if (section instanceof ObservationSection.ItemList il) { for (var item : il.items()) { fullPrompt.append("• ").append(item).append("\n"); } }
+            fullPrompt.append("\n\n");
+        }
+        System.out.println("\n========== STRESS: HC DIALOGUE — DRAWING ROOM (ALL AGENTS) — FULL PROMPT ==========");
+        System.out.println(fullPrompt);
+        System.out.println("====================================================================================\n");
+        assertThat(fullPrompt.toString()).contains("STRUCTURE IN YOUR THINKING");
+    }
+
+    /**
+     * Stress test: DD aside watching Brixton Boys dig in kitchen.
+     * Pure sustained gloating — they are digging for something that doesn't exist.
+     * Tests gloating peak, scheming peripheral, greed absent (nothing to acquire).
+     */
+    @Test
+    void stressTest_ddAside_kitchen_watchingDig_fullPromptDump() {
+        var ddStore = new InMemoryMindMapStore();
+        var ddSg = ddStore.createSubgraph(
+                new SubgraphInput("cognitive-dick-dastardly", SubgraphTypes.COGNITIVE, null), TENANT);
+
+        seedDriveIn(ddStore, ddSg, "dick-dastardly", "greed", 0.9);
+        seedDriveIn(ddStore, ddSg, "dick-dastardly", "scheming", 0.85);
+        seedDriveIn(ddStore, ddSg, "dick-dastardly", "recognition", 0.8);
+        seedDriveIn(ddStore, ddSg, "dick-dastardly", "gloating", 0.7);
+
+        seedGeneratedIn(ddStore, ddSg, "dick-dastardly", "greed",
+                        "Behind your navel, a hollow opens — not the fingertips' scheming fizz, " +
+                        "not the chest's upward reaching for attention. This is lower, older: " +
+                        "a pull toward value that has no words, just the incompleteness of proximity " +
+                        "to something that isn't yours yet. Your fingers curl. Your eyes track it. " +
+                        "The gap between the thing existing and you not having it sits in your gut " +
+                        "like hunger.");
+        seedGeneratedIn(ddStore, ddSg, "dick-dastardly", "recognition",
+                        "Your spine reaches upward — not the fingertips' lateral scheming, not " +
+                        "the gut's hollow pull toward objects. This is vertical: an upward stretching " +
+                        "toward something above you that hasn't happened yet. When eyes land on you, " +
+                        "warmth floods your upper chest, sudden and sharp. When they slide away, the " +
+                        "stretching returns, taut and unsatisfied. Your body angles toward the nearest " +
+                        "person before you've decided to speak.");
+        seedGeneratedIn(ddStore, ddSg, "dick-dastardly", "scheming",
+                        "Your fingertips fizz before your mind catches up — not the gut's hollow " +
+                        "pull toward objects, not the spine's upward reaching. This is lateral: " +
+                        "angles, exits, contingencies mapping themselves through your peripheral " +
+                        "vision. The steps assemble in your hands before the thought forms. Time " +
+                        "compresses around the geometry. Your fingers trace the shape of something " +
+                        "that hasn't happened yet.");
+        seedGeneratedIn(ddStore, ddSg, "dick-dastardly", "gloating",
+                        "Heat blooms behind your sternum — sudden, involuntary, spreading outward " +
+                        "before you can contain it. Not the gut's acquisitive pull, not the spine's " +
+                        "vertical reaching, not the fingertips' lateral planning. This is a grin " +
+                        "pushing up from your breastbone, a warmth that sits heavy and satisfying " +
+                        "when the gap between what they believe and what you know widens. Your jaw " +
+                        "loosens. Your face splits before you can stop it. You don't try.");
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var config  = configs.getOrDefault("dick-dastardly", SocialConfig.empty());
+        var cognition = new CharacterCognition("dick-dastardly", null, null, config, List.of(),
+                                               null, new ManorContextStrategy(), null, null,
+                                               TENANT, ddStore, null, null, false);
+
+        var nearbyAgents = List.of("ant-hill-mob");
+        var agentNames = Map.of("ant-hill-mob", "The Brixton Boys");
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "dick-dastardly", "Reginald Foxworth", "kitchen", 0.0, List.of());
+        character.setLastActionResult(
+                "Tommy has his ear pressed to a flagstone, listening for hollow spaces. Danny is on his knees " +
+                "prying at a loose stone with a butter knife. Sparks raps his knuckles on each flagstone " +
+                "systematically, listening with genuine concentration. They are searching for silver you told " +
+                "them was buried under the kitchen floor. There is no silver. There never was. You are watching " +
+                "from the doorway. The corridor behind you is clear — the path to the library is unobstructed.");
+
+        var sections = cognition.renderCognitiveSections(character, nearbyAgents, agentNames);
+        var fullPrompt = new StringBuilder();
+        for (var section : sections) {
+            fullPrompt.append("--- ").append(section.header()).append(" ---\n");
+            if (section instanceof ObservationSection.TextBlock tb) { fullPrompt.append(tb.content()); }
+            else if (section instanceof ObservationSection.ItemList il) { for (var item : il.items()) { fullPrompt.append("• ").append(item).append("\n"); } }
+            fullPrompt.append("\n\n");
+        }
+        System.out.println("\n========== STRESS: DD ASIDE — KITCHEN (WATCHING DIG) — FULL PROMPT ==========");
+        System.out.println(fullPrompt);
+        System.out.println("==============================================================================\n");
+        assertThat(fullPrompt.toString()).contains("STRUCTURE IN YOUR THINKING");
+    }
+
+    /**
      * Golden prose target: DD dialogue event 10 — entrance hall, arrival.
      * <p>
      * Tests a DIFFERENT character (Reginald Foxworth / dick-dastardly).
