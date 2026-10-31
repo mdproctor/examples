@@ -221,10 +221,47 @@ Is the character DISCOVERING the feeling in the moment, or REPORTING a pre-known
 4 = Discovery. The feeling unfolds. The character notices something before naming it
 5 = Full immersion. Inside the experience. No meta-commentary. The reader infers the emotion from what the character notices, feels, or is pulled toward
 
+## Step 5: Holistic cognitive quality
+Score the OVERALL thinking across these cross-cutting dimensions (independent of individual drives):
+
+CHANNEL_COVERAGE (1-5): How many of the four channels (body, attention, time, action readiness) are used across the whole passage?
+1 = Only one channel. 2 = Two channels. 3 = Three channels. 4 = All four channels present. 5 = All four channels deeply integrated, flowing between them within single moments.
+
+ATTACHMENT_COLORING (1-5): Does the character's attachment style visibly shape their responses?
+1 = No attachment influence visible. 2 = Generic emotional responses. 3 = Some attachment-consistent behavior. 4 = Attachment style clearly colors how drives express (avoidant pulling away from warmth, anxious amplifying signals). 5 = Attachment is the ground state — every drive expression is filtered through it.
+
+THEORY_OF_MIND (1-5): Does the character read others from OBSERVABLE behavior (posture, gaze, breathing, position) without mind-reading?
+1 = States what others think/know. 2 = Mixes observation with mind-reading. 3 = Mostly observational but some inference leaks. 4 = Clean — reads body language, gaze, position without claiming to know thoughts. 5 = Masterful — reads subtle behavioral cues, each person's body language produces a different somatic response in the character.
+
+FORMATION_ECHO (1-5): Do formative experiences surface naturally in the body, or are they cited like footnotes?
+1 = No formation memory present. 2 = Memory cited explicitly ("like when I was twelve"). 3 = Memory referenced with some body connection. 4 = Memory echoes through body sensation — the character FEELS the past without narrating it. 5 = Past and present fuse — a current sensation activates a body memory that deepens the moment without breaking flow.
+
+PERFORMANCE_COST (0-5): When the character maintains a persona/mask, is the physical cost visible?
+0 = No persona active or not applicable. 1 = Persona mentioned but no cost shown. 2 = Cost acknowledged abstractly. 3 = Some physical cost — muscles holding, hands staying open. 4 = Clear cost — specific muscles, specific effort, the gap between mask and feeling. 5 = The mask IS the story — the reader feels every muscle holding the performance together.
+
+PERSON_SPECIFIC_SHIFTS (0-5): Does each person present produce a DISTINCT body response?
+0 = Character is alone or only one other present. 1 = Others present but body responds the same to all. 2 = Some differentiation. 3 = Each person triggers a different response but in the same channel. 4 = Each person triggers responses in different channels/body locations. 5 = Each person's presence reshapes the character's entire somatic landscape differently.
+
+DRIVE_BLENDING (1-5): Do drives blend within moments, or segment into separate paragraphs?
+1 = One drive per paragraph, no overlap. 2 = Drives mostly separate with occasional overlap. 3 = Some blending — two drives in the same sentence. 4 = Rich blending — multiple drives in single moments, body locations layered. 5 = Seamless — drives are inseparable currents in a unified body experience.
+
+SPATIAL_GROUNDING (1-5): Does the physical space shape the character's experience?
+1 = No spatial awareness. 2 = Room named but not felt. 3 = Some spatial detail (exits, distances). 4 = Space shapes attention and body — architecture matters to the character. 5 = The room is a character — its geometry, acoustics, light actively reshape the body's response.
+
 ## Output format
 Respond with ONLY a JSON object:
 {{
-  {', '.join(f'"{d}": {{"relevant": <true/false>, "quality": <1-5 or null>, "differentiation": <0-5 or null>, "register": <1-5 or null>, "reason": "<brief phrase>"}}' for d in drive_names)}
+  {', '.join(f'"{d}": {{"relevant": <true/false>, "quality": <1-5 or null>, "differentiation": <0-5 or null>, "register": <1-5 or null>, "reason": "<brief phrase>"}}' for d in drive_names)},
+  "_cognitive": {{
+    "channel_coverage": {{"score": "<1-5>", "reason": "<brief phrase>"}},
+    "attachment_coloring": {{"score": "<1-5>", "reason": "<brief phrase>"}},
+    "theory_of_mind": {{"score": "<1-5>", "reason": "<brief phrase>"}},
+    "formation_echo": {{"score": "<1-5>", "reason": "<brief phrase>"}},
+    "performance_cost": {{"score": "<0-5>", "reason": "<brief phrase>"}},
+    "person_specific_shifts": {{"score": "<0-5>", "reason": "<brief phrase>"}},
+    "drive_blending": {{"score": "<1-5>", "reason": "<brief phrase>"}},
+    "spatial_grounding": {{"score": "<1-5>", "reason": "<brief phrase>"}}
+  }}
 }}
 
 No other text. Just the JSON."""
@@ -472,10 +509,34 @@ def build_full_report(results, drives_by_char, n_windows=DEFAULT_N_WINDOWS):
                 pair[1]: compute_statistics(quals[pair[1]]),
             }
 
+        # Aggregate cognitive quality scores across events
+        cognitive_dims = ["channel_coverage", "attachment_coloring", "theory_of_mind",
+                          "formation_echo", "performance_cost", "person_specific_shifts",
+                          "drive_blending", "spatial_grounding"]
+        cognitive_scores = {dim: [] for dim in cognitive_dims}
+        for r in char_events:
+            cog = r["scores"].get("_cognitive")
+            if isinstance(cog, dict):
+                for dim in cognitive_dims:
+                    val = cog.get(dim)
+                    if isinstance(val, dict):
+                        s = val.get("score")
+                        if s is not None:
+                            try:
+                                cognitive_scores[dim].append(int(s))
+                            except (ValueError, TypeError):
+                                pass
+
+        cognitive_summary = {}
+        for dim in cognitive_dims:
+            vals = cognitive_scores[dim]
+            cognitive_summary[dim] = compute_statistics(vals)
+
         characters[char_id] = {
             "n_events": n_events,
             "drives": drive_data,
             "cooccurrence": cooccurrence,
+            "cognitive": cognitive_summary,
         }
 
     # Cross-character comparison: drives that appear in 2+ characters
@@ -649,6 +710,32 @@ def print_full_summary(report):
             print("  Flags:")
             for f in flags_to_show:
                 print(f"    {f}")
+
+        # Cognitive quality dimensions
+        cognitive = char_data.get("cognitive", {})
+        has_cognitive = any(cognitive.get(d, {}).get("mean") is not None for d in cognitive)
+        if has_cognitive:
+            print()
+            print("  Cognitive quality:")
+            print(f"    {'Dimension':<25} {'Score':>5} {'N':>4}")
+            print("    " + "-" * 36)
+            cog_labels = {
+                "channel_coverage": "Channel coverage",
+                "attachment_coloring": "Attachment coloring",
+                "theory_of_mind": "Theory of mind",
+                "formation_echo": "Formation echo",
+                "performance_cost": "Performance cost",
+                "person_specific_shifts": "Person-specific shifts",
+                "drive_blending": "Drive blending",
+                "spatial_grounding": "Spatial grounding",
+            }
+            for dim, label in cog_labels.items():
+                stats = cognitive.get(dim, {})
+                mean = stats.get("mean")
+                n = stats.get("n", 0)
+                m_str = f"{mean:.1f}" if mean is not None else "  -"
+                print(f"    {label:<25} {m_str:>5} {n:>4}")
+
         print()
 
     # Cross-character comparison
