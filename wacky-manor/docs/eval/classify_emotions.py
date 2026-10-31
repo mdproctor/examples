@@ -182,33 +182,43 @@ Given a character's declared drives and a single event (what they said or though
 {drive_list}
 
 ## Step 1: Relevance
-Is this drive EXPRESSED in the character's internal thinking or external speech? Not "could it theoretically apply" but "does the thinking or speech contain body sensations, attention shifts, or action impulses that belong to this drive's territory?"
+Is this drive EXPRESSED in the character's thinking or speech across ANY of the four channels?
 
-Mark a drive relevant if it produces a distinct somatic signature in the thinking — a body location, a sensation quality, a temporal shift — even if it does not change the external behavior. Internal experience counts. A character who feels warmth pool behind their sternum while speaking is expressing gloating even if the words would be identical without it.
+The four channels are:
+1. BODY — muscles, gut, chest, jaw, hands, breathing, skin, posture. A specific body location activating.
+2. ATTENTION — what seized focus, what the character stopped noticing, involuntary scanning patterns.
+3. TIME — did this moment compress, stretch, freeze, accelerate around this drive?
+4. ACTION READINESS — what is the body preparing to do before deciding? Lean forward, pull back, square up, reach, go still?
+
+Mark a drive relevant if it produces a distinct signature in ANY channel — not just body sensation. A drive that manifests as attention narrowing (channel 2) or time stretching (channel 3) without a body sensation is still expressed. A drive that prepares the body for movement (channel 4) without conscious awareness is still expressed.
+
+Also consider:
+- ATTACHMENT COLORING — does the character's attachment style (avoidant, secure, anxious) color how this drive expresses? An avoidant body pulls away from warmth, finds calm in control.
+- THEORY OF MIND — does the character read others' observable behavior (posture, gaze, position) through this drive's lens? Reading Hartwell's repositioning through self-preservation vs through scheming produces different body responses.
 
 ## Step 2: Quality (1-5) only for relevant drives
-Score drive PRESENCE IN THE THINKING FIELD. How strongly does this drive shape the character's internal experience as written?
-1 = Relevant but barely expressed. A single passing reference
-2 = Faintly present. A hint — one body sensation or brief attention shift
-3 = Clearly present. Unmistakable expression with its own body location and sensation
-4 = Strongly expressed. This drive has multiple beats, returns across the passage, shapes the body's posture or attention
-5 = Overwhelmingly expressed. The passage is organised around this drive's somatic territory
+Score drive PRESENCE across all four channels. How strongly does this drive shape the character's internal experience?
+1 = Relevant but barely expressed. A single passing reference in one channel
+2 = Faintly present. One channel activated — a body sensation OR an attention shift, not both
+3 = Clearly present. Two or more channels activated. Unmistakable expression with its own territory
+4 = Strongly expressed. Multiple channels, multiple beats. The drive returns across the passage, shapes body posture AND attention AND time or action readiness
+5 = Overwhelmingly expressed. The passage is organised around this drive. All relevant channels engaged. Person-specific shifts or formation memory echoes deepen it
 
 ## Step 3: Differentiation (0-5) only for relevant drives
-When multiple drives could apply to this situation, does the character express THIS drive distinctly from the others?
+When multiple drives could apply, does the character express THIS drive distinctly from the others?
 0 = Only one drive is relevant in this event (not applicable)
-1 = Collapsed. This drive is indistinguishable from other active drives
+1 = Collapsed. This drive is indistinguishable from other active drives — same body location, same attention pattern
 2 = Minimal distinction. Mostly overlapping expression
 3 = Some distinction. Can tell which drive is active but with overlap
-4 = Clear distinction. This drive has its own behavioral signature
-5 = Sharply differentiated. Unique expression, unmistakably this drive
+4 = Clear distinction. This drive has its own body territory, its own attention pattern, its own temporal quality
+5 = Sharply differentiated. Unique expression across multiple channels — unmistakably this drive, not another
 
 ## Step 4: Register (1-5) only for relevant drives
-Is the character DISCOVERING the feeling in the moment, or REPORTING a pre-known state? This applies to ALL drive types — scheming can be discovered ("the edges of something forming") or reported ("I plan to steal it"). Protection can be discovered ("something pulls me between her and the door") or reported ("I feel protective").
-1 = Pure report. States conclusions about their own state: "I am angry. I should act." No discovery
-2 = Annotated report. Names the state but adds a qualifier: "I feel uneasy — something about this"
-3 = Mixed. Shifts between experiencing and analysing within the same expression
-4 = Discovery. The feeling unfolds in the prose. The character notices something before naming it
+Is the character DISCOVERING the feeling in the moment, or REPORTING a pre-known state?
+1 = Pure report. States conclusions: "I am angry. I should act." No discovery
+2 = Annotated report. Names the state with a qualifier: "I feel uneasy — something about this"
+3 = Mixed. Shifts between experiencing and analysing
+4 = Discovery. The feeling unfolds. The character notices something before naming it
 5 = Full immersion. Inside the experience. No meta-commentary. The reader infers the emotion from what the character notices, feels, or is pulled toward
 
 ## Output format
