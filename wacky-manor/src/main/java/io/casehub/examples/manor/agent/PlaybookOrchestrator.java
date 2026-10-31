@@ -249,6 +249,9 @@ public class PlaybookOrchestrator {
         boolean cacheRestored = false;
         if (config.consolidation().enabled() && mmStore != null) {
             cacheRestored = ConsolidationCache.restore(mmStore, ManorConstants.TENANCY_ID, profileMode.name(), cacheDir);
+            if (cacheRestored) {
+                cacheRestored = validateCacheCapabilities(mmStore, ManorConstants.TENANCY_ID);
+            }
         }
 
         var activeSocialConfigs = new java.util.HashMap<String, SocialConfig>();
@@ -1015,6 +1018,33 @@ public class PlaybookOrchestrator {
                 if (t.isAlive()) { log.warnf("Character %s did not terminate", t.getName()); t.interrupt(); }
             } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
         }
+    }
+
+    private boolean validateCacheCapabilities(io.casehub.neocortex.mindmap.MindMapStore store, String tenantId) {
+        var allNodes = store.search(io.casehub.neocortex.mindmap.MindMapQuery.of(tenantId, 5000)
+                .withType(io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE));
+        var kindCounts = new java.util.HashMap<String, Integer>();
+        for (var n : allNodes) {
+            String kind = n.properties().getOrDefault("cognitiveKind", "none");
+            kindCounts.merge(kind, 1, Integer::sum);
+        }
+        int drives = kindCounts.getOrDefault("drive-intensity", 0);
+        int facets = kindCounts.getOrDefault("personality-facet", 0);
+        int memories = kindCounts.getOrDefault("formative-experience", 0);
+        long descriptions = allNodes.stream().filter(n -> n.traits().contains("DriveDescriptionGenerated")).count();
+
+        log.infof("Cache validation: %d drives, %d facets, %d memories, %d P22 descriptions", drives, facets, memories, descriptions);
+
+        var missing = new java.util.ArrayList<String>();
+        if (facets == 0) missing.add("personality-facet");
+        if (memories == 0) missing.add("formative-experience");
+        if (descriptions == 0) missing.add("DriveDescriptionGenerated (P22)");
+
+        if (!missing.isEmpty()) {
+            log.warnf("CACHE DRIFT DETECTED — cache is missing: %s. Forcing fresh seeding alongside cached state.", missing);
+            return false;
+        }
+        return true;
     }
 
     private java.util.List<io.casehub.eidos.api.AgentGoal> resolveGoals(String agentId) {
