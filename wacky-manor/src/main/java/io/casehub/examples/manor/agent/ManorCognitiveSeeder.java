@@ -169,7 +169,9 @@ public final class ManorCognitiveSeeder {
             driveProps.put("drive-type", drive.type());
             driveProps.put("intensity", String.valueOf(drive.intensity()));
             driveProps.put("initial-intensity", String.valueOf(drive.intensity()));
-            driveProps.put("description", drive.description());
+            if (drive.description() != null && !drive.description().isEmpty()) {
+                driveProps.put("description", drive.description());
+            }
             String bodyLoc = BODY_LOCATIONS.get(drive.type());
             if (bodyLoc != null) { driveProps.put("body-location", bodyLoc); }
             String channel = CHANNEL_EMPHASIS.get(drive.type());

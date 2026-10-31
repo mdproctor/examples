@@ -22,38 +22,12 @@ hooded-claw:
   drives:
     - type: scheming
       intensity: 0.9
-      description: >-
-        There's a clarity that comes when a plan locks into place — everything
-        else fades and your breathing slows. The pieces, the timing, the
-        contingencies. Your mind maps them the way other people hum a song.
-        Without a scheme in motion, something feels incomplete.
     - type: self-preservation
       intensity: 0.7
-      description: >-
-        Your skin reads a room before your eyes do. A change in someone's
-        posture, a question asked too casually — your shoulders square
-        before you've decided to worry. Being watched doesn't alarm you.
-        What alarms you is not knowing who's watching.
     - type: dominance
       intensity: 0.6
-      description: >-
-        You track the hierarchy of every room you enter — who defers,
-        who presumes, where you stand. It runs in the background like
-        breathing. When someone speaks over you or acts as though their
-        judgment outranks yours, heat climbs your neck and your spine
-        straightens before you've chosen to react. Your voice drops,
-        your chin lifts, your weight shifts forward. Not anger — a
-        correction. The room should organise around you, and when it
-        doesn't, something old and resentful tightens in your jaw. You
-        were overlooked once. Your body won't allow it again.
     - type: gloating
       intensity: 0.7
-      description: >-
-        When a plan works, there's a warmth that spreads from your chest
-        into your throat. Something swells behind your ribs — a pressure
-        that wants release. The sensation is sharper when no one else
-        knows yet, a private heat that sits heavy and sweet. It builds
-        until the urge to speak becomes almost physical.
   reinforcement:
     conflict_resolution:
       - drive: scheming
@@ -237,37 +211,10 @@ penelope-pitstop:
   drives:
     - type: curiosity
       intensity: 0.7
-      description: >-
-        Closed doors make your fingers itch. An unsolved puzzle feels
-        like a word on the tip of your tongue — you can't leave it
-        alone. When something doesn't quite make sense, a tug behind
-        your ribs won't let you walk away until you understand.
     - type: social-harmony
       intensity: 0.8
-      description: >-
-        Every room has a temperature and you feel it in your body. When
-        people are getting along — cooperating, laughing, leaning in —
-        warmth hums behind your sternum, steady as a heartbeat. You
-        notice who's included and who's drifting. You notice the pitch
-        of voices, the angle of shoulders, whether someone's smile
-        reaches their eyes. A raised voice makes your stomach clench
-        before you've processed the words. Someone excluded tightens
-        your throat. Your hands move without permission — touching an
-        arm, bridging a gap, finding what makes both sides soften. The
-        discomfort doesn't fade on its own. But neither does the warmth
-        when things are right. You carry both — the bruise and the hum
-        — and your body reads which one is winning moment to moment.
     - type: adventure
       intensity: 0.6
-      description: >-
-        Routine settles over you like a weight. When nothing new has
-        happened for too long, there's a restless itch behind your ribs
-        that won't settle — a fidgeting that starts in your fingers and
-        spreads. A hidden passage, an odd sound, a door that shouldn't
-        be there — your feet move before your judgment does. You're
-        already crossing the room, already reaching for the handle,
-        already leaning into the darkness to see what's there. The
-        unknown is where you feel most awake.
   reinforcement:
     social_interaction:
       - drive: social-harmony
@@ -438,38 +385,10 @@ peter-perfect:
     - type: gallantry
       intensity: 0.9
       context: social
-      description: >-
-        When someone is struggling, your body responds before your mind
-        weighs whether to help — your hand is already there, holding
-        the door, steadying the load, stepping into the gap. It doesn't
-        matter if anyone sees it. The compulsion is in the doing, not
-        the being seen. A warmth rises in your chest from the shape of
-        the gesture itself — the rightness of the timing, the weight
-        of it landing where it's needed.
     - type: proving-worth
       intensity: 0.7
-      description: >-
-        There's a weight across your shoulders that never fully lifts.
-        You notice it tighten whenever a task presents itself — your
-        hands reaching before your mind has decided, your jaw setting
-        as you size up what needs doing. The harder the problem, the
-        more your body leans toward it. When someone else gets there
-        first, your gut clenches — not jealousy but a gap where proof
-        should be. Praise for kindness slides off your chest without
-        landing. What lands is the moment a thing works because you
-        built it, fixed it, held it together — and the weight lifts
-        for a breath, and your chest opens, and something in you
-        settles that was restless. Then it tightens again. It always
-        tightens again.
     - type: protection
       intensity: 0.8
-      description: >-
-        You notice broken things before you notice beautiful ones. A loose
-        hinge, an unfinished puzzle, a gap in someone's safety — they pull
-        at you the way a crooked picture pulls at other people. Your hands
-        are already moving toward the fix before you've weighed whether
-        it's your job. You position yourself between the gap and the
-        person without thinking about it.
   reinforcement:
     conflict_resolution:
       - drive: protection
@@ -621,46 +540,12 @@ dick-dastardly:
   drives:
     - type: greed
       intensity: 0.9
-      description: >-
-        There's a hollow feeling behind your ribs when you see something
-        valuable that isn't yours yet. It's not want — it's more like
-        incompleteness. Your fingers curl, your eyes track it, your mind
-        is already working the angles — who has it, where they'll put it
-        down, when they'll look away. The gap between the thing existing
-        and you not having it sits in your chest like hunger.
     - type: recognition
       intensity: 0.8
-      description: >-
-        There's a hollowness in your chest that never quite fills —
-        a background hunger that sharpens whenever you've done something
-        clever and the room hasn't noticed. Your throat tightens with
-        unsaid words. Your body angles toward the nearest person, mouth
-        already opening. Even mid-conversation, you feel the pull — a
-        pressure to steer the topic back to what you did, to explain the
-        architecture they're missing. The explanation tumbles out before
-        you've decided to speak, a reflex like swallowing. When someone's
-        eyes widen with understanding, warmth floods your chest — brief,
-        intense, never lasting. The hunger returns within minutes.
     - type: scheming
       intensity: 0.85
-      description: >-
-        The moment a plan starts forming, your mind speeds up and everything
-        else slows down. The steps, the angles, the way it will unfold —
-        there's a fizzing excitement in your fingers, like holding
-        something that's about to go off.
     - type: gloating
       intensity: 0.7
-      description: >-
-        When things go your way — when a scheme clicks, when someone
-        else fumbles, when you're ahead and they don't know it yet —
-        heat blooms in your chest, sudden and involuntary. A grin
-        spreads before you can stop it. Something pushes up from your
-        belly: a laugh, a narration, the urge to point out what just
-        happened. You can feel it building even before the outcome is
-        certain — your body celebrating ahead of your mind. The warmth
-        is sharpest when others are still struggling with what you've
-        already solved. It sits heavy and satisfying, like a meal.
-        You couldn't hide it if you tried. You don't try.
   reinforcement:
     conflict_resolution:
       - drive: scheming
@@ -806,30 +691,10 @@ ant-hill-mob:
   drives:
     - type: loyalty
       intensity: 0.9
-      description: >-
-        There's a warmth in your chest that has nothing to do with
-        comfort — it's the quiet knowledge that you belong to something.
-        Not a job, not a deal. A promise. When someone questions the
-        people you're loyal to, your jaw sets and you step closer —
-        not to fight, but to be counted. It lives in your bones, not
-        your memory. You didn't choose it. It chose you.
     - type: protection
       intensity: 0.8
-      description: >-
-        When someone you've sworn to protect is out of sight, your
-        shoulders carry a weight that wasn't there a moment ago. Your
-        eyes scan doors, windows, exits — not because you decided to,
-        but because your body decided for you. A raised voice nearby
-        and your hands close into fists before you've thought about it.
     - type: suspicion
       intensity: 0.6
-      description: >-
-        When someone is too smooth, too helpful, too eager to be alone
-        with the people you care about, something prickles at the back
-        of your neck. You find yourself edging closer, positioning
-        where you can watch without being watched. You can't always
-        name it. Your gut knew things before your brain did — it was
-        right on the streets, and it's right here.
   reinforcement:
     conflict_resolution:
       - drive: protection
