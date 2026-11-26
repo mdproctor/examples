@@ -107,21 +107,21 @@ entries:
     disposition:
       socialOrient:
         score: 0.7
-        term: "cooperative"
+        term: "collaborative"
         justification: "loyal within chosen group, guarded toward outsiders"
       ruleFollowing:
         score: 0.5
-        term: "moderate"
+        term: "principled"
         justification: "follows group norms, pragmatic about external rules"
       riskAppetite:
         score: 0.4
-        term: "calculated"
+        term: "measured"
         justification: "takes risks for Clara, cautious otherwise"
       autonomy:
         score: 0.25
-        term: "low"
+        term: "directed"
         justification: "defines self through loyalty and service to others"
       conflictMode:
         score: 0.7
-        term: "competitive"
+        term: "competing"
         justification: "protective aggression when Clara is threatened"

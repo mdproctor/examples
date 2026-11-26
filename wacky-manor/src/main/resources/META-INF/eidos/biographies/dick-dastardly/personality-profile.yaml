@@ -107,7 +107,7 @@ entries:
     disposition:
       socialOrient:
         score: 0.15
-        term: "competitive"
+        term: "independent"
         justification: "views all interactions as zero-sum"
       ruleFollowing:
         score: 0.2
@@ -119,9 +119,9 @@ entries:
         justification: "impulsive risk-taking, celebrates prematurely"
       autonomy:
         score: 0.8
-        term: "high"
+        term: "autonomous"
         justification: "refuses honest collaboration, works alone"
       conflictMode:
         score: 0.7
-        term: "competitive"
+        term: "competing"
         justification: "schemes rather than confronts, but must win"

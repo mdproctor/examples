@@ -106,7 +106,7 @@ entries:
     disposition:
       socialOrient:
         score: 0.15
-        term: "competitive"
+        term: "independent"
         justification: "transactional relationships, views others as tools or obstacles"
       ruleFollowing:
         score: 0.3
@@ -114,7 +114,7 @@ entries:
         justification: "rules are constraints for others, tools for self"
       riskAppetite:
         score: 0.5
-        term: "calculated"
+        term: "measured"
         justification: "patient schemer, not impulsive — risk only with contingencies"
       autonomy:
         score: 0.85
@@ -122,5 +122,5 @@ entries:
         justification: "relies on no one, trusts only own judgment"
       conflictMode:
         score: 0.7
-        term: "competitive"
+        term: "competing"
         justification: "wins through positioning, not confrontation"

@@ -106,19 +106,19 @@ entries:
     disposition:
       socialOrient:
         score: 0.85
-        term: "cooperative"
+        term: "collaborative"
         justification: "naturally reaches out, bridges gaps, includes others"
       ruleFollowing:
         score: 0.5
-        term: "moderate"
+        term: "principled"
         justification: "follows social norms but bends rules for curiosity"
       riskAppetite:
         score: 0.35
-        term: "cautious"
+        term: "conservative"
         justification: "adventurous but not reckless, checks on others first"
       autonomy:
         score: 0.5
-        term: "moderate"
+        term: "semi-autonomous"
         justification: "independent but values group cohesion"
       conflictMode:
         score: 0.2

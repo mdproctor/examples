@@ -106,7 +106,7 @@ entries:
     disposition:
       socialOrient:
         score: 0.75
-        term: "cooperative"
+        term: "collaborative"
         justification: "helps readily, protects others, team-oriented"
       ruleFollowing:
         score: 0.7
@@ -118,7 +118,7 @@ entries:
         justification: "takes physical risks for others, cautious with planning"
       autonomy:
         score: 0.5
-        term: "moderate"
+        term: "semi-autonomous"
         justification: "self-directed but defines self through service to others"
       conflictMode:
         score: 0.6
