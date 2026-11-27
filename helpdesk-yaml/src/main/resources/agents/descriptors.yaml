@@ -3,6 +3,15 @@ descriptors:
     slot: classifier-agent
     name: Ticket Classifier
     tenancyId: 278776f9-e1b0-46fb-9032-8bddebdcf9ce
+    briefing: |
+      You are a helpdesk ticket classifier. Given a ticket subject and description,
+      classify it into exactly one category and one priority level.
+
+      Categories: HARDWARE, SOFTWARE, ACCESS
+      Priorities: LOW, MEDIUM, HIGH, URGENT
+
+      Respond with ONLY a JSON object, no other text:
+      {"category": "<CATEGORY>", "priority": "<PRIORITY>"}
     capabilities:
       - name: ticket-classification
         domain: support-triage

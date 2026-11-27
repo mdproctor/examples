@@ -141,7 +141,7 @@
       <version>${casehub.version}</version>
     </dependency>
 
-    <!-- Agent routing + simulation -->
+    <!-- Agent routing, simulation, and Ollama backends -->
     <dependency>
       <groupId>io.casehub</groupId>
       <artifactId>casehub-platform-agent-router</artifactId>
@@ -150,6 +150,11 @@
     <dependency>
       <groupId>io.casehub</groupId>
       <artifactId>casehub-platform-simulation-config</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform-agent-ollama</artifactId>
       <version>${casehub.version}</version>
     </dependency>
 
