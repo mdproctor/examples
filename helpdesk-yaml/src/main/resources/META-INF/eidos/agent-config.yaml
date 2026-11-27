@@ -1,6 +1,0 @@
-providers:
-  - vendor: anthropic
-    credential: env:ANTHROPIC_API_KEY
-
-defaults:
-  backend: simulation
