@@ -1,11 +1,9 @@
 name: Ollama Integration Test
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - 'helpdesk-yaml/**'
   workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'  # weekly Monday 6am UTC
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
