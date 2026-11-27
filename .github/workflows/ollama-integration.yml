@@ -1,0 +1,81 @@
+name: Ollama Integration Test
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'helpdesk-yaml/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  ollama-test:
+    runs-on: ubuntu-latest
+    services:
+      ollama:
+        image: ollama/ollama:latest
+        ports:
+          - 11434:11434
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GH_PACKAGES_TOKEN
+
+      - name: Pull model
+        run: |
+          until curl -sf http://localhost:11434/api/tags > /dev/null 2>&1; do sleep 2; done
+          curl -sf http://localhost:11434/api/pull -d '{"name":"qwen2.5:1.5b"}' | tail -1
+
+      - name: Check out Ledger signing adapters
+        uses: actions/checkout@v4
+        with:
+          repository: casehubio/ledger
+          ref: c80c8089e2e977674bdca90fffad35a212d727fc
+          path: .upstream/ledger
+          persist-credentials: false
+
+      - name: Install Ledger signing adapters
+        run: >-
+          mvn --batch-mode --settings .github/maven-settings.xml -f .upstream/ledger/pom.xml -Pwith-signing
+          -pl signing/aws-kms-quarkus,signing/azure-keyvault-quarkus,signing/gcp-kms-quarkus,signing/vault-transit-quarkus
+          -am install -DskipTests
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Check out Eidos evaluation harness
+        uses: actions/checkout@v4
+        with:
+          repository: casehubio/eidos
+          ref: a072dc16e8a013f983b6a0c8a9a936ea5577325b
+          path: .upstream/eidos
+          persist-credentials: false
+
+      - name: Install Eidos evaluation harness
+        run: >-
+          mvn --batch-mode --settings .github/maven-settings.xml
+          -f .upstream/eidos/eval/pom.xml install -DskipTests
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Run helpdesk with Ollama
+        run: >-
+          mvn --batch-mode --settings .github/maven-settings.xml
+          -pl helpdesk-yaml -am verify
+          -Dquarkus.profile=ollama
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
