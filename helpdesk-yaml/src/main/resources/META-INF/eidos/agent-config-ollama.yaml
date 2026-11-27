@@ -1,7 +1,7 @@
 providers:
   - vendor: ollama
     host: http://localhost:11434
-    default-model: qwen2.5:1.5b
+    default-model: qwen3.5:4b
     default-timeout: PT300S
 
 defaults:

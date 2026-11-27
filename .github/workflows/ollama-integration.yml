@@ -39,7 +39,7 @@ jobs:
       - name: Pull model
         run: |
           until curl -sf http://localhost:11434/api/tags > /dev/null 2>&1; do sleep 2; done
-          curl -sf http://localhost:11434/api/pull -d '{"name":"qwen2.5:1.5b"}' | tail -1
+          curl -sf http://localhost:11434/api/pull -d '{"name":"qwen3.5:4b"}' | tail -1
 
       - name: Check out Ledger signing adapters
         uses: actions/checkout@v4
